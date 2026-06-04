@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ka" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>შესვლა — Focacceria Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/brand.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+{% load static %}
+<div class="login-page">
+  <div class="login-bg">
+    <div class="login-bg-pattern"></div>
+    <!-- Decorative Italian flag colors -->
+    <div style="position:absolute;top:0;left:0;width:6px;height:100%;background:linear-gradient(to bottom,#009246,#ffffff,#ce2b37);opacity:.35;"></div>
+  </div>
+
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">🍕</div>
+      <h1 class="login-title">Focacceria</h1>
+      <p class="login-subtitle">Admin Panel — შედით სისტემაში</p>
+    </div>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-error">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="post" action="{% url 'dashboard_login' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="form-label" for="username">მომხმარებლის სახელი</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="form-control"
+          placeholder="admin"
+          autocomplete="username"
+          autofocus
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">პაროლი</label>
+        <div style="position:relative;">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            required
+            style="padding-right:3rem;"
+          >
+          <button type="button" id="togglePwd" style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1rem;">👁</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:.85rem;font-size:.95rem;margin-top:.5rem;">
+        შესვლა →
+      </button>
+    </form>
+
+    <div style="margin-top:1.5rem;text-align:center;font-size:.78rem;color:var(--text-muted);">
+      Focacceria CMS · Born in Italy, Baked in Tbilisi
+    </div>
+
+    <!-- Theme toggle -->
+    <div style="position:absolute;top:1.5rem;right:1.5rem;">
+      <button class="btn btn-ghost btn-icon" data-theme-toggle title="Toggle theme">
+        <span data-theme-icon>🌙</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+<script>
+document.getElementById('togglePwd')?.addEventListener('click', function() {
+  const pwd = document.getElementById('password');
+  pwd.type = pwd.type === 'password' ? 'text' : 'password';
+  this.textContent = pwd.type === 'password' ? '👁' : '🙈';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}SEO პარამეტრები{% endblock %}
+{% block nav_seo %}active{% endblock %}
+{% block breadcrumb %}საიტი / <strong>SEO</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">SEO პარამეტრები</h1>
+    <p class="page-subtitle">Title, Description, Open Graph — თითოეული გვერდისთვის</p>
+  </div>
+</div>
+
+{% for page_key, seo in seo_objects.items %}
+<div class="form-card" style="margin-bottom:1.5rem;">
+  <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);display:flex;align-items:center;gap:.75rem;">
+    {% if page_key == 'home' %}🏠 მთავარი გვერდი
+    {% elif page_key == 'menu' %}🍽 მენიუ
+    {% elif page_key == 'salumeria' %}🧀 სალუმერია
+    {% endif %}
+    <span style="font-size:.75rem;font-weight:400;color:var(--text-muted);font-family:var(--font-sans);">
+      {% if page_key == 'home' %}/{% elif page_key == 'menu' %}/menu/{% else %}/salumeria/{% endif %}
+    </span>
+  </h4>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="page" value="{{ page_key }}">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 Title (ქართული)</label>
+        <input type="text" name="title_ka" value="{{ seo.title_ka }}" class="form-control"
+               placeholder="Focacceria — მთავარი">
+        <span style="font-size:.72rem;color:var(--text-muted);">რეკ. 50–60 სიმბოლო</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="title_en" value="{{ seo.title_en }}" class="form-control"
+               placeholder="Focacceria — Home">
+        <span style="font-size:.72rem;color:var(--text-muted);">Rec. 50–60 chars</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 Description (ქართული)</label>
+        <textarea name="description_ka" class="form-control" rows="3"
+                  placeholder="ავთენტური სქიაჩატას სენდვიჩები...">{{ seo.description_ka }}</textarea>
+        <span style="font-size:.72rem;color:var(--text-muted);">რეკ. 150–160 სიმბოლო</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Description (English)</label>
+        <textarea name="description_en" class="form-control" rows="3"
+                  placeholder="Authentic Schiacciata sandwiches...">{{ seo.description_en }}</textarea>
+        <span style="font-size:.72rem;color:var(--text-muted);">Rec. 150–160 chars</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Keywords</label>
+        <input type="text" name="keywords" value="{{ seo.keywords }}" class="form-control"
+               placeholder="focacceria, schiacciata, tbilisi, italian">
+      </div>
+      <div class="form-group">
+        <label class="form-label">OG Image (Social Share)</label>
+        {% if seo.og_image %}
+        <img src="{{ seo.og_image.url }}" style="height:60px;border-radius:4px;display:block;margin-bottom:.4rem;object-fit:cover;">
+        {% endif %}
+        <input type="file" name="og_image" class="form-control" accept="image/*">
+        <span style="font-size:.72rem;color:var(--text-muted);">1200×630px</span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">✓ {{ page_key|upper }} შენახვა</button>
+  </form>
+</div>
+{% endfor %}
+{% endblock %}

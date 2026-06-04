@@ -1,0 +1,114 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}ნავიგაცია{% endblock %}
+{% block nav_navigation %}active{% endblock %}
+{% block breadcrumb %}საიტი / <strong>ნავიგაცია</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">ნავიგაცია</h1>
+    <p class="page-subtitle">Header მენიუს ელემენტები — ⠿ Drag & Drop-ით დაალაგეთ</p>
+  </div>
+  <button class="btn btn-primary" data-modal-open="#modal-add-nav">+ ელემენტის დამატება</button>
+</div>
+
+{% if items %}
+<div class="table-card">
+  <div class="table-card-header">
+    <span class="table-card-title">ნავიგაციის ელემენტები</span>
+    <span style="font-size:.8rem;color:var(--text-muted);">ჩაიტანეთ ⠿ სვეტზე თანმიმდევრობის შესაცვლელად</span>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width:40px;"></th>
+        <th>ქართული</th>
+        <th>English</th>
+        <th>URL</th>
+        <th>სტატუსი</th>
+        <th>მოქმედება</th>
+      </tr>
+    </thead>
+    <tbody data-sortable data-reorder-url="{% url 'nav_reorder' %}">
+      {% for item in items %}
+      <tr data-id="{{ item.pk }}">
+        <td><span class="drag-handle" title="გადაიტანეთ">⠿</span></td>
+        <td style="font-weight:500;">{{ item.label_ka }}</td>
+        <td style="color:var(--text-muted);">{{ item.label_en }}</td>
+        <td><code style="font-size:.8rem;background:var(--bg-surface);padding:.15rem .4rem;border-radius:4px;">{{ item.url }}</code></td>
+        <td>
+          {% if item.is_active %}
+          <span class="status-pill status-active">აქტიური</span>
+          {% else %}
+          <span class="status-pill status-inactive">დამალული</span>
+          {% endif %}
+        </td>
+        <td>
+          <div class="td-actions">
+            <a href="{% url 'nav_edit' item.pk %}" class="btn btn-ghost btn-sm">✎</a>
+            <a href="{% url 'nav_delete' item.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
+               data-confirm="ელემენტის წაშლა?">✕</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-state-icon">☰</div>
+  <h3>ნავიგაცია ცარიელია</h3>
+  <p>დაამატეთ ნავიგაციის ელემენტები</p>
+</div>
+{% endif %}
+
+<!-- Add Modal -->
+<div class="modal-backdrop" id="modal-add-nav">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">ახალი ელემენტი</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <form method="post" action="{% url 'nav_add' %}">
+      {% csrf_token %}
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 ქართული</label>
+            <input type="text" name="label_ka" class="form-control" placeholder="მთავარი" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 English</label>
+            <input type="text" name="label_en" class="form-control" placeholder="Home" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">URL</label>
+            <input type="text" name="url" class="form-control" placeholder="/" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">თანმიმდევრობა</label>
+            <input type="number" name="order" class="form-control" value="{{ items|length }}">
+          </div>
+        </div>
+        <div style="display:flex;gap:1.5rem;">
+          <label class="toggle-wrap">
+            <span class="toggle"><input type="checkbox" name="is_active" checked><span class="toggle-slider"></span></span>
+            <span style="font-size:.88rem;">აქტიური</span>
+          </label>
+          <label class="toggle-wrap">
+            <span class="toggle"><input type="checkbox" name="open_new_tab"><span class="toggle-slider"></span></span>
+            <span style="font-size:.88rem;">ახალ ტაბში</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost modal-close">გაუქმება</button>
+        <button type="submit" class="btn btn-primary">+ დამატება</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

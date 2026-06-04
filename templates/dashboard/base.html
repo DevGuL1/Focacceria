@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ka" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Dashboard{% endblock %} — Focacceria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/brand.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+{% load static %}
+
+<!-- Toast messages -->
+<div class="toast-container">
+  {% for message in messages %}
+  <div class="toast toast-{% if message.tags == 'error' %}error{% else %}success{% endif %}">
+    <span>{% if message.tags == 'error' %}✕{% else %}✓{% endif %}</span>
+    <span>{{ message }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="db-layout">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay"></div>
+
+  <!-- ══ Sidebar ══════════════════════════════════════ -->
+  <aside class="db-sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-logo">🍕</div>
+      <div class="sidebar-brand-text">
+        <div class="sidebar-brand-name">Focacceria</div>
+        <div class="sidebar-brand-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <!-- Overview -->
+      <div class="nav-section">
+        <a href="{% url 'dashboard_home' %}" class="nav-link {% block nav_home %}{% endblock %}">
+          <span class="icon">⬛</span> მთავარი
+        </a>
+      </div>
+
+      <!-- Site -->
+      <div class="nav-section">
+        <div class="nav-section-label">საიტი</div>
+        <a href="{% url 'site_settings' %}" class="nav-link {% block nav_settings %}{% endblock %}">
+          <span class="icon">⚙</span> პარამეტრები
+        </a>
+        <a href="{% url 'font_settings' %}" class="nav-link {% block nav_fonts %}{% endblock %}">
+          <span class="icon">𝑭</span> ფონტები
+        </a>
+        <a href="{% url 'home_video_settings' %}" class="nav-link {% block nav_home_video %}{% endblock %}">
+          <span class="icon">🎬</span> Home ვიდეო
+        </a>
+        <a href="{% url 'navigation' %}" class="nav-link {% block nav_navigation %}{% endblock %}">
+          <span class="icon">☰</span> ნავიგაცია
+        </a>
+        <a href="{% url 'footer' %}" class="nav-link {% block nav_footer %}{% endblock %}">
+          <span class="icon">▤</span> Footer
+        </a>
+        <a href="{% url 'sliders' %}" class="nav-link {% block nav_sliders %}{% endblock %}">
+          <span class="icon">▶</span> სლაიდერები
+        </a>
+        <a href="{% url 'seo_settings' %}" class="nav-link {% block nav_seo %}{% endblock %}">
+          <span class="icon">🔍</span> SEO
+        </a>
+      </div>
+
+      <!-- Menu -->
+      <div class="nav-section">
+        <div class="nav-section-label">მენიუ</div>
+        <a href="{% url 'menu_categories' %}" class="nav-link {% block nav_categories %}{% endblock %}">
+          <span class="icon">📂</span> კატეგორიები
+        </a>
+        <a href="{% url 'menu_items' %}" class="nav-link {% block nav_items %}{% endblock %}">
+          <span class="icon">🍽</span> პროდუქტები
+        </a>
+        <a href="{% url 'addons' %}" class="nav-link {% block nav_addons %}{% endblock %}">
+          <span class="icon">➕</span> დამატებები
+        </a>
+      </div>
+
+      <!-- View Site -->
+      <div class="nav-section">
+        <div class="nav-section-label">საიტი</div>
+        <a href="/" target="_blank" class="nav-link">
+          <span class="icon">↗</span> საიტის ნახვა
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="{% url 'dashboard_logout' %}" class="nav-link" style="color:var(--accent);">
+        <span class="icon">⏻</span> გასვლა
+      </a>
+    </div>
+  </aside>
+
+  <!-- ══ Main ═════════════════════════════════════════ -->
+  <div class="db-main">
+
+    <!-- Topbar -->
+    <header class="db-topbar">
+      <div class="topbar-left">
+        <button class="btn btn-ghost btn-icon" data-sidebar-toggle style="border:none;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="topbar-breadcrumb">
+          {% block breadcrumb %}<strong>Dashboard</strong>{% endblock %}
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="/" target="_blank" class="btn btn-ghost btn-sm">↗ საიტი</a>
+        <button class="btn btn-ghost btn-icon" data-theme-toggle title="Toggle theme">
+          <span data-theme-icon>🌙</span>
+        </button>
+        <div class="topbar-avatar" title="{{ request.user.username }}">
+          {{ request.user.username|first|upper }}
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="db-content">
+      {% block content %}{% endblock %}
+    </main>
+
+  </div>
+</div>
+
+<!-- SortableJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

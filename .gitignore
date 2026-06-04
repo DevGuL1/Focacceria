@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Build and cache
+.pytest_cache/
+.mypy_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Session / local notes
+.copilot/
+
+# Large local-only uploads
+media/home-video/
+
+# Placeholder local files
+Example txt file.txt
+Another example txt file.txt

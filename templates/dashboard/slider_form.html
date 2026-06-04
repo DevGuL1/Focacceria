@@ -1,0 +1,115 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{% if slide %}სლაიდის რედაქტირება{% else %}სლაიდის დამატება{% endif %}{% endblock %}
+{% block nav_sliders %}active{% endblock %}
+{% block breadcrumb %}სლაიდერები / <strong>{% if slide %}რედაქტირება{% else %}დამატება{% endif %}</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{% if slide %}სლაიდის რედაქტირება{% else %}ახალი სლაიდი{% endif %}</h1>
+  </div>
+  <a href="{% url 'sliders' %}" class="btn btn-ghost">← უკან</a>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-card">
+
+    <!-- Image -->
+    <div class="form-group">
+      <label class="form-label">სლაიდის სურათი</label>
+      {% if slide.image %}
+      <img src="{{ slide.image.url }}" style="width:100%;max-height:300px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:.75rem;">
+      {% endif %}
+      <div class="image-upload-area">
+        <input type="file" name="image" accept="image/*">
+        <div class="upload-icon">🖼</div>
+        <div class="upload-text">სურათის ატვირთვა (JPG, PNG, WebP)</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:.3rem;">რეკომენდებული: 1920×1080px</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Hero Product Image</label>
+      {% if slide.product_image %}
+      <img src="{{ slide.product_image.url }}" style="width:100%;max-height:340px;object-fit:contain;border-radius:var(--radius-sm);margin-bottom:.75rem;background:var(--bg-surface);padding:1rem;">
+      <label style="display:flex;align-items:center;gap:.6rem;margin:.25rem 0 1rem;">
+        <input type="checkbox" name="product_image_clear">
+        <span style="font-size:.9rem;color:var(--text-secondary);">წაშალე მიმდინარე hero product image და გამოიყენე fallback burger</span>
+      </label>
+      {% endif %}
+      <div class="image-upload-area">
+        <input type="file" name="product_image" accept="image/png,image/webp,image/*">
+        <div class="upload-icon">🍔</div>
+        <div class="upload-text">პროდუქტის cutout სურათის ატვირთვა (PNG, WebP)</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:.3rem;">საუკეთესო შედეგისთვის ატვირთე გამჭვირვალე ფონის მქონე რეალისტური burger/product image.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Titles -->
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+        <input type="text" name="title_ka" value="{{ slide.title_ka|default:'' }}" class="form-control" placeholder="დაბადებული იტალიაში">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="title_en" value="{{ slide.title_en|default:'' }}" class="form-control" placeholder="Born in Italy">
+      </div>
+    </div>
+
+    <!-- Subtitles -->
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ქვეტიტული (ქართული)</label>
+        <textarea name="subtitle_ka" class="form-control" rows="2" placeholder="ავთენტური სქიაჩატა...">{{ slide.subtitle_ka|default:'' }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Subtitle (English)</label>
+        <textarea name="subtitle_en" class="form-control" rows="2" placeholder="Authentic Schiacciata...">{{ slide.subtitle_en|default:'' }}</textarea>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ღილაკის ტექსტი (KA)</label>
+        <input type="text" name="cta_text_ka" value="{{ slide.cta_text_ka|default:'' }}" class="form-control" placeholder="მენიუ">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Button Text (EN)</label>
+        <input type="text" name="cta_text_en" value="{{ slide.cta_text_en|default:'' }}" class="form-control" placeholder="View Menu">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🔗 ღილაკის URL</label>
+        <input type="text" name="cta_url" value="{{ slide.cta_url|default:'' }}" class="form-control" placeholder="/menu/">
+      </div>
+      <div class="form-group">
+        <label class="form-label">თანმიმდევრობა</label>
+        <input type="number" name="order" value="{{ slide.order|default:0 }}" class="form-control" min="0">
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="form-group">
+      <label class="toggle-wrap">
+        <span class="toggle">
+          <input type="checkbox" name="is_active" {% if slide.is_active or not slide %}checked{% endif %}>
+          <span class="toggle-slider"></span>
+        </span>
+        <span style="font-size:.9rem;">სლაიდი აქტიურია</span>
+      </label>
+    </div>
+
+    <div style="display:flex;gap:1rem;margin-top:.5rem;">
+      <button type="submit" class="btn btn-primary">✓ შენახვა</button>
+      <a href="{% url 'sliders' %}" class="btn btn-ghost">გაუქმება</a>
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block nav_home %}active{% endblock %}
+{% block breadcrumb %}<strong>მთავარი</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">გამარჯობა, {{ request.user.username }} 👋</h1>
+    <p class="page-subtitle">Focacceria CMS — Born in Italy, Baked in Tbilisi</p>
+  </div>
+  <a href="/" target="_blank" class="btn btn-outline">↗ საიტის ნახვა</a>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon red">🍽</div>
+    <div>
+      <div class="stat-value">{{ stats.menu_items }}</div>
+      <div class="stat-label">პროდუქტი</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon gold">📂</div>
+    <div>
+      <div class="stat-value">{{ stats.categories }}</div>
+      <div class="stat-label">კატეგორია</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon dark">▶</div>
+    <div>
+      <div class="stat-value">{{ stats.slides }}</div>
+      <div class="stat-label">სლაიდი</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon green">☰</div>
+    <div>
+      <div class="stat-value">{{ stats.nav_items }}</div>
+      <div class="stat-label">ნავიგაცია</div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
+
+  <a href="{% url 'site_settings' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all .2s;">
+      <div style="width:48px;height:48px;background:var(--accent-pale);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">⚙</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">საიტის პარამეტრები</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">ლოგო, კონტაქტი, About</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+  <a href="{% url 'font_settings' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;">
+      <div style="width:48px;height:48px;background:rgba(111,122,54,.12);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">𝑭</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">Font Manager</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">ინგლისური და ქართული ფონტები</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+  <a href="{% url 'home_video_settings' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;">
+      <div style="width:48px;height:48px;background:rgba(219,94,62,.12);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🎬</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">Home ვიდეო სექცია</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">Reveal ეფექტი, ტექსტები, ვიდეო</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+  <a href="{% url 'menu_items' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;">
+      <div style="width:48px;height:48px;background:rgba(196,160,82,.15);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🍽</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">მენიუს მართვა</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">პროდუქტები, ფასები, სურათები</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+  <a href="{% url 'sliders' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;">
+      <div style="width:48px;height:48px;background:var(--bg-surface);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">▶</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">სლაიდერები</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">მთავარი გვერდის სლაიდები</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+  <a href="{% url 'seo_settings' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;">
+      <div style="width:48px;height:48px;background:#ecfdf5;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">🔍</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">SEO პარამეტრები</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">Title, Description, OG Image</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+  <a href="{% url 'navigation' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;">
+      <div style="width:48px;height:48px;background:var(--accent-pale);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">☰</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">ნავიგაცია</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">Header მენიუ, Drag & Drop</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+  <a href="{% url 'menu_categories' %}" style="text-decoration:none;">
+    <div class="card" style="padding:1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;">
+      <div style="width:48px;height:48px;background:rgba(196,160,82,.15);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">📂</div>
+      <div>
+        <div style="font-weight:600;color:var(--text-primary);">კატეგორიები</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">Menu / Salumeria კატეგორიები</div>
+      </div>
+      <span style="margin-left:auto;color:var(--text-muted);">→</span>
+    </div>
+  </a>
+
+</div>
+{% endblock %}

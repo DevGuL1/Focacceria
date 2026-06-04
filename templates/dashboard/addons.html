@@ -1,0 +1,94 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Add-ons{% endblock %}
+{% block nav_addons %}active{% endblock %}
+{% block breadcrumb %}მენიუ / <strong>Add-ons</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">დამატებები (Add-ons)</h1>
+    <p class="page-subtitle">დამატებითი ინგრედიენტები / სერვისები</p>
+  </div>
+  <button class="btn btn-primary" data-modal-open="#modal-add-addon">+ Add-on დამატება</button>
+</div>
+
+{% if addons %}
+<div class="table-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>სახელი (KA)</th>
+        <th>Name (EN)</th>
+        <th>ფასი</th>
+        <th>სტატუსი</th>
+        <th>მოქმედება</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for addon in addons %}
+      <tr>
+        <td style="font-weight:500;">{{ addon.name_ka }}</td>
+        <td style="color:var(--text-muted);">{{ addon.name_en }}</td>
+        <td style="font-weight:600;color:var(--accent);">{{ addon.price }}₾</td>
+        <td>
+          {% if addon.is_available %}<span class="status-pill status-active">ხელმისაწვდ.</span>
+          {% else %}<span class="status-pill status-inactive">მიუწვდ.</span>{% endif %}
+        </td>
+        <td>
+          <a href="{% url 'addon_delete' addon.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
+             data-confirm="Add-on-ის წაშლა?">✕ წაშლა</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-state-icon">➕</div>
+  <h3>Add-ons არ არის</h3>
+  <p>დაამატეთ დამატებითი ინგრედიენტები ან სერვისები</p>
+</div>
+{% endif %}
+
+<!-- Add Modal -->
+<div class="modal-backdrop" id="modal-add-addon">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">ახალი Add-on</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <form method="post" action="{% url 'addon_add' %}">
+      {% csrf_token %}
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 სახელი (KA)</label>
+            <input type="text" name="name_ka" class="form-control" placeholder="დამატებითი ყველი" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Name (EN)</label>
+            <input type="text" name="name_en" class="form-control" placeholder="Extra Cheese" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">ფასი (₾)</label>
+            <input type="number" name="price" class="form-control" step="0.01" min="0" placeholder="2.00" required>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:.25rem;">
+            <label class="toggle-wrap">
+              <span class="toggle"><input type="checkbox" name="is_available" checked><span class="toggle-slider"></span></span>
+              <span style="font-size:.88rem;">ხელმისაწვდომია</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost modal-close">გაუქმება</button>
+        <button type="submit" class="btn btn-primary">+ დამატება</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

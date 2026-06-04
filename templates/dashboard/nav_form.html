@@ -1,0 +1,51 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}ნავიგაციის რედაქტირება{% endblock %}
+{% block nav_navigation %}active{% endblock %}
+{% block breadcrumb %}ნავიგაცია / <strong>რედაქტირება</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">ნავიგაციის რედაქტირება</h1>
+  <a href="{% url 'navigation' %}" class="btn btn-ghost">← უკან</a>
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ქართული</label>
+        <input type="text" name="label_ka" value="{{ item.label_ka }}" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 English</label>
+        <input type="text" name="label_en" value="{{ item.label_en }}" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">URL</label>
+        <input type="text" name="url" value="{{ item.url }}" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">თანმიმდევრობა</label>
+        <input type="number" name="order" value="{{ item.order }}" class="form-control">
+      </div>
+    </div>
+    <div style="display:flex;gap:1.5rem;margin-bottom:1.25rem;">
+      <label class="toggle-wrap">
+        <span class="toggle"><input type="checkbox" name="is_active" {% if item.is_active %}checked{% endif %}><span class="toggle-slider"></span></span>
+        <span style="font-size:.88rem;">აქტიური</span>
+      </label>
+      <label class="toggle-wrap">
+        <span class="toggle"><input type="checkbox" name="open_new_tab" {% if item.open_new_tab %}checked{% endif %}><span class="toggle-slider"></span></span>
+        <span style="font-size:.88rem;">ახალ ტაბში</span>
+      </label>
+    </div>
+    <div style="display:flex;gap:1rem;">
+      <button type="submit" class="btn btn-primary">✓ შენახვა</button>
+      <a href="{% url 'navigation' %}" class="btn btn-ghost">გაუქმება</a>
+    </div>
+  </div>
+</form>
+{% endblock %}

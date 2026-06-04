@@ -1,0 +1,198 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}საიტის პარამეტრები{% endblock %}
+{% block nav_settings %}active{% endblock %}
+{% block breadcrumb %}საიტი / <strong>პარამეტრები</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">საიტის პარამეტრები</h1>
+    <p class="page-subtitle">ლოგო, კონტაქტი, About სექცია</p>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- Logos & Favicon -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ლოგო & Favicon</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">ლოგო (Light)</label>
+        {% if settings.logo %}<img src="{{ settings.logo.url }}" style="height:40px;display:block;margin-bottom:.5rem;border-radius:4px;">{% endif %}
+        <input type="file" name="logo" class="form-control" accept="image/*">
+      </div>
+      <div class="form-group">
+        <label class="form-label">ლოგო (Dark)</label>
+        {% if settings.logo_dark %}<img src="{{ settings.logo_dark.url }}" style="height:40px;display:block;margin-bottom:.5rem;border-radius:4px;background:var(--nero);padding:4px;">{% endif %}
+        <input type="file" name="logo_dark" class="form-control" accept="image/*">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Favicon</label>
+        {% if settings.favicon %}<img src="{{ settings.favicon.url }}" style="height:32px;display:block;margin-bottom:.5rem;">{% endif %}
+        <input type="file" name="favicon" class="form-control" accept="image/*">
+      </div>
+    </div>
+  </div>
+
+  <!-- Tagline -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">Tagline</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ქართული</label>
+        <input type="text" name="tagline_ka" value="{{ settings.tagline_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 English</label>
+        <input type="text" name="tagline_en" value="{{ settings.tagline_en }}" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">კონტაქტი & ბმულები</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">📞 ტელეფონი</label>
+        <input type="text" name="phone" value="{{ settings.phone }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">💬 WhatsApp (ნომერი)</label>
+        <input type="text" name="whatsapp" value="{{ settings.whatsapp }}" class="form-control" placeholder="+995598800045">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">📧 Email</label>
+        <input type="email" name="email" value="{{ settings.email }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">📸 Instagram URL</label>
+        <input type="url" name="instagram" value="{{ settings.instagram }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">📍 Google Maps URL</label>
+        <input type="url" name="google_maps_url" value="{{ settings.google_maps_url }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🛵 Wolt URL</label>
+        <input type="url" name="wolt_url" value="{{ settings.wolt_url }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🟡 Glovo URL</label>
+        <input type="url" name="glovo_url" value="{{ settings.glovo_url }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🧭 Menu iframe URL</label>
+        <input type="url" name="menu_iframe_url" value="{{ settings.menu_iframe_url }}" class="form-control" placeholder="https://focacceria.eat-me.online/en/category/mortadella">
+        <small style="display:block;margin-top:.4rem;color:var(--text-muted);">/menu/ გვერდზე ჩაჯდება iframe-ად. დატოვე ცარიელი თუ გინდა ადგილობრივი მენიუს fallback.</small>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">✨ Iframe loading animation</label>
+        <label style="display:flex;align-items:center;gap:.65rem;margin-top:.4rem;">
+          <input type="checkbox" name="menu_loader_enabled" {% if settings.menu_loader_enabled %}checked{% endif %}>
+          <span>ჩართე ლამაზი loading overlay iframe გვერდისთვის</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Delivery Bar · Wolt Icon</label>
+        <input type="text" name="delivery_wolt_icon" value="{{ settings.delivery_wolt_icon }}" class="form-control" placeholder="🛵">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Delivery Bar · Glovo Icon</label>
+        <input type="text" name="delivery_glovo_icon" value="{{ settings.delivery_glovo_icon }}" class="form-control" placeholder="🟡">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Delivery Bar · Call Icon</label>
+        <input type="text" name="delivery_call_icon" value="{{ settings.delivery_call_icon }}" class="form-control" placeholder="📞">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Delivery Bar · Maps Icon</label>
+        <input type="text" name="delivery_maps_icon" value="{{ settings.delivery_maps_icon }}" class="form-control" placeholder="📍">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Delivery Bar · WhatsApp Icon</label>
+        <input type="text" name="delivery_whatsapp_icon" value="{{ settings.delivery_whatsapp_icon }}" class="form-control" placeholder="💬">
+        <small style="display:block;margin-top:.4rem;color:var(--text-muted);">შეგიძლია ჩასვა emoji, სიმბოლო ან მოკლე ტექსტური icon.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Address -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">მისამართი & სამუშაო საათები</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 მისამართი (ქართული)</label>
+        <input type="text" name="address_ka" value="{{ settings.address_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Address (English)</label>
+        <input type="text" name="address_en" value="{{ settings.address_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სამუშაო საათები (ქართული)</label>
+        <textarea name="opening_hours_ka" class="form-control" rows="3">{{ settings.opening_hours_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Opening Hours (English)</label>
+        <textarea name="opening_hours_en" class="form-control" rows="3">{{ settings.opening_hours_en }}</textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">About სექცია</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+        <input type="text" name="about_title_ka" value="{{ settings.about_title_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="about_title_en" value="{{ settings.about_title_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ტექსტი (ქართული)</label>
+        <textarea name="about_text_ka" class="form-control" rows="5">{{ settings.about_text_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Text (English)</label>
+        <textarea name="about_text_en" class="form-control" rows="5">{{ settings.about_text_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">About სურათი</label>
+      {% if settings.about_image %}
+      <img src="{{ settings.about_image.url }}" style="height:120px;border-radius:var(--radius-sm);display:block;margin-bottom:.5rem;object-fit:cover;">
+      {% endif %}
+      <input type="file" name="about_image" class="form-control" accept="image/*">
+    </div>
+  </div>
+
+  <div style="display:flex;gap:1rem;">
+    <button type="submit" class="btn btn-primary">✓ შენახვა</button>
+    <a href="{% url 'dashboard_home' %}" class="btn btn-ghost">გაუქმება</a>
+  </div>
+</form>
+{% endblock %}

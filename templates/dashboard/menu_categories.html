@@ -1,0 +1,136 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}კატეგორიები{% endblock %}
+{% block nav_categories %}active{% endblock %}
+{% block breadcrumb %}მენიუ / <strong>კატეგორიები</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">მენიუს კატეგორიები</h1>
+    <p class="page-subtitle">⠿ Drag & Drop-ით შეცვალეთ თანმიმდევრობა</p>
+  </div>
+  <button class="btn btn-primary" data-modal-open="#modal-add-cat">+ კატეგორიის დამატება</button>
+</div>
+
+{% if categories %}
+<div class="table-card">
+  <div class="table-card-header">
+    <span class="table-card-title">კატეგორიები ({{ categories|length }})</span>
+    <div style="display:flex;gap:.5rem;">
+      <span style="font-size:.8rem;color:var(--text-muted);">Menu</span>
+      <span style="padding:.2rem .6rem;background:var(--accent-pale);color:var(--accent);border-radius:4px;font-size:.75rem;font-weight:600;">{{ categories|length }}</span>
+    </div>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width:40px;"></th>
+        <th>ქართული</th>
+        <th>English</th>
+        <th>Slug</th>
+        <th>გვერდი</th>
+        <th>პროდ.</th>
+        <th>სტატუსი</th>
+        <th>მოქმედება</th>
+      </tr>
+    </thead>
+    <tbody data-sortable data-reorder-url="{% url 'category_reorder' %}">
+      {% for cat in categories %}
+      <tr data-id="{{ cat.pk }}">
+        <td><span class="drag-handle">⠿</span></td>
+        <td style="font-weight:500;">{{ cat.name_ka }}</td>
+        <td style="color:var(--text-muted);">{{ cat.name_en }}</td>
+        <td><code style="font-size:.78rem;background:var(--bg-surface);padding:.15rem .4rem;border-radius:4px;">{{ cat.slug }}</code></td>
+        <td>
+          <span class="badge {% if cat.page == 'menu' %}badge-rosso{% else %}badge-oro{% endif %}">
+            {{ cat.get_page_display }}
+          </span>
+        </td>
+        <td>
+          <a href="{% url 'menu_items_by_category' cat.pk %}" style="font-weight:600;color:var(--accent);">
+            {{ cat.items.count }}
+          </a>
+        </td>
+        <td>
+          {% if cat.is_active %}<span class="status-pill status-active">აქტიური</span>
+          {% else %}<span class="status-pill status-inactive">დამალული</span>{% endif %}
+        </td>
+        <td>
+          <div class="td-actions">
+            <a href="{% url 'menu_items_by_category' cat.pk %}" class="btn btn-ghost btn-sm">👁 პროდ.</a>
+            <a href="{% url 'category_edit' cat.pk %}" class="btn btn-ghost btn-sm">✎</a>
+            <a href="{% url 'category_delete' cat.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
+               data-confirm="კატეგორიის წაშლა? ყველა პროდუქტიც წაიშლება!">✕</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-state-icon">📂</div>
+  <h3>კატეგორიები არ არის</h3>
+  <p>დაამატეთ პირველი კატეგორია</p>
+</div>
+{% endif %}
+
+<!-- Add Category Modal -->
+<div class="modal-backdrop" id="modal-add-cat">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">ახალი კატეგორია</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <form method="post" action="{% url 'category_add' %}">
+      {% csrf_token %}
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 სახელი (KA)</label>
+            <input type="text" name="name_ka" class="form-control" placeholder="მორტადელა" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Name (EN)</label>
+            <input type="text" name="name_en" class="form-control" placeholder="Mortadella" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Slug</label>
+            <input type="text" name="slug" class="form-control" placeholder="mortadella" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">გვერდი</label>
+            <select name="page" class="form-control">
+              <option value="menu">Menu</option>
+              <option value="salumeria">Salumeria</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 აღწერა (KA)</label>
+            <textarea name="description_ka" class="form-control" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Description (EN)</label>
+            <textarea name="description_en" class="form-control" rows="2"></textarea>
+          </div>
+        </div>
+        <div style="display:flex;gap:1.5rem;">
+          <label class="toggle-wrap">
+            <span class="toggle"><input type="checkbox" name="is_active" checked><span class="toggle-slider"></span></span>
+            <span style="font-size:.88rem;">აქტიური</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost modal-close">გაუქმება</button>
+        <button type="submit" class="btn btn-primary">+ დამატება</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

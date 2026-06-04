@@ -1,0 +1,148 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{% if item %}პროდუქტის რედაქტირება{% else %}ახალი პროდუქტი{% endif %}{% endblock %}
+{% block nav_items %}active{% endblock %}
+{% block breadcrumb %}პროდუქტები / <strong>{% if item %}რედაქტირება{% else %}დამატება{% endif %}</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{% if item %}{{ item.name_ka }}{% else %}ახალი პროდუქტი{% endif %}</h1>
+  </div>
+  <a href="{% url 'menu_items' %}" class="btn btn-ghost">← უკან</a>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;align-items:start;">
+
+    <!-- Left: Main fields -->
+    <div>
+      <div class="form-card" style="margin-bottom:1.25rem;">
+        <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">სახელი & აღწერა</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 სახელი (ქართული)</label>
+            <input type="text" name="name_ka" value="{{ item.name_ka|default:'' }}" class="form-control" required
+                   placeholder="მორტაცა როსა">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Name (English)</label>
+            <input type="text" name="name_en" value="{{ item.name_en|default:'' }}" class="form-control" required
+                   placeholder="Mortazza Rossa">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 აღწერა (ქართული)</label>
+            <textarea name="description_ka" class="form-control" rows="4"
+                      placeholder="მორტადელა, სტრაჩიატელა, პომიდორი...">{{ item.description_ka|default:'' }}</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Description (English)</label>
+            <textarea name="description_en" class="form-control" rows="4"
+                      placeholder="Mortadella, Stracciatella, Tomato...">{{ item.description_en|default:'' }}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card" style="margin-bottom:1.25rem;">
+        <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ფასი & კატეგორია</h4>
+        <div class="form-row col-3">
+          <div class="form-group">
+            <label class="form-label">ფასი (₾)</label>
+            <input type="number" name="price" value="{{ item.price|default:'' }}" class="form-control"
+                   step="0.01" min="0" placeholder="28.00" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ერთეული</label>
+            <select name="price_unit" class="form-control">
+              <option value="" {% if not item.price_unit %}selected{% endif %}>— ერთეული</option>
+              <option value="100g" {% if item.price_unit == '100g' %}selected{% endif %}>100 გრ</option>
+              <option value="portion" {% if item.price_unit == 'portion' %}selected{% endif %}>პორცია</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">კატეგორია</label>
+            <select name="category" class="form-control" required>
+              <option value="">— კატეგ. —</option>
+              {% for cat in categories %}
+              <option value="{{ cat.pk }}" {% if item.category_id == cat.pk %}selected{% endif %}>
+                {{ cat.name_ka }} ({{ cat.get_page_display }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">Badge & Tags</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 Badge (KA)</label>
+            <input type="text" name="badge_ka" value="{{ item.badge_ka|default:'' }}" class="form-control"
+                   placeholder="ახალი, ყველაზე პოპ.">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Badge (EN)</label>
+            <input type="text" name="badge_en" value="{{ item.badge_en|default:'' }}" class="form-control"
+                   placeholder="New, Most Popular">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tags (მძიმით გამოყოფილი)</label>
+          <input type="text" name="tags" value="{{ item.tags|default:'' }}" class="form-control"
+                 placeholder="vegan, vegetarian, spicy, new">
+          <span style="font-size:.72rem;color:var(--text-muted);">მაგ: vegan, spicy, gluten-free</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Image + Settings -->
+    <div>
+      <div class="form-card" style="margin-bottom:1.25rem;">
+        <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">სურათი</h4>
+        {% if item.image %}
+        <img src="{{ item.image.url }}" style="width:100%;border-radius:var(--radius-sm);margin-bottom:.75rem;object-fit:cover;max-height:200px;">
+        {% endif %}
+        <div class="image-upload-area">
+          <input type="file" name="image" accept="image/*">
+          <div class="upload-icon">🖼</div>
+          <div class="upload-text">სურათის ატვირთვა</div>
+          <div style="font-size:.72rem;color:var(--text-muted);margin-top:.25rem;">JPG, PNG, WebP · 800×600px+</div>
+        </div>
+      </div>
+
+      <div class="form-card" style="margin-bottom:1.25rem;">
+        <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">პარამეტრები</h4>
+        <div class="form-group">
+          <label class="form-label">თანმიმდევრობა</label>
+          <input type="number" name="order" value="{{ item.order|default:0 }}" class="form-control" min="0">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.9rem;">
+          <label class="toggle-wrap">
+            <span class="toggle">
+              <input type="checkbox" name="is_available" {% if item.is_available or not item %}checked{% endif %}>
+              <span class="toggle-slider"></span>
+            </span>
+            <span style="font-size:.88rem;">ხელმისაწვდომია</span>
+          </label>
+          <label class="toggle-wrap">
+            <span class="toggle">
+              <input type="checkbox" name="is_featured" {% if item.is_featured %}checked{% endif %}>
+              <span class="toggle-slider"></span>
+            </span>
+            <span style="font-size:.88rem;">Featured (მთავარ გვერდზე)</span>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+        ✓ {% if item %}განახლება{% else %}დამატება{% endif %}
+      </button>
+    </div>
+
+  </div>
+</form>
+{% endblock %}

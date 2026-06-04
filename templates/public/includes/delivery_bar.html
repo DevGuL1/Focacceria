@@ -1,0 +1,56 @@
+<div class="border-b border-black/5 bg-[rgb(var(--delivery-bg))] text-[rgb(var(--delivery-text))]">
+  <div class="mx-auto max-w-7xl px-4 md:px-8">
+    <div class="flex min-h-[52px] items-center gap-2 overflow-x-auto py-2.5 scrollbar-hide">
+      {% if site.wolt_url %}
+      <a href="{{ site.wolt_url }}" target="_blank" rel="noopener" class="delivery-chip">
+        {% if site.delivery_wolt_icon %}
+        <span class="delivery-chip__icon">{{ site.delivery_wolt_icon }}</span>
+        {% else %}
+        <span class="delivery-chip__dot delivery-chip__dot--wolt"></span>
+        {% endif %}
+        <span>Wolt</span>
+      </a>
+      {% endif %}
+      {% if site.glovo_url %}
+      <a href="{{ site.glovo_url }}" target="_blank" rel="noopener" class="delivery-chip">
+        {% if site.delivery_glovo_icon %}
+        <span class="delivery-chip__icon">{{ site.delivery_glovo_icon }}</span>
+        {% else %}
+        <span class="delivery-chip__dot delivery-chip__dot--glovo"></span>
+        {% endif %}
+        <span>Glovo</span>
+      </a>
+      {% endif %}
+      {% if site.phone %}
+      <a href="tel:{{ site.phone }}" class="delivery-chip">
+        {% if site.delivery_call_icon %}
+        <span class="delivery-chip__icon">{{ site.delivery_call_icon }}</span>
+        {% else %}
+        <span class="delivery-chip__dot delivery-chip__dot--call"></span>
+        {% endif %}
+        <span>{% if current_lang == 'ka' %}დარეკვა{% else %}Call{% endif %}</span>
+      </a>
+      {% endif %}
+      {% if site.google_maps_url %}
+      <a href="{{ site.google_maps_url }}" target="_blank" rel="noopener" class="delivery-chip">
+        {% if site.delivery_maps_icon %}
+        <span class="delivery-chip__icon">{{ site.delivery_maps_icon }}</span>
+        {% else %}
+        <span class="delivery-chip__dot"></span>
+        {% endif %}
+        <span>{% if current_lang == 'ka' %}რუკა{% else %}Maps{% endif %}</span>
+      </a>
+      {% endif %}
+      {% if site.whatsapp %}
+      <a href="https://wa.me/{{ site.whatsapp|cut:'+'|cut:' ' }}" target="_blank" rel="noopener" class="delivery-chip">
+        {% if site.delivery_whatsapp_icon %}
+        <span class="delivery-chip__icon">{{ site.delivery_whatsapp_icon }}</span>
+        {% else %}
+        <span class="delivery-chip__dot"></span>
+        {% endif %}
+        <span>WhatsApp</span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang }}" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {% block seo %}
+  <title>{% block title %}Focacceria · Born in Italy, Baked in Tbilisi{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}Authentic Schiacciata sandwiches crafted from 100% Italian ingredients{% endblock %}">
+  {% endblock %}
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {% for font_url in font_stylesheet_urls %}
+  <link href="{{ font_url }}" rel="stylesheet">
+  {% endfor %}
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('focacceria-project-theme');
+        var theme = stored === 'dark' || stored === 'light'
+          ? stored
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      } catch (error) {
+        document.documentElement.dataset.theme = 'light';
+        document.documentElement.style.colorScheme = 'light';
+      }
+    })();
+  </script>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'foca-cream':      'rgb(var(--foca-cream) / <alpha-value>)',
+            'foca-cream-deep': 'rgb(var(--foca-cream-deep) / <alpha-value>)',
+            'foca-red':        'rgb(var(--foca-red) / <alpha-value>)',
+            'foca-red-deep':   'rgb(var(--foca-red-deep) / <alpha-value>)',
+            'foca-ink':        'rgb(var(--foca-ink) / <alpha-value>)',
+            'foca-ink-soft':   'rgb(var(--foca-ink-soft) / <alpha-value>)',
+            'foca-green':      'rgb(var(--foca-green) / <alpha-value>)',
+            'foca-green-deep': 'rgb(var(--foca-green-deep) / <alpha-value>)',
+            'foca-brick':      'rgb(var(--foca-brick) / <alpha-value>)',
+            'foca-blue':       'rgb(var(--foca-blue) / <alpha-value>)',
+            'paper':           'rgb(var(--paper) / <alpha-value>)',
+          },
+          fontFamily: {
+            'display': ['var(--font-heading-stack)'],
+            'sans':    ['var(--font-body-stack)'],
+          },
+          animation: {
+            'marquee': 'marquee 28s linear infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%':   { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  {% load static %}
+  {% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
+
+  <style>
+    {% if font_settings.heading_font_ka_file %}
+    @font-face {
+      font-family: '{{ font_settings.heading_font_ka_name|escapejs }}';
+      src: url('{{ font_settings.heading_font_ka_file.url }}');
+      font-display: swap;
+    }
+    {% endif %}
+    {% if font_settings.body_font_ka_file %}
+    @font-face {
+      font-family: '{{ font_settings.body_font_ka_name|escapejs }}';
+      src: url('{{ font_settings.body_font_ka_file.url }}');
+      font-display: swap;
+    }
+    {% endif %}
+
+    :root {
+      --font-heading-stack: '{{ active_heading_family|escapejs }}', 'Noto Sans Georgian', system-ui, sans-serif;
+      --font-body-stack: '{{ active_body_family|escapejs }}', 'Inter', 'Noto Sans Georgian', system-ui, sans-serif;
+      --foca-cream: 239 221 198;
+      --foca-cream-deep: 201 164 128;
+      --foca-red: 219 94 62;
+      --foca-red-deep: 176 75 48;
+      --foca-ink: 28 28 26;
+      --foca-ink-soft: 42 42 40;
+      --foca-green: 165 167 91;
+      --foca-green-deep: 111 122 54;
+      --foca-brick: 127 75 61;
+      --foca-blue: 150 184 213;
+      --paper: 239 221 198;
+      --chrome-bg: 239 221 198;
+      --surface-muted: 255 255 255;
+      --delivery-bg: 28 28 26;
+      --delivery-text: 239 221 198;
+      --header-h: 68px;
+      --delivery-h: 52px;
+      --site-chrome-height: calc(var(--header-h) + var(--delivery-h));
+    }
+
+    html[data-theme='dark'] {
+      --foca-cream: 244 244 238;
+      --foca-cream-deep: 133 156 112;
+      --foca-red: 214 104 81;
+      --foca-red-deep: 168 82 60;
+      --foca-ink: 240 238 229;
+      --foca-ink-soft: 213 220 205;
+      --foca-green: 142 175 109;
+      --foca-green-deep: 86 116 64;
+      --foca-brick: 92 61 52;
+      --foca-blue: 130 162 188;
+      --paper: 20 32 24;
+      --chrome-bg: 26 42 31;
+      --surface-muted: 33 48 37;
+      --delivery-bg: 14 23 17;
+      --delivery-text: 229 236 220;
+      --footer-bg: 12 21 16;
+      --footer-soft-bg: 24 37 28;
+      --footer-text: 239 242 233;
+      --header-text: 239 242 233;
+      --header-muted: 210 220 203;
+    }
+
+    body {
+      background-color: rgb(var(--paper));
+      font-family: var(--font-body-stack);
+    }
+    .bg-paper { background-color: rgb(var(--paper)); }
+    .animate-marquee { animation: marquee 28s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .font-display { font-family: var(--font-heading-stack) !important; }
+    .font-sans { font-family: var(--font-body-stack) !important; }
+    .theme-toggle {
+      width: 2.7rem;
+      height: 2.7rem;
+      border-radius: 999px;
+      border: 1px solid rgb(var(--foca-ink) / 0.12);
+      background: rgb(var(--surface-muted) / 0.72);
+      color: rgb(var(--foca-ink));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .25s ease, border-color .25s ease, background-color .25s ease;
+      backdrop-filter: blur(10px);
+    }
+    .theme-toggle:hover { transform: translateY(-1px); border-color: rgb(var(--foca-green-deep) / 0.45); }
+    .delivery-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      white-space: nowrap;
+      border-radius: 999px;
+      border: 1px solid rgb(255 255 255 / 0.12);
+      background: rgb(255 255 255 / 0.08);
+      color: rgb(var(--delivery-text));
+      padding: .48rem .9rem;
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
+    }
+    .delivery-chip:hover {
+      transform: translateY(-1px);
+      background: rgb(255 255 255 / 0.14);
+      border-color: rgb(255 255 255 / 0.2);
+    }
+    .delivery-chip__dot { width: .48rem; height: .48rem; border-radius: 999px; background: rgb(var(--foca-green)); }
+    .delivery-chip__dot--wolt { background: rgb(var(--foca-blue)); }
+    .delivery-chip__dot--glovo { background: #ffc244; }
+    .delivery-chip__dot--call { background: rgb(var(--foca-red)); }
+    .delivery-chip__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1rem;
+      font-size: .95rem;
+      line-height: 1;
+    }
+    .iframe-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgb(var(--foca-ink) / 0.1);
+      border-radius: 1.75rem;
+      background: rgb(var(--paper));
+      box-shadow: 0 20px 50px -30px rgb(0 0 0 / 0.4);
+    }
+    .iframe-shell iframe {
+      display: block;
+      width: 100%;
+      height: clamp(680px, calc(100vh - var(--site-chrome-height) - 56px), 1180px);
+      min-height: 680px;
+      border: 0;
+      background: #fff;
+    }
+    .iframe-loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top, rgb(var(--foca-green) / 0.22), transparent 45%),
+        linear-gradient(180deg, rgb(var(--paper) / 0.96), rgb(var(--paper) / 0.92));
+      transition: opacity .35s ease, visibility .35s ease;
+      z-index: 2;
+    }
+    .iframe-loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .iframe-loader__ring {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 999px;
+      border: 3px solid rgb(var(--foca-green) / 0.2);
+      border-top-color: rgb(var(--foca-green-deep));
+      animation: foca-spin .85s linear infinite;
+    }
+    @keyframes foca-spin { to { transform: rotate(360deg); } }
+    .site-logo-dark { display: none; }
+    html[data-theme='dark'] .site-logo-light { display: none; }
+    html[data-theme='dark'] .site-logo-dark { display: block; }
+    html[data-theme='dark'] .bg-foca-cream\/85 { background-color: rgb(var(--chrome-bg) / 0.92) !important; }
+    html[data-theme='dark'] .bg-foca-cream { background-color: rgb(var(--chrome-bg)) !important; }
+    html[data-theme='dark'] .bg-foca-ink { background-color: rgb(var(--footer-bg)) !important; }
+    html[data-theme='dark'] .bg-foca-ink-soft { background-color: rgb(var(--footer-soft-bg)) !important; }
+    html[data-theme='dark'] .text-foca-ink { color: rgb(var(--header-text)) !important; }
+    html[data-theme='dark'] .text-foca-ink\/70 { color: rgb(var(--header-muted) / 0.78) !important; }
+    html[data-theme='dark'] .text-foca-ink\/60 { color: rgb(var(--header-muted) / 0.7) !important; }
+    html[data-theme='dark'] .text-foca-ink\/50 { color: rgb(var(--header-muted) / 0.62) !important; }
+    html[data-theme='dark'] .text-foca-cream { color: rgb(var(--footer-text)) !important; }
+    html[data-theme='dark'] .text-foca-cream\/85 { color: rgb(var(--footer-text) / 0.88) !important; }
+    html[data-theme='dark'] .text-foca-cream\/70 { color: rgb(var(--footer-text) / 0.74) !important; }
+    html[data-theme='dark'] .text-foca-cream\/60 { color: rgb(var(--footer-text) / 0.66) !important; }
+    html[data-theme='dark'] .text-foca-cream\/35 { color: rgb(var(--footer-text) / 0.42) !important; }
+    html[data-theme='dark'] .border-foca-ink\/10 { border-color: rgb(var(--header-text) / 0.12) !important; }
+    html[data-theme='dark'] .border-foca-ink\/15 { border-color: rgb(var(--header-text) / 0.16) !important; }
+    html[data-theme='dark'] .border-foca-cream\/10 { border-color: rgb(var(--footer-text) / 0.12) !important; }
+    html[data-theme='dark'] .border-foca-cream\/15 { border-color: rgb(var(--footer-text) / 0.16) !important; }
+    html[data-theme='dark'] .border-foca-cream\/20 { border-color: rgb(var(--footer-text) / 0.22) !important; }
+    @media (max-width: 768px) {
+      :root { --delivery-h: 48px; }
+      .iframe-shell iframe {
+        height: calc(100vh - var(--site-chrome-height) - 24px);
+        min-height: 620px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-paper font-sans text-foca-ink antialiased">
+{% load static %}
+
+<!-- ══ HEADER ════════════════════════════════════════════ -->
+<header class="sticky top-0 z-40 border-b border-foca-ink/10 bg-foca-cream/85 backdrop-blur-md">
+  <div class="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 md:px-8">
+
+    <!-- Logo -->
+    <a href="{% if lang == 'en' %}/en/{% else %}/{% endif %}" class="flex-shrink-0">
+      {% if site.logo %}
+      <img src="{{ site.logo.url }}" alt="Focacceria" class="site-logo-light h-9 w-auto">
+      {% if site.logo_dark %}
+      <img src="{{ site.logo_dark.url }}" alt="Focacceria" class="site-logo-dark h-9 w-auto">
+      {% endif %}
+      {% else %}
+      <span class="font-display text-2xl text-foca-ink tracking-wide">FOCACCERIA</span>
+      {% endif %}
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden items-center gap-8 md:flex">
+      {% for item in nav_items %}
+      <a href="{{ item.url }}"
+         {% if item.open_new_tab %}target="_blank"{% endif %}
+         class="text-sm font-medium text-foca-ink/70 transition hover:text-foca-ink {% if request.path == item.url or request.path == '/en'|add:item.url %}text-foca-ink font-semibold{% endif %}">
+        {% if lang == 'ka' %}{{ item.label_ka }}{% else %}{{ item.label_en }}{% endif %}
+      </a>
+      {% endfor %}
+    </nav>
+
+    <!-- Right Actions -->
+    <div class="flex items-center gap-3">
+      <!-- Language Toggle -->
+      <a href="{% url 'set_language' 'ka' %}"
+         class="text-xs font-bold uppercase tracking-wide {% if lang == 'ka' %}text-foca-red{% else %}text-foca-ink/50 hover:text-foca-ink{% endif %} transition">ქართული</a>
+      <span class="text-foca-ink/20 text-xs">|</span>
+      <a href="{% url 'set_language' 'en' %}"
+         class="text-xs font-bold uppercase tracking-wide {% if lang == 'en' %}text-foca-red{% else %}text-foca-ink/50 hover:text-foca-ink{% endif %} transition">EN</a>
+
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+        <span data-theme-icon>🌙</span>
+      </button>
+
+      <!-- Order Now button -->
+      <a href="{% if lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}"
+         class="hidden rounded-full bg-foca-red px-4 py-2 text-xs font-bold uppercase tracking-wide text-foca-cream shadow-sm transition hover:bg-foca-red-deep md:inline-flex">
+        {% if lang == 'ka' %}შეკვეთა{% else %}Order Now{% endif %}
+      </a>
+
+      <!-- Mobile Hamburger -->
+      <button id="menu-btn" class="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-lg border border-foca-ink/15 md:hidden">
+        <span class="h-0.5 w-4 bg-foca-ink transition-all"></span>
+        <span class="h-0.5 w-4 bg-foca-ink transition-all"></span>
+        <span class="h-0.5 w-3 bg-foca-ink transition-all"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden border-t border-foca-ink/10 bg-foca-cream px-4 pb-4 pt-3 md:hidden">
+    {% for item in nav_items %}
+    <a href="{{ item.url }}" class="block py-2.5 text-base font-medium text-foca-ink/80 hover:text-foca-ink">
+      {% if lang == 'ka' %}{{ item.label_ka }}{% else %}{{ item.label_en }}{% endif %}
+    </a>
+    {% endfor %}
+    <div class="mt-3 flex items-center gap-3">
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+        <span data-theme-icon>🌙</span>
+      </button>
+      <a href="{% if lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}"
+         class="inline-flex rounded-full bg-foca-red px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-foca-cream">
+        {% if lang == 'ka' %}შეკვეთა{% else %}Order Now{% endif %}
+      </a>
+    </div>
+  </div>
+</header>
+
+{% include 'public/includes/delivery_bar.html' %}
+
+<!-- ══ MAIN ══════════════════════════════════════════════ -->
+<main>{% block content %}{% endblock %}</main>
+
+<!-- ══ FOOTER ════════════════════════════════════════════ -->
+<footer class="bg-foca-ink py-14 text-foca-cream">
+  <div class="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-3 md:px-8">
+
+    <!-- Brand -->
+    <div>
+      {% if site.logo %}
+      <img src="{{ site.logo.url }}" alt="Focacceria" class="h-12 w-auto brightness-0 invert">
+      {% else %}
+      <div class="font-display text-2xl text-foca-cream mb-2">FOCACCERIA</div>
+      {% endif %}
+      <p class="mt-4 max-w-xs text-sm text-foca-cream/70">
+        {% if lang == 'ka' %}{{ site.tagline_ka }}{% else %}{{ site.tagline_en }}{% endif %}
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="text-sm">
+      <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-foca-green">
+        {% if lang == 'ka' %}კონტაქტი{% else %}Contact{% endif %}
+      </h3>
+      <ul class="space-y-2 text-foca-cream/85">
+        {% if site.address_ka %}
+        <li class="flex items-center gap-2">
+          <svg class="h-4 w-4 shrink-0 text-foca-cream/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <a href="{{ site.google_maps_url|default:'#' }}" class="hover:text-foca-red transition">
+            {% if lang == 'ka' %}{{ site.address_ka }}{% else %}{{ site.address_en }}{% endif %}
+          </a>
+        </li>
+        {% endif %}
+        {% if site.phone %}
+        <li class="flex items-center gap-2">
+          <svg class="h-4 w-4 shrink-0 text-foca-cream/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <a href="tel:{{ site.phone }}" class="hover:text-foca-red transition">{{ site.phone }}</a>
+        </li>
+        {% endif %}
+        {% if site.instagram %}
+        <li class="flex items-center gap-2">
+          <svg class="h-4 w-4 shrink-0 text-foca-cream/40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <a href="{{ site.instagram }}" target="_blank" class="hover:text-foca-red transition">@focacceria.tbilisi</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <!-- Links -->
+    <div class="text-sm">
+      <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-foca-green">
+        {% if lang == 'ka' %}ნავიგაცია{% else %}Navigate{% endif %}
+      </h3>
+      <ul class="space-y-2 text-foca-cream/85">
+        {% for item in nav_items %}
+        <li>
+          <a href="{{ item.url }}" class="hover:text-foca-red transition">
+            {% if lang == 'ka' %}{{ item.label_ka }}{% else %}{{ item.label_en }}{% endif %}
+          </a>
+        </li>
+        {% endfor %}
+        {% if site.wolt_url %}
+        <li><a href="{{ site.wolt_url }}" target="_blank" class="hover:text-foca-red transition">Wolt</a></li>
+        {% endif %}
+        {% if site.glovo_url %}
+        <li><a href="{{ site.glovo_url }}" target="_blank" class="hover:text-foca-red transition">Glovo</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="mx-auto mt-10 max-w-7xl border-t border-foca-cream/10 px-4 pt-6 md:px-8">
+    <p class="text-xs text-foca-cream/35">
+      © {{ "2025" }} Focacceria · Born in Italy, Baked in Tbilisi
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  document.getElementById('menu-btn')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu')?.classList.toggle('hidden');
+  });
+
+  (function () {
+    const root = document.documentElement;
+    const buttons = document.querySelectorAll('[data-theme-toggle]');
+    const iconTargets = document.querySelectorAll('[data-theme-icon]');
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function preferredTheme() {
+      try {
+        const stored = localStorage.getItem('focacceria-project-theme');
+        if (stored === 'dark' || stored === 'light') return stored;
+      } catch (error) {}
+      return media.matches ? 'dark' : 'light';
+    }
+
+    function applyTheme(theme, persist) {
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+      iconTargets.forEach(icon => { icon.textContent = theme === 'dark' ? '☀️' : '🌙'; });
+      buttons.forEach(button => {
+        button.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      });
+      if (!persist) return;
+      try { localStorage.setItem('focacceria-project-theme', theme); } catch (error) {}
+    }
+
+    applyTheme(preferredTheme(), false);
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
+      });
+    });
+
+    if (media.addEventListener) {
+      media.addEventListener('change', () => {
+        try {
+          if (localStorage.getItem('focacceria-project-theme')) return;
+        } catch (error) {}
+        applyTheme(media.matches ? 'dark' : 'light', false);
+      });
+    }
+  })();
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

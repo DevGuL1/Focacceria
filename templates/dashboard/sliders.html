@@ -1,0 +1,81 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}სლაიდერები{% endblock %}
+{% block nav_sliders %}active{% endblock %}
+{% block breadcrumb %}საიტი / <strong>სლაიდერები</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">სლაიდერები</h1>
+    <p class="page-subtitle">მთავარი გვერდის Hero სლაიდები — Drag & Drop-ით დაალაგეთ</p>
+  </div>
+  <a href="{% url 'slider_add' %}" class="btn btn-primary">+ სლაიდის დამატება</a>
+</div>
+
+{% if slides %}
+<div class="table-card">
+  <div class="table-card-header">
+    <span class="table-card-title">სლაიდები ({{ slides|length }})</span>
+    <span style="font-size:.8rem;color:var(--text-muted);">☰ გადაიტანეთ თანმიმდევრობის შესაცვლელად</span>
+  </div>
+
+  <table class="data-table" id="slider-table" data-sortable data-reorder-url="{% url 'item_reorder' %}">
+    <thead>
+      <tr>
+        <th style="width:40px;"></th>
+        <th>სურათი</th>
+        <th>Hero Object</th>
+        <th>სათაური (KA)</th>
+        <th>სათაური (EN)</th>
+        <th>სტატუსი</th>
+        <th>მოქმედება</th>
+      </tr>
+    </thead>
+    <tbody data-sortable data-reorder-url="{% url 'nav_reorder' %}">
+      {% for slide in slides %}
+      <tr data-id="{{ slide.pk }}">
+        <td><span class="drag-handle" title="გადაიტანეთ">⠿</span></td>
+        <td>
+          {% if slide.image %}
+          <img src="{{ slide.image.url }}" style="height:52px;width:88px;object-fit:cover;border-radius:var(--radius-sm);">
+          {% else %}
+          <div style="height:52px;width:88px;background:var(--bg-surface);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.8rem;">სურათი</div>
+          {% endif %}
+        </td>
+        <td>
+          {% if slide.product_image %}
+          <img src="{{ slide.product_image.url }}" style="height:52px;width:52px;object-fit:contain;border-radius:var(--radius-sm);background:var(--bg-surface);padding:.35rem;">
+          {% else %}
+          <div style="height:52px;width:52px;background:var(--bg-surface);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:1rem;">🍔</div>
+          {% endif %}
+        </td>
+        <td style="font-weight:500;">{{ slide.title_ka|default:"—" }}</td>
+        <td style="color:var(--text-muted);">{{ slide.title_en|default:"—" }}</td>
+        <td>
+          {% if slide.is_active %}
+          <span class="status-pill status-active">აქტიური</span>
+          {% else %}
+          <span class="status-pill status-inactive">დამალული</span>
+          {% endif %}
+        </td>
+        <td>
+          <div class="td-actions">
+            <a href="{% url 'slider_edit' slide.pk %}" class="btn btn-ghost btn-sm">✎ რედაქტირება</a>
+            <a href="{% url 'slider_delete' slide.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
+               data-confirm="სლაიდის წაშლა?">✕</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-state-icon">▶</div>
+  <h3>სლაიდები არ არის</h3>
+  <p>დაამატეთ პირველი სლაიდი მთავარი გვერდისთვის</p>
+  <a href="{% url 'slider_add' %}" class="btn btn-primary" style="margin-top:1rem;">+ სლაიდის დამატება</a>
+</div>
+{% endif %}
+{% endblock %}

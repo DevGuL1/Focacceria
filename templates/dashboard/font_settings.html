@@ -1,0 +1,103 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Font Manager{% endblock %}
+{% block nav_fonts %}active{% endblock %}
+{% block breadcrumb %}საიტი / <strong>ფონტები</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Font Manager</h1>
+    <p class="page-subtitle">ინგლისურისთვის Google Fonts, ქართულისთვის custom heading/body fonts.</p>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">English · Google Fonts</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Heading family name</label>
+        <input type="text" name="heading_font_en_name" value="{{ settings.heading_font_en_name }}" class="form-control" placeholder="Anton">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Heading Google Fonts URL</label>
+        <input type="url" name="heading_font_en_url" value="{{ settings.heading_font_en_url }}" class="form-control" placeholder="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Body family name</label>
+        <input type="text" name="body_font_en_name" value="{{ settings.body_font_en_name }}" class="form-control" placeholder="Inter">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Body Google Fonts URL</label>
+        <input type="url" name="body_font_en_url" value="{{ settings.body_font_en_url }}" class="form-control" placeholder="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+      </div>
+    </div>
+    <small style="display:block;margin-top:.35rem;color:var(--text-muted);">URL და family name ერთმანეთს უნდა ემთხვეოდეს.</small>
+  </div>
+
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ქართული · Custom Fonts</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Heading family name</label>
+        <input type="text" name="heading_font_ka_name" value="{{ settings.heading_font_ka_name }}" class="form-control" placeholder="My Georgian Caps">
+        <small style="display:block;margin-top:.35rem;color:var(--text-muted);">ამავე სახელით დარეგისტრირდება uploaded heading font.</small>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Heading font file</label>
+        {% if settings.heading_font_ka_file %}
+        <p style="margin-bottom:.5rem;color:var(--text-secondary);font-size:.88rem;">ამჟამინდელი ფაილი: <strong>{{ settings.heading_font_ka_file.name }}</strong></p>
+        <label style="display:flex;align-items:center;gap:.6rem;margin:.15rem 0 .75rem;">
+          <input type="checkbox" name="heading_font_ka_file_clear">
+          <span style="font-size:.9rem;color:var(--text-secondary);">წაშალე heading font file</span>
+        </label>
+        {% endif %}
+        <input type="file" name="heading_font_ka_file" class="form-control" accept=".woff,.woff2,.ttf,.otf">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Body family name</label>
+        <input type="text" name="body_font_ka_name" value="{{ settings.body_font_ka_name }}" class="form-control" placeholder="My Georgian Sans">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Body font file</label>
+        {% if settings.body_font_ka_file %}
+        <p style="margin-bottom:.5rem;color:var(--text-secondary);font-size:.88rem;">ამჟამინდელი ფაილი: <strong>{{ settings.body_font_ka_file.name }}</strong></p>
+        <label style="display:flex;align-items:center;gap:.6rem;margin:.15rem 0 .75rem;">
+          <input type="checkbox" name="body_font_ka_file_clear">
+          <span style="font-size:.9rem;color:var(--text-secondary);">წაშალე body font file</span>
+        </label>
+        {% endif %}
+        <input type="file" name="body_font_ka_file" class="form-control" accept=".woff,.woff2,.ttf,.otf">
+      </div>
+    </div>
+    <small style="display:block;margin-top:.35rem;color:var(--text-muted);">თუ ფაილს არ ატვირთავ, ქართული fallback დარჩება Noto Sans Georgian-ზე.</small>
+  </div>
+
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1rem;font-family:var(--font-serif);">Preview</h4>
+    <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-surface);">
+        <p style="font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);margin-bottom:.6rem;">English preview</p>
+        <p style="font-family:'{{ settings.heading_font_en_name|default:'Anton' }}', system-ui, sans-serif;font-size:2rem;line-height:1;">Eat like an Italian</p>
+        <p style="font-family:'{{ settings.body_font_en_name|default:'Inter' }}', system-ui, sans-serif;margin-top:.6rem;">Freshly baked focaccia, layered textures, and clean editorial typography.</p>
+      </div>
+      <div style="padding:1rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-surface);">
+        <p style="font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);margin-bottom:.6rem;">ქართული preview</p>
+        <p style="font-family:'{{ settings.heading_font_ka_name|default:'Noto Sans Georgian' }}', system-ui, sans-serif;font-size:2rem;line-height:1;">ჭამე, როგორც იტალიელი</p>
+        <p style="font-family:'{{ settings.body_font_ka_name|default:'Noto Sans Georgian' }}', system-ui, sans-serif;margin-top:.6rem;">ფენოვანი ტექსტურა, იტალიური ინგრედიენტები და მკაფიო ქართული ტაიპოგრაფია.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:1rem;">
+    <button type="submit" class="btn btn-primary">✓ შენახვა</button>
+    <a href="{% url 'dashboard_home' %}" class="btn btn-ghost">გაუქმება</a>
+  </div>
+</form>
+{% endblock %}

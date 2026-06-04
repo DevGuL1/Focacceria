@@ -1,0 +1,66 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}კატეგორიის რედაქტირება{% endblock %}
+{% block nav_categories %}active{% endblock %}
+{% block breadcrumb %}კატეგორიები / <strong>რედაქტირება</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">კატეგორიის რედაქტირება</h1>
+  <a href="{% url 'menu_categories' %}" class="btn btn-ghost">← უკან</a>
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სახელი (KA)</label>
+        <input type="text" name="name_ka" value="{{ cat.name_ka }}" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Name (EN)</label>
+        <input type="text" name="name_en" value="{{ cat.name_en }}" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Slug</label>
+        <input type="text" name="slug" value="{{ cat.slug }}" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">გვერდი</label>
+        <select name="page" class="form-control">
+          <option value="menu" {% if cat.page == 'menu' %}selected{% endif %}>Menu</option>
+          <option value="salumeria" {% if cat.page == 'salumeria' %}selected{% endif %}>Salumeria</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 აღწერა (KA)</label>
+        <textarea name="description_ka" class="form-control" rows="3">{{ cat.description_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Description (EN)</label>
+        <textarea name="description_en" class="form-control" rows="3">{{ cat.description_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">თანმიმდევრობა</label>
+        <input type="number" name="order" value="{{ cat.order }}" class="form-control" min="0">
+      </div>
+      <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:.25rem;">
+        <label class="toggle-wrap">
+          <span class="toggle"><input type="checkbox" name="is_active" {% if cat.is_active %}checked{% endif %}><span class="toggle-slider"></span></span>
+          <span style="font-size:.88rem;">აქტიური</span>
+        </label>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;">
+      <button type="submit" class="btn btn-primary">✓ შენახვა</button>
+      <a href="{% url 'menu_categories' %}" class="btn btn-ghost">გაუქმება</a>
+    </div>
+  </div>
+</form>
+{% endblock %}
