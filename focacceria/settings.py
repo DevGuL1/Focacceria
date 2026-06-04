@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
 
-import dj_database_url
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-only-focacceria-project-secret-key')
@@ -77,6 +75,7 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 VERCEL = os.environ.get('VERCEL') == '1'
 
 if DATABASE_URL:
+    import dj_database_url  # only needed when an external DB URL is provided
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
     }
