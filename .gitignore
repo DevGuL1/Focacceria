@@ -27,3 +27,11 @@ media/home-video/
 # Placeholder local files
 Example txt file.txt
 Another example txt file.txt
+
+# Local database & collected static (regenerated on deploy)
+*.sqlite3
+Focacceria_project_v1.db
+staticfiles/
+
+# Local env
+.env
