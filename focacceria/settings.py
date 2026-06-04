@@ -69,11 +69,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'focacceria.wsgi.application'
 
-# Database — use DATABASE_URL (Postgres on Render) if present, else local SQLite
+# Database resolution priority:
+#   1. DATABASE_URL  -> external Postgres (Render / Neon / Supabase) — full read+write
+#   2. VERCEL        -> copy bundled SQLite to writable /tmp (demo; not persistent)
+#   3. local         -> bundled SQLite file
 DATABASE_URL = os.environ.get('DATABASE_URL')
+VERCEL = os.environ.get('VERCEL') == '1'
+
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    }
+elif VERCEL:
+    import shutil
+    bundled_db = BASE_DIR / 'Focacceria_project_v1.db'
+    tmp_db = '/tmp/Focacceria_project_v1.db'
+    if bundled_db.exists() and not os.path.exists(tmp_db):
+        try:
+            shutil.copy(str(bundled_db), tmp_db)
+        except OSError:
+            pass
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': tmp_db,
+        }
     }
 else:
     DATABASES = {

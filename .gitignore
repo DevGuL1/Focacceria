@@ -28,10 +28,10 @@ media/home-video/
 Example txt file.txt
 Another example txt file.txt
 
-# Local database & collected static (regenerated on deploy)
+# NOTE: For Vercel we DO commit the bundled SQLite DB and collected static,
+# because Vercel's read-only lambda bundles the repo (no build-time collectstatic).
+# The DB is copied to /tmp at runtime for the demo; use DATABASE_URL for real persistence.
 *.sqlite3
-Focacceria_project_v1.db
-staticfiles/
 
 # Local env
 .env
