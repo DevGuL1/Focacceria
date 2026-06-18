@@ -68,11 +68,16 @@ def site_settings(request):
             'delivery_wolt_icon', 'delivery_glovo_icon', 'delivery_call_icon',
             'delivery_maps_icon', 'delivery_whatsapp_icon', 'menu_iframe_url',
             'about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en',
+            'marquee_text_ka', 'marquee_text_en',
         ]
         for field in fields:
             setattr(settings, field, request.POST.get(field, ''))
 
         settings.menu_loader_enabled = request.POST.get('menu_loader_enabled') == 'on'
+        settings.show_about = request.POST.get('show_about') == 'on'
+        settings.show_visit = request.POST.get('show_visit') == 'on'
+        settings.show_menu = request.POST.get('show_menu') == 'on'
+        settings.show_marquee = request.POST.get('show_marquee') == 'on'
 
         if settings.menu_iframe_url and not settings.menu_iframe_url.startswith('https://'):
             messages.error(request, 'Iframe URL უნდა იწყებოდეს https://-ით.')

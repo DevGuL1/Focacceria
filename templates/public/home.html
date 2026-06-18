@@ -6,11 +6,11 @@
 
 {% block content %}
 
-{# ══ HERO — video loop ══════════════════════════════════════════ #}
+<!-- HERO — VIDEO LOOP (full-bleed, no container) -->
 <section class="hero hero--bg">
   <div class="hero-bg">
     {% if home_video_section.is_active and home_video_section.video_file %}
-    <video class="hero-video" autoplay loop muted playsinline preload="metadata">
+    <video class="hero-video" autoplay loop muted playsinline>
       <source src="{{ home_video_section.video_file.url }}" type="video/mp4">
     </video>
     {% elif hero_slide and hero_slide.image %}
@@ -21,74 +21,113 @@
 
     <div class="hero-center">
       <div class="hero-center__box reveal">
-        <div class="kicker">{% if current_lang == 'ka' %}თბილისის პრემიუმ ფოკაჩერია{% else %}Tbilisi's premium focacceria{% endif %}</div>
+        <div class="kicker">{% if current_lang == 'ka' %}თბილისის პრემიუმ ფოკაჩერია{% else %}Tbilisi's Premium Focacceria{% endif %}</div>
         <h1 class="h1">
           {% if hero_slide and current_lang == 'ka' and hero_slide.title_ka %}{{ hero_slide.title_ka }}
           {% elif hero_slide and current_lang == 'en' and hero_slide.title_en %}{{ hero_slide.title_en }}
-          {% elif current_lang == 'ka' %}დაბადებული იტალიაში, გამომცხვარი თბილისში
-          {% else %}Born in Italy, Baked in Tbilisi{% endif %}
+          {% elif current_lang == 'ka' %}{{ site.tagline_ka }}
+          {% else %}{{ site.tagline_en }}{% endif %}
         </h1>
         <p class="sub">
           {% if hero_slide and current_lang == 'ka' and hero_slide.subtitle_ka %}{{ hero_slide.subtitle_ka }}
           {% elif hero_slide and current_lang == 'en' and hero_slide.subtitle_en %}{{ hero_slide.subtitle_en }}
-          {% elif current_lang == 'ka' %}ავთენტური სქიაჩატა 100% იტალიური ინგრედიენტებით.
-          {% else %}Authentic Schiacciata with 100% Italian ingredients.{% endif %}
+          {% elif current_lang == 'ka' %}ყოველდღე ახლად გამომცხვარი · იტალიური ინგრედიენტები · ძველი თბილისი
+          {% else %}Fresh baked daily · Italian ingredients · Old Tbilisi{% endif %}
         </p>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
           {% if hero_slide and hero_slide.cta_url %}
           <a class="btn btn-primary" href="{{ hero_slide.cta_url }}">
             {% if current_lang == 'ka' and hero_slide.cta_text_ka %}{{ hero_slide.cta_text_ka }}
             {% elif hero_slide.cta_text_en %}{{ hero_slide.cta_text_en }}
-            {% else %}{% if current_lang == 'ka' %}მენიუ{% else %}View Menu{% endif %}{% endif %}
+            {% else %}{% if current_lang == 'ka' %}მენიუ{% else %}Menu{% endif %}{% endif %}
           </a>
-          {% else %}
-          <a class="btn btn-primary" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}მენიუ{% else %}View Menu{% endif %}</a>
+          {% elif site.whatsapp %}
+          <a class="btn btn-primary" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+            {% if current_lang == 'ka' %}WhatsApp შეკვეთა{% else %}WhatsApp Order{% endif %}
+          </a>
           {% endif %}
-          {% if site.whatsapp %}<a class="btn btn-ghost" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" style="color:rgb(var(--paper));border-color:rgba(239,221,198,0.32);">WhatsApp</a>{% endif %}
+          <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}" style="color:#fff;border-color:rgba(239,221,198,0.38);">
+            {% if current_lang == 'ka' %}სრული მენიუ{% else %}Full Menu{% endif %}
+          </a>
         </div>
-        <div class="trustline" style="justify-content:center;margin-top:18px;">
-          <span class="chip">100% Italian Flour</span>
-          <span class="chip">Reginella Formaggi</span>
-          <span class="chip">Leoncini · Est. 1918</span>
-          <span class="chip">Old Town Tbilisi</span>
+        <div class="trustline" style="justify-content:center;">
+          <span class="chip">{% if current_lang == 'ka' %}48 საათიანი ფერმენტაცია{% else %}48-Hour Fermentation{% endif %}</span>
+          <span class="chip">{% if current_lang == 'ka' %}100% იტალიური ინგრედიენტები{% else %}100% Italian Ingredients{% endif %}</span>
+          <span class="chip">{% if current_lang == 'ka' %}ძველი თბილისი{% else %}Old Tbilisi{% endif %}</span>
         </div>
-        <div class="scrollcue" style="justify-content:center;margin-top:20px;">
+        <a class="scrollcue" href="#quick">
           <span class="scrollcue__icon">↓</span>
-          {% if current_lang == 'ka' %}ქვემოთ მენიუზე{% else %}Scroll to menu{% endif %}
-        </div>
+          <span>{% if current_lang == 'ka' %}ჩამოსქროლე{% else %}Scroll down{% endif %}</span>
+        </a>
       </div>
     </div>
+
   </div>
 </section>
 
-{# ══ MARQUEE ════════════════════════════════════════════════════ #}
+{% if site.show_marquee %}
+<!-- MARQUEE -->
 <div style="overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgb(var(--red));padding:12px 0;">
   <div style="display:flex;white-space:nowrap;animation:marquee-foca 26s linear infinite;">
     {% for i in "12345678901234" %}
-    <span style="margin:0 24px;font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:rgb(var(--paper));">SCHIACCIATA SANDWICHES</span>
-    <span style="margin:0 12px;opacity:.5;color:rgb(var(--paper));">·</span>
-    <span style="margin:0 24px;font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:rgb(var(--paper));">SALUMERIA CORNER</span>
-    <span style="margin:0 12px;opacity:.5;color:rgb(var(--paper));">·</span>
-    <span style="margin:0 24px;font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:rgb(var(--paper));">BORN IN ITALY · BAKED IN TBILISI</span>
+    <span style="margin:0 24px;font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:rgb(var(--paper));">
+      {% if current_lang == 'ka' %}{{ site.marquee_text_ka }}{% else %}{{ site.marquee_text_en }}{% endif %}
+    </span>
     <span style="margin:0 12px;opacity:.5;color:rgb(var(--paper));">·</span>
     {% endfor %}
   </div>
 </div>
 <style>@keyframes marquee-foca{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}</style>
+{% endif %}
 
-{# ══ FEATURED MENU ══════════════════════════════════════════════ #}
-<section class="section" id="home-menu-section">
+<!-- QUICK ORDER -->
+<section id="quick" class="section section--tight">
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}ჩვენი მენიუ{% else %}Our Menu{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}ჭამე, როგორც იტალიელი{% else %}Eat like an Italian{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}ახლად გამომცხვარი სქიაჩატა + იტალიის საუკეთესო ინგრედიენტები ყოველდღე.{% else %}Fresh-baked Schiacciata + Italy's finest ingredients, every day.{% endif %}</p>
+        <div class="kicker">{% if current_lang == 'ka' %}სწრაფი გზა შეკვეთამდე{% else %}Quick way to order{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}შეუკვეთე, როგორ გირჩევნია{% else %}Order your way{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}ერთი კლიკი — და მზად ხარ.{% else %}One click — and you are ready.{% endif %}</p>
       </div>
-      <a class="btn btn-primary" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}სრული მენიუ{% else %}Full Menu{% endif %} →</a>
+      <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}მენიუზე გადასვლა{% else %}Go to Menu{% endif %}</a>
     </div>
 
-    {% if featured_items %}
+    <div class="quick">
+      {% if site.wolt_url %}
+      <a class="qcard reveal" href="{{ site.wolt_url }}" target="_blank" rel="noopener">
+        <strong>{{ site.delivery_wolt_icon }} {% if current_lang == 'ka' %}Wolt-ზე შეკვეთა{% else %}Order on Wolt{% endif %}</strong>
+        <p>{% if current_lang == 'ka' %}სწრაფი მიწოდება და მარტივი checkout.{% else %}Fast delivery and simple checkout.{% endif %}</p>
+      </a>
+      {% endif %}
+      {% if site.glovo_url %}
+      <a class="qcard reveal" href="{{ site.glovo_url }}" target="_blank" rel="noopener">
+        <strong>{{ site.delivery_glovo_icon }} {% if current_lang == 'ka' %}Glovo-ზე შეკვეთა{% else %}Order on Glovo{% endif %}</strong>
+        <p>{% if current_lang == 'ka' %}მიწოდება ქალაქის მასშტაბით.{% else %}Delivery across the city.{% endif %}</p>
+      </a>
+      {% endif %}
+      {% if site.whatsapp %}
+      <a class="qcard reveal" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+        <strong>{{ site.delivery_whatsapp_icon }} {% if current_lang == 'ka' %}WhatsApp შეკვეთა{% else %}WhatsApp Order{% endif %}</strong>
+        <p>{% if current_lang == 'ka' %}გაგვიგზავნე პოზიცია/დრო და მოვამზადებთ.{% else %}Send location/time and we'll prepare.{% endif %}</p>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% if site.show_menu %}
+<!-- BESTSELLERS -->
+<section class="section">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <div class="kicker">{% if current_lang == 'ka' %}სწრაფი არჩევანი{% else %}Quick choice{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}ყველაზე მოთხოვნადი{% else %}Bestsellers{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}ბესტსელერები. დანარჩენი — სრულ მენიუში.{% else %}Bestsellers. The rest — in the full menu.{% endif %}</p>
+      </div>
+      <a class="btn btn-primary" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}სრული მენიუ{% else %}Full Menu{% endif %}</a>
+    </div>
+
     <div class="grid">
       {% for item in featured_items %}
       <article class="card reveal">
@@ -101,102 +140,152 @@
         </div>
         <div class="card__body">
           <h3 class="card__title">{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}</h3>
-          <p class="card__desc">{% if current_lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}</p>
+          <div class="card__desc">{% if current_lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}</div>
           <div class="card__row">
             <span class="price">{{ item.price }} ₾</span>
+            {% if site.whatsapp %}
+            <a class="mini" href="https://wa.me/{{ site.whatsapp }}?text={% if current_lang == 'ka' %}გამარჯობა! მინდა შევუკვეთო — {{ item.name_ka }}{% else %}Hello! I want to order — {{ item.name_en }}{% endif %}" target="_blank" rel="noopener">WhatsApp</a>
+            {% else %}
             <button class="mini" data-open-order>{% if current_lang == 'ka' %}შეკვეთა{% else %}Order{% endif %}</button>
+            {% endif %}
           </div>
         </div>
       </article>
       {% endfor %}
     </div>
-    {% else %}
-    <p style="color:var(--c-muted);text-align:center;padding:40px 0;">{% if current_lang == 'ka' %}მენიუ მალე გამოჩნდება{% else %}Menu coming soon{% endif %}</p>
-    {% endif %}
   </div>
 </section>
+{% endif %}
 
-{# ══ ABOUT ══════════════════════════════════════════════════════ #}
-<section class="section" style="background:rgba(201,164,128,0.14);">
-  <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;" class="reveal">
-      <div>
-        {% if site.about_image %}
-        <div style="border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:4/3;border:3px solid rgb(var(--ink));">
-          <img src="{{ site.about_image.url }}" alt="About Focacceria" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        {% else %}
-        <div style="border-radius:var(--radius-xl);overflow:hidden;aspect-ratio:4/3;background:rgb(var(--cream));display:grid;place-items:center;border:3px solid rgb(var(--ink));">
-          <span style="font-size:80px;opacity:.4;">🇮🇹</span>
-        </div>
-        {% endif %}
-      </div>
-      <div>
-        <div class="kicker">{% if current_lang == 'ka' %}ჩვენს შესახებ{% else %}About Us{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}{{ site.about_title_ka }}{% else %}{{ site.about_title_en }}{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}{{ site.about_text_ka }}{% else %}{{ site.about_text_en }}{% endif %}</p>
-        <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;border-radius:var(--radius-lg);border:1px solid var(--border);padding:16px 20px;background:rgba(255,255,255,0.5);">
-          <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:10px;border-bottom:1px solid var(--border);">
-            <span style="width:4px;min-height:22px;background:var(--c-red);border-radius:2px;margin-top:3px;flex-shrink:0;"></span>
-            <div><strong style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;">100% Italian Ingredients</strong><br><span style="font-size:13px;color:var(--c-muted);">Flour, charcuterie, cheese — all from Italy's best producers.</span></div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:10px;border-bottom:1px solid var(--border);">
-            <span style="width:4px;min-height:22px;background:var(--c-red);border-radius:2px;margin-top:3px;flex-shrink:0;"></span>
-            <div><strong style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;">Slow-fermented dough</strong><br><span style="font-size:13px;color:var(--c-muted);">48-hour fermentation. The bread is the hero.</span></div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span style="width:4px;min-height:22px;background:var(--c-red);border-radius:2px;margin-top:3px;flex-shrink:0;"></span>
-            <div><strong style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;">DOP + PGI Certified</strong><br><span style="font-size:13px;color:var(--c-muted);">Protected origin from Bologna, Parma, Modena.</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ══ HOURS + CONTACT ════════════════════════════════════════════ #}
+{% if home_video_section.is_active %}
+<!-- CRAFT -->
 <section class="section">
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}ვიზიტი{% else %}Visit Us{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}მოდით, კარგად ჭამეთ{% else %}Come & eat well{% endif %}</h2>
+        <div class="kicker">{% if current_lang == 'ka' %}კულინარიული მომენტი{% else %}Culinary Moment{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}{{ home_video_section.title_ka }}{% else %}{{ home_video_section.title_en }}{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}{{ home_video_section.subtitle_ka }}{% else %}{{ home_video_section.subtitle_en }}{% endif %}</p>
       </div>
-      {% if site.whatsapp %}<a class="btn btn-primary" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">💬 WhatsApp</a>{% endif %}
     </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="reveal">
-      <div style="border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);">
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(219,94,62,0.10);font-size:14px;font-weight:700;border-bottom:1px solid var(--border);">
-          <span>{% if current_lang == 'ka' %}ორშაბათი – პარასკევი{% else %}Mon – Fri{% endif %}</span><span>12:00 – 22:00</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;font-size:14px;border-bottom:1px solid var(--border);">
-          <span>{% if current_lang == 'ka' %}შაბათი{% else %}Saturday{% endif %}</span><span>10:00 – 23:00</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;font-size:14px;">
-          <span>{% if current_lang == 'ka' %}კვირა{% else %}Sunday{% endif %}</span><span>10:00 – 23:00</span>
-        </div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:14px;">
-        {% if site.address_ka %}
-        <div style="border-radius:var(--radius-md);border:1px solid var(--border);padding:16px 18px;background:rgba(255,255,255,0.5);">
-          <div class="kicker" style="margin-bottom:4px;">{% if current_lang == 'ka' %}მისამართი{% else %}Address{% endif %}</div>
-          <strong style="font-size:16px;">{% if current_lang == 'ka' %}{{ site.address_ka }}{% else %}{{ site.address_en }}{% endif %}</strong>
-          {% if site.google_maps_url %}
-          <br><a href="{{ site.google_maps_url }}" target="_blank" rel="noopener" style="font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--c-red);margin-top:6px;display:inline-block;">{% if current_lang == 'ka' %}Google Maps ↗{% else %}Open Maps ↗{% endif %}</a>
-          {% endif %}
-        </div>
-        {% endif %}
-        {% if site.phone %}
-        <a href="tel:{{ site.phone }}" style="border-radius:var(--radius-md);border:1px solid var(--border);padding:16px 18px;background:rgba(255,255,255,0.5);display:block;transition:transform .16s;">
-          <div class="kicker" style="margin-bottom:4px;">{% if current_lang == 'ka' %}დარეკვა{% else %}Call{% endif %}</div>
-          <strong style="font-size:16px;">{{ site.phone }}</strong>
-        </a>
-        {% endif %}
+    <div class="media-shell reveal">
+      {% if home_video_section.video_file %}
+      <video class="hero-video" autoplay loop muted playsinline style="object-fit:cover;z-index:-1;">
+        <source src="{{ home_video_section.video_file.url }}" type="video/mp4">
+      </video>
+      {% elif site.about_image %}
+      <div class="media-shell__img" style="background-image:url('{{ site.about_image.url }}');"></div>
+      {% else %}
+      <div class="media-shell__img" style="background-image:url('https://images.unsplash.com/photo-1600628422019-1b01dfd3bc99?auto=format&fit=crop&w=1400&q=80');"></div>
+      {% endif %}
+      <div class="media-shell__overlay"></div>
+      <div class="media-shell__copy">
+        <h3>{% if current_lang == 'ka' %}საფირმო ტექსტურა · ნელი ფერმენტაცია{% else %}Signature Texture · Slow Fermentation{% endif %}</h3>
+        <p>{% if current_lang == 'ka' %}პური არის მთავარი გმირი — ყველაფერი მის გარშემო იწყობა.{% else %}Bread is the main hero — everything is built around it.{% endif %}</p>
       </div>
     </div>
   </div>
 </section>
+{% endif %}
+
+{% if site.show_about %}
+<!-- STORY -->
+<section class="section">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <div class="kicker">{% if current_lang == 'ka' %}ჩვენი ისტორია{% else %}Our Story{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}იტალია + თბილისი{% else %}Italy + Tbilisi{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}იტალიური ტექნიკა და ინგრედიენტები — თბილისის რიტმით.{% else %}Italian technique and ingredients — with Tbilisi rhythm.{% endif %}</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/salumeria/{% else %}/en/salumeria/{% endif %}">{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %}</a>
+        <a class="btn btn-primary" href="{% if current_lang == 'ka' %}/contact/{% else %}/en/contact/{% endif %}">{% if current_lang == 'ka' %}ვიზიტი{% else %}Visit{% endif %}</a>
+      </div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1.2fr 0.8fr;">
+      <div class="card reveal" style="min-height:320px;">
+        <div class="card__media" style="height:320px;">
+          {% if site.about_image %}
+          <img src="{{ site.about_image.url }}" alt="About Focacceria">
+          {% else %}
+          <img alt="Our story" src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1400&q=80">
+          {% endif %}
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card__body" style="padding:22px;">
+          <div class="kicker">{% if current_lang == 'ka' %}ჩვენს შესახებ{% else %}About Us{% endif %}</div>
+          <h3 class="card__title" style="margin-bottom:12px;">{% if current_lang == 'ka' %}{{ site.about_title_ka }}{% else %}{{ site.about_title_en }}{% endif %}</h3>
+          <p class="card__desc" style="min-height:auto;font-size:15px;">
+            {% if current_lang == 'ka' %}{{ site.about_text_ka }}{% else %}{{ site.about_text_en }}{% endif %}
+          </p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+            <span class="chip">{% if current_lang == 'ka' %}48 საათი{% else %}48 Hours{% endif %}</span>
+            <span class="chip">{% if current_lang == 'ka' %}იტალიური ფქვილი{% else %}Italian Flour{% endif %}</span>
+            <span class="chip">{% if current_lang == 'ka' %}ძველი თბილისი{% else %}Old Tbilisi{% endif %}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if site.show_visit %}
+<!-- VISIT -->
+<section class="section">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <div class="kicker">{% if current_lang == 'ka' %}ვიზიტი{% else %}Visit{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}მოდი, კარგად ჭამეთ{% else %}Come, eat well{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}დღეს ღიაა · ძველი ქალაქი, თბილისი{% else %}Open today · Old Town, Tbilisi{% endif %}</p>
+      </div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:0.9fr 1.1fr;">
+      <div class="card reveal">
+        <div class="card__body" style="padding:22px;">
+          <h3 class="card__title" style="margin-bottom:14px;">{% if current_lang == 'ka' %}სამუშაო საათები{% else %}Opening Hours{% endif %}</h3>
+          <p class="card__desc" style="min-height:auto;font-size:15px;">
+            {% for h in site_hours %}
+            {{ h.day }}: {{ h.time }}<br/>
+            {% endfor %}
+            <br/>
+            <strong>{% if current_lang == 'ka' %}მისამართი:{% else %}Address:{% endif %}</strong> {% if current_lang == 'ka' %}{{ site.address_ka }}{% else %}{{ site.address_en }}{% endif %}
+          </p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+            {% if site.google_maps_url %}
+            <a class="btn btn-ghost" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{% if current_lang == 'ka' %}რუკაზე ნახვა{% else %}Open Maps{% endif %}</a>
+            {% endif %}
+            {% if site.phone %}
+            <a class="btn btn-primary" href="tel:{{ site.phone }}">{% if current_lang == 'ka' %}დარეკვა{% else %}Call{% endif %}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="card reveal" style="min-height:320px;">
+        <div class="card__media" style="height:320px;">
+          {% if site.about_image %}
+          <img src="{{ site.about_image.url }}" alt="Focacceria Map">
+          {% else %}
+          <img alt="Tbilisi" src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1400&q=80">
+          {% endif %}
+        </div>
+        <div class="card__body">
+          <div class="card__row">
+            <span class="price">{% if current_lang == 'ka' %}ძველი თბილისი{% else %}Old Town Tbilisi{% endif %}</span>
+            {% if site.google_maps_url %}
+            <a class="mini" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{% if current_lang == 'ka' %}მიმართულება{% else %}Directions{% endif %}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
 
 {% endblock %}

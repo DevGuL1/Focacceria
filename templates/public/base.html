@@ -71,9 +71,14 @@
   <div class="container header__inner">
     <a class="brand" href="{% if current_lang == 'en' %}/en/{% else %}/{% endif %}">
       {% if site.logo %}
-      <img src="{{ site.logo.url }}" alt="Focacceria">
+        {% if site.logo_dark %}
+          <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-light">
+          <img src="{{ site.logo_dark.url }}" alt="Focacceria" class="logo-dark">
+        {% else %}
+          <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-default">
+        {% endif %}
       {% else %}
-      <span style="font-size:22px;font-weight:900;letter-spacing:-0.02em;color:var(--c-red);">FOCACCERIA</span>
+        <span style="font-size:22px;font-weight:900;letter-spacing:-0.02em;color:var(--c-red);">FOCACCERIA</span>
       {% endif %}
     </a>
 
@@ -108,9 +113,14 @@
     <div>
       <a class="brand" href="{% if current_lang == 'en' %}/en/{% else %}/{% endif %}">
         {% if site.logo %}
-        <img src="{{ site.logo.url }}" alt="Focacceria" style="filter:brightness(0.3) sepia(1) saturate(4) hue-rotate(5deg);">
+          {% if site.logo_dark %}
+            <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-light">
+            <img src="{{ site.logo_dark.url }}" alt="Focacceria" class="logo-dark">
+          {% else %}
+            <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-default">
+          {% endif %}
         {% else %}
-        <span style="font-size:22px;font-weight:900;letter-spacing:-0.02em;color:var(--c-red);">FOCACCERIA</span>
+          <span style="font-size:22px;font-weight:900;letter-spacing:-0.02em;color:var(--c-red);">FOCACCERIA</span>
         {% endif %}
       </a>
       <small>{% if current_lang == 'ka' %}{{ site.tagline_ka }}{% else %}{{ site.tagline_en }}{% endif %}</small>

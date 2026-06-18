@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ka" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Foca — კონტაქტი</title>
+    <meta name="description" content="Foca კონტაქტი — დარეკვა, WhatsApp, მიმართულება და სამუშაო საათები." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Noto+Sans+Georgian:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .cta3{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:12px;
+        margin-top:16px;
+      }
+      .cta3 a{
+        border-radius:var(--radius-md);
+        padding:18px 16px;
+        background:var(--c-surface);
+        border:1px solid var(--border);
+        box-shadow:var(--shadow-xs);
+        font-weight:900;
+        font-size:15px;
+        display:block;
+        transition:transform .16s var(--ease), box-shadow .16s var(--ease);
+      }
+      [data-theme="dark"] .cta3 a{ background:rgb(var(--g-pale)); }
+      .cta3 a:hover{ transform:translateY(-2px); box-shadow:var(--shadow-sm); }
+      @media(max-width:720px){ .cta3{ grid-template-columns:1fr; } }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="container topbar__inner">
+        <div class="topbar__links">
+          <a class="pill" href="https://wolt.com/en/geo/tbilisi/restaurant/focacceria" target="_blank" rel="noopener">🛵 Wolt</a>
+          <a class="pill" href="https://glovoapp.com/ge/en/tbilisi/focacceria" target="_blank" rel="noopener">🟡 Glovo</a>
+          <a class="pill" href="https://wa.me/995598800045" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="pill" href="tel:+995598800045">📞 დარეკვა</a>
+          <a class="pill" href="https://maps.google.com/?q=Focacceria+Tbilisi" target="_blank" rel="noopener">📍 რუკა</a>
+        </div>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="container header__inner">
+        <a class="brand" href="./index.html">
+          <img src="https://foca.astronaut.ge/media/site/logo-red.webp" alt="Foca" />
+        </a>
+        <nav class="nav">
+          <a href="./index.html">მთავარი</a>
+          <a href="./menu.html">მენიუ</a>
+          <a href="./salumeria.html">სალუმერია</a>
+          <a href="./contact.html" class="is-active">კონტაქტი</a>
+        </nav>
+        <div class="header__actions">
+          <button class="theme-toggle" id="themeToggle" aria-label="დღე/ღამის რეჟიმი">🌿</button>
+          <button class="btn btn-primary" data-open-order>შეკვეთა</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section--tight">
+        <div class="container">
+          <div class="section__head reveal">
+            <div>
+              <div class="kicker">კონტაქტი</div>
+              <h1 class="h1" style="font-size:clamp(30px, 3vw, 46px);">გამარჯობა · შეუკვეთე</h1>
+              <p class="lead">3 სწრაფი მოქმედება პირველივე ეკრანზე — WhatsApp, დარეკვა, მიმართულება.</p>
+              <div class="cta3">
+                <a class="reveal" href="https://wa.me/995598800045" target="_blank" rel="noopener">💬 WhatsApp</a>
+                <a class="reveal" href="tel:+995598800045">📞 დარეკვა</a>
+                <a class="reveal" href="https://maps.google.com/?q=Focacceria+Tbilisi" target="_blank" rel="noopener">📍 რუკა / მიმართულება</a>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-self:flex-start;">
+              <a class="btn btn-ghost" href="./menu.html">მენიუ</a>
+              <a class="btn btn-primary" href="./salumeria.html">სალუმერია</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="grid" style="grid-template-columns: 0.9fr 1.1fr;">
+            <div class="card reveal">
+              <div class="card__body">
+                <h3 class="card__title">სამუშაო საათები</h3>
+                <div class="card__desc" style="min-height:auto;">
+                  ორშაბათი: 12:00–22:00<br/>
+                  სამშაბათი: 12:00–22:00<br/>
+                  ოთხშაბათი: 12:00–22:00<br/>
+                  ხუთშაბათი: 12:00–22:00<br/>
+                  პარასკევი: 12:00–22:00<br/>
+                  შაბათი: 10:00–23:00<br/>
+                  კვირა: 10:00–23:00
+                  <br/><br/>
+                  <strong>მისამართი:</strong> თბილისი, ძველი ქალაქი
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                  <a class="btn btn-ghost" href="https://instagram.com/focacceria.ge" target="_blank" rel="noopener">Instagram</a>
+                  <a class="btn btn-primary" href="https://wa.me/995598800045" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
+              </div>
+            </div>
+            <div class="card reveal" style="min-height: 360px;">
+              <div class="card__media" style="height: 360px;">
+                <img alt="Map placeholder" src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1400&q=80">
+              </div>
+              <div class="card__body">
+                <div class="card__row">
+                  <span class="price">Old Town, Tbilisi</span>
+                  <a class="mini" href="https://maps.google.com/?q=Focacceria+Tbilisi" target="_blank" rel="noopener">რუკაზე ნახვა</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <a class="brand" href="./index.html">
+            <img src="https://foca.astronaut.ge/media/site/logo-red.webp" alt="Foca">
+          </a>
+          <small>დაბადებული იტალიაში, გამომცხვარი თბილისში</small>
+        </div>
+        <div>
+          <div class="kicker">ნავიგაცია</div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+            <a href="./index.html">მთავარი</a>
+            <a href="./menu.html">მენიუ</a>
+            <a href="./salumeria.html">სალუმერია</a>
+            <a href="./contact.html">კონტაქტი</a>
+          </div>
+        </div>
+        <div>
+          <div class="kicker">კონტაქტი</div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+            <a href="tel:+995598800045">+995 598 80 00 45</a>
+            <a href="https://wa.me/995598800045" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://instagram.com/focacceria.ge" target="_blank" rel="noopener">Instagram @focacceria.tbilisi</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="modal" id="orderModal">
+      <div class="modal__backdrop" data-close-order></div>
+      <div class="modal__panel" role="dialog" aria-label="შეკვეთა">
+        <button class="modal__close" data-close-order aria-label="დახურვა">✕</button>
+        <h3>შეკვეთა</h3>
+        <div class="modal__grid">
+          <a href="https://wolt.com/en/geo/tbilisi/restaurant/focacceria" target="_blank" rel="noopener">🛵 Wolt <span>→</span></a>
+          <a href="https://glovoapp.com/ge/en/tbilisi/focacceria" target="_blank" rel="noopener">🟡 Glovo <span>→</span></a>
+          <a href="https://wa.me/995598800045" target="_blank" rel="noopener">💬 WhatsApp <span>→</span></a>
+          <a href="tel:+995598800045">📞 დარეკვა <span>→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
+

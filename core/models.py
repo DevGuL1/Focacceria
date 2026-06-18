@@ -63,6 +63,19 @@ class SiteSettings(models.Model):
     about_text_en = models.TextField(blank=True)
     about_image = models.ImageField(upload_to='site/', blank=True, null=True)
 
+    show_about = models.BooleanField(default=True)
+    show_visit = models.BooleanField(default=True)
+    show_menu = models.BooleanField(default=True)
+    show_marquee = models.BooleanField(default=True)
+    marquee_text_ka = models.CharField(
+        max_length=500,
+        default='SCHIACCIATA SANDWICHES · SALUMERIA CORNER · BORN IN ITALY · BAKED IN TBILISI'
+    )
+    marquee_text_en = models.CharField(
+        max_length=500,
+        default='SCHIACCIATA SANDWICHES · SALUMERIA CORNER · BORN IN ITALY · BAKED IN TBILISI'
+    )
+
     class Meta:
         verbose_name = 'Site Settings'
 

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ka" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Foca — სალუმერია</title>
+    <meta name="description" content="Foca სალუმერია — იტალიური ხორცეული, ყველი და დელიკატესები სახლში წასაღებად." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Noto+Sans+Georgian:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="container topbar__inner">
+        <div class="topbar__links">
+          <a class="pill" href="https://wolt.com/en/geo/tbilisi/restaurant/focacceria" target="_blank" rel="noopener">🛵 Wolt</a>
+          <a class="pill" href="https://glovoapp.com/ge/en/tbilisi/focacceria" target="_blank" rel="noopener">🟡 Glovo</a>
+          <a class="pill" href="https://wa.me/995598800045" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="pill" href="tel:+995598800045">📞 დარეკვა</a>
+          <a class="pill" href="https://maps.google.com/?q=Focacceria+Tbilisi" target="_blank" rel="noopener">📍 რუკა</a>
+        </div>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="container header__inner">
+        <a class="brand" href="./index.html">
+          <img src="https://foca.astronaut.ge/media/site/logo-red.webp" alt="Foca" />
+        </a>
+        <nav class="nav">
+          <a href="./index.html">მთავარი</a>
+          <a href="./menu.html">მენიუ</a>
+          <a href="./salumeria.html">სალუმერია</a>
+          <a href="./contact.html">კონტაქტი</a>
+        </nav>
+        <div class="header__actions">
+          <button class="theme-toggle" id="themeToggle" aria-label="დღე/ღამის რეჟიმი">🌿</button>
+          <button class="btn btn-primary" data-open-order>შეკვეთა</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section--tight">
+        <div class="container">
+          <div class="section__head reveal">
+            <div>
+              <div class="kicker">სალუმერია</div>
+              <h1 class="h1" style="font-size:clamp(30px, 3vw, 46px);">იტალიური დელიკატესები სახლში წასაღებად</h1>
+              <p class="lead">ხორცეული, ყველი, ზეთები და ნაკრები — შეკვეთა WhatsApp-ით.</p>
+              <div class="filters" style="margin-top:12px;">
+                <button class="fbtn is-active" data-menu-filter="ყველა">ყველა</button>
+                <button class="fbtn" data-menu-filter="ხორცეული">ხორცეული</button>
+                <button class="fbtn" data-menu-filter="ყველი">ყველი</button>
+                <button class="fbtn" data-menu-filter="ზეთები/სოუსები">ზეთები</button>
+                <button class="fbtn" data-menu-filter="ნაკრები">ნაკრები</button>
+              </div>
+              <p class="muted-note" style="margin:10px 0 0;">ფასი და ხელმისაწვდომობა შეიძლება იცვლებოდეს — დაგვიწერე და დაგიდასტურებთ.</p>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-self:flex-start;">
+              <a class="btn btn-ghost" href="./menu.html">მენიუ</a>
+              <a class="btn btn-primary" href="https://wa.me/995598800045" target="_blank" rel="noopener">WhatsApp შეკვეთა</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="grid">
+            <article class="card reveal" data-menu-item data-name="პროშუტო დი პარმა" data-tags="ხორცეული">
+              <div class="card__media"><img alt="prosciutto" src="https://images.unsplash.com/photo-1604909053196-9c53c0b7f87d?auto=format&fit=crop&w=1200&q=80"></div>
+              <div class="card__body">
+                <h3 class="card__title">პროშუტო დი პარმა</h3>
+                <div class="card__desc">დელიკატური, არომატული • 100გ / შეფუთვა</div>
+                <div class="card__row">
+                  <span class="price">— ₾</span>
+                  <a class="mini" href="https://wa.me/995598800045?text=%E1%83%A1%E1%83%90%E1%83%9A%E1%83%A3%E1%83%9B%E1%83%94%E1%83%A0%E1%83%98%E1%83%90%3A%20%E1%83%9E%E1%83%A0%E1%83%9D%E1%83%A8%E1%83%A3%E1%83%A2%E1%83%9D%20%E1%83%93%E1%83%98%20%E1%83%9E%E1%83%90%E1%83%A0%E1%83%9B%E1%83%90%20%E2%80%94%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%A8%E1%83%94%E1%83%95%E1%83%A3%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%9D" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card reveal" data-menu-item data-name="სალამი მილანეზე" data-tags="ხორცეული">
+              <div class="card__media"><img alt="salami" src="https://images.unsplash.com/photo-1604908177088-7f0f7d56da68?auto=format&fit=crop&w=1200&q=80"></div>
+              <div class="card__body">
+                <h3 class="card__title">სალამი მილანეზე</h3>
+                <div class="card__desc">კლასიკური სალამი • 100გ / შეფუთვა</div>
+                <div class="card__row">
+                  <span class="price">— ₾</span>
+                  <a class="mini" href="https://wa.me/995598800045?text=%E1%83%A1%E1%83%90%E1%83%9A%E1%83%A3%E1%83%9B%E1%83%94%E1%83%A0%E1%83%98%E1%83%90%3A%20%E1%83%A1%E1%83%90%E1%83%9A%E1%83%90%E1%83%9B%E1%83%98%20%E1%83%9B%E1%83%98%E1%83%9A%E1%83%90%E1%83%9C%E1%83%94%E1%83%96%E1%83%94%20%E2%80%94%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%A8%E1%83%94%E1%83%95%E1%83%A3%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%9D" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card reveal" data-menu-item data-name="პარმეზანი" data-tags="ყველი">
+              <div class="card__media"><img alt="cheese" src="https://images.unsplash.com/photo-1552767059-ce182ead6c1b?auto=format&fit=crop&w=1200&q=80"></div>
+              <div class="card__body">
+                <h3 class="card__title">პარმეზანი</h3>
+                <div class="card__desc">მძლავრი არომატი • 100გ / ნაჭერი</div>
+                <div class="card__row">
+                  <span class="price">— ₾</span>
+                  <a class="mini" href="https://wa.me/995598800045?text=%E1%83%A1%E1%83%90%E1%83%9A%E1%83%A3%E1%83%9B%E1%83%94%E1%83%A0%E1%83%98%E1%83%90%3A%20%E1%83%9E%E1%83%90%E1%83%A0%E1%83%9B%E1%83%94%E1%83%96%E1%83%90%E1%83%9C%E1%83%98%20%E2%80%94%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%A8%E1%83%94%E1%83%95%E1%83%A3%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%9D" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card reveal" data-menu-item data-name="სტრაჩიატელა" data-tags="ყველი">
+              <div class="card__media"><img alt="stracciatella" src="https://images.unsplash.com/photo-1625947981747-56af70d14e2a?auto=format&fit=crop&w=1200&q=80"></div>
+              <div class="card__body">
+                <h3 class="card__title">სტრაჩიატელა</h3>
+                <div class="card__desc">კრემოვანი ტექსტურა • შეფუთვა</div>
+                <div class="card__row">
+                  <span class="price">— ₾</span>
+                  <a class="mini" href="https://wa.me/995598800045?text=%E1%83%A1%E1%83%90%E1%83%9A%E1%83%A3%E1%83%9B%E1%83%94%E1%83%A0%E1%83%98%E1%83%90%3A%20%E1%83%A1%E1%83%A2%E1%83%A0%E1%83%90%E1%83%A9%E1%83%98%E1%83%90%E1%83%A2%E1%83%94%E1%83%9A%E1%83%90%20%E2%80%94%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%A8%E1%83%94%E1%83%95%E1%83%A3%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%9D" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card reveal" data-menu-item data-name="ექსტრა ვირჯინ ზეითუნის ზეთი" data-tags="ზეთები/სოუსები">
+              <div class="card__media"><img alt="olive oil" src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=80"></div>
+              <div class="card__body">
+                <h3 class="card__title">ექსტრა ვირჯინ ზეითუნის ზეთი</h3>
+                <div class="card__desc">მაღალი ხარისხის ზეთი • ბოთლი</div>
+                <div class="card__row">
+                  <span class="price">— ₾</span>
+                  <a class="mini" href="https://wa.me/995598800045?text=%E1%83%A1%E1%83%90%E1%83%9A%E1%83%A3%E1%83%9B%E1%83%94%E1%83%A0%E1%83%98%E1%83%90%3A%20%E1%83%94%E1%83%A5%E1%83%A1%E1%83%A2%E1%83%A0%E1%83%90%20%E1%83%95%E1%83%98%E1%83%A0%E1%83%AF%E1%83%98%E1%83%9C%20%E1%83%96%E1%83%94%E1%83%98%E1%83%97%E1%83%A3%E1%83%9C%E1%83%98%E1%83%A1%20%E1%83%96%E1%83%94%E1%83%97%E1%83%98%20%E2%80%94%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%A8%E1%83%94%E1%83%95%E1%83%A3%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%9D" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card reveal" data-menu-item data-name="Tagliere Box" data-tags="ნაკრები">
+              <div class="card__media"><img alt="box" src="https://images.unsplash.com/photo-1604908176997-125f25cc5002?auto=format&fit=crop&w=1200&q=80"></div>
+              <div class="card__body">
+                <h3 class="card__title">Tagliere Box</h3>
+                <div class="card__desc">ხორცეული + ყველი + დამატებები • იდეალურია გასაზიარებლად</div>
+                <div class="card__row">
+                  <span class="price">— ₾</span>
+                  <a class="mini" href="https://wa.me/995598800045?text=%E1%83%A1%E1%83%90%E1%83%9A%E1%83%A3%E1%83%9B%E1%83%94%E1%83%A0%E1%83%98%E1%83%90%3A%20Tagliere%20Box%20%E2%80%94%20%E1%83%9B%E1%83%98%E1%83%9C%E1%83%93%E1%83%90%20%E1%83%A8%E1%83%94%E1%83%95%E1%83%A3%E1%83%99%E1%83%95%E1%83%94%E1%83%97%E1%83%9D" target="_blank" rel="noopener">WhatsApp</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <a class="brand" href="./index.html">
+            <img src="https://foca.astronaut.ge/media/site/logo-red.webp" alt="Foca">
+          </a>
+          <small>დაბადებული იტალიაში, გამომცხვარი თბილისში</small>
+        </div>
+        <div>
+          <div class="kicker">ნავიგაცია</div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+            <a href="./index.html">მთავარი</a>
+            <a href="./menu.html">მენიუ</a>
+            <a href="./salumeria.html">სალუმერია</a>
+            <a href="./contact.html">კონტაქტი</a>
+          </div>
+        </div>
+        <div>
+          <div class="kicker">კონტაქტი</div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+            <a href="tel:+995598800045">+995 598 80 00 45</a>
+            <a href="https://wa.me/995598800045" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://instagram.com/focacceria.ge" target="_blank" rel="noopener">Instagram @focacceria.tbilisi</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="modal" id="orderModal">
+      <div class="modal__backdrop" data-close-order></div>
+      <div class="modal__panel" role="dialog" aria-label="შეკვეთა">
+        <button class="modal__close" data-close-order aria-label="დახურვა">✕</button>
+        <h3>შეკვეთა</h3>
+        <div class="modal__grid">
+          <a href="https://wolt.com/en/geo/tbilisi/restaurant/focacceria" target="_blank" rel="noopener">🛵 Wolt <span>→</span></a>
+          <a href="https://glovoapp.com/ge/en/tbilisi/focacceria" target="_blank" rel="noopener">🟡 Glovo <span>→</span></a>
+          <a href="https://wa.me/995598800045" target="_blank" rel="noopener">💬 WhatsApp <span>→</span></a>
+          <a href="tel:+995598800045">📞 დარეკვა <span>→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
+

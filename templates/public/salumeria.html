@@ -1,141 +1,85 @@
 {% extends 'public/base.html' %}
 {% load static %}
 
-{% block title %}{% if lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %} · Focacceria{% endblock %}
+{% block title %}{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %} · Focacceria{% endblock %}
 
 {% block content %}
-
-{# ═══════════════════════════════════ HERO ══════════════ #}
-<section class="relative overflow-hidden bg-foca-ink py-14 text-foca-cream md:py-24">
-  {# Blurred bg image overlay #}
-  <div class="absolute inset-0 opacity-40">
-    <div class="h-full w-full bg-gradient-to-br from-foca-brick via-foca-ink to-foca-ink-soft"></div>
-  </div>
-
-  <div class="relative mx-auto max-w-7xl px-4 md:px-8">
-    <p class="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-foca-red">
-      <span class="h-px w-8 bg-foca-red"></span>
-      {% if lang == 'ka' %}ფოკაჩერია სალუმერია{% else %}Focacceria Salumeria{% endif %}
-    </p>
-    <h1 class="font-display max-w-4xl text-4xl text-foca-cream md:text-7xl">
-      {% if lang == 'ka' %}იტალიური ხორცეული &amp; ყველი — მხოლოდ აქ{% else %}Italian cured meats &amp; cheese — only here{% endif %}
-    </h1>
-    <p class="mt-5 max-w-2xl text-base text-foca-cream/75 md:text-lg">
-      {% if lang == 'ka' %}Leoncini და Simonini Georgia-ში სხვაგან არ იყიდება. მიიღეთ ავთენტური იტალიური გემო თბილისში.
-      {% else %}Leoncini and Simonini are not sold anywhere else in Georgia. Take a piece of Italy home.{% endif %}
-    </p>
-    <div class="mt-7 flex flex-wrap gap-3">
-      {% if site.whatsapp %}
-      <a href="https://wa.me/{{ site.whatsapp }}" target="_blank"
-         class="inline-flex items-center gap-2 rounded-full bg-foca-green-deep px-5 py-3 text-sm font-bold uppercase tracking-wide text-foca-cream shadow-lg transition hover:bg-foca-green-deep/80">
-        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        {% if lang == 'ka' %}WhatsApp-ით წინასწარ შეკვეთა{% else %}Pre-order cheese on WhatsApp{% endif %}
-      </a>
-      {% endif %}
-      {% if site.wolt_url %}
-      <a href="{{ site.wolt_url }}" target="_blank"
-         class="inline-flex items-center gap-2 rounded-full border-2 border-foca-cream/20 px-5 py-3 text-sm font-bold uppercase tracking-wide text-foca-cream transition hover:border-foca-cream/50">
-        Wolt
-      </a>
-      {% endif %}
-      {% if site.google_maps_url %}
-      <a href="{{ site.google_maps_url }}" target="_blank"
-         class="inline-flex items-center gap-2 rounded-full border-2 border-foca-cream/20 px-5 py-3 text-sm font-bold uppercase tracking-wide text-foca-cream transition hover:border-foca-cream/50">
-        {% if lang == 'ka' %}მარშრუტი{% else %}Get Directions{% endif %}
-      </a>
-      {% endif %}
-    </div>
-    <p class="mt-3 text-xs text-foca-cream/50">
-      {% if lang == 'ka' %}ადგილზე აყვანა · 48 საათით ადრე შეკვეთა{% else %}Pickup at Focacceria · 48h notice{% endif %}
-    </p>
-  </div>
-</section>
-
-{# ═══════════════════════════════════ ITEMS ══════════════ #}
-<section class="bg-paper py-12 md:py-20">
-  <div class="mx-auto max-w-7xl space-y-16 px-4 md:px-8">
-
-    {% if categories %}
-    {% for cat in categories %}
-    <section>
-      <h2 class="font-display text-3xl text-foca-red md:text-5xl">
-        {% if lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}
-      </h2>
-      {% if cat.description_ka or cat.description_en %}
-      <p class="mt-2 text-sm text-foca-ink/50">
-        {% if lang == 'ka' %}{{ cat.description_ka }}{% else %}{{ cat.description_en }}{% endif %}
-      </p>
-      {% endif %}
-
-      <ul class="mt-6 grid gap-4 md:grid-cols-2">
-        {% for item in cat.items.all %}
-        {% if item.is_available %}
-        <li class="group relative overflow-hidden rounded-2xl border border-foca-ink/10 bg-foca-cream p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <p class="text-[10px] font-bold uppercase tracking-widest text-foca-red">
-                {% if item.badge_ka or item.badge_en %}{% if lang == 'ka' %}{{ item.badge_ka }}{% else %}{{ item.badge_en }}{% endif %}
-                {% else %}🇮🇹 Leoncini · Est. 1918{% endif %}
-              </p>
-              <h3 class="mt-1 text-xl font-bold uppercase tracking-tight text-foca-ink">
-                {% if lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}
-              </h3>
-              {% if item.description_ka or item.description_en %}
-              <p class="mt-1 text-xs text-foca-ink/55">
-                {% if lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}
-              </p>
-              {% endif %}
-            </div>
-            <div class="shrink-0 text-right">
-              <p class="font-display text-2xl text-foca-ink">
-                {{ item.price }}₾{% if item.price_unit %}<span class="ml-1 text-xs font-normal text-foca-ink/50">/ {{ item.price_unit }}</span>{% endif %}
-              </p>
-            </div>
-          </div>
-          <div class="mt-4 flex flex-wrap items-center gap-2">
-            <span class="rounded-full bg-foca-red px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-foca-cream">
-              {% if lang == 'ka' %}მხოლოდ აქ{% else %}Only here{% endif %}
-            </span>
-            {% for tag in item.tag_list %}
-            <span class="text-xs text-foca-ink/50">· {{ tag }}</span>
-            {% endfor %}
-          </div>
-        </li>
-        {% endif %}
-        {% empty %}
-        <li class="col-span-2 rounded-2xl border border-foca-ink/10 bg-foca-cream p-8 text-center text-foca-ink/40">
-          <p class="font-display text-2xl">{% if lang == 'ka' %}მალე{% else %}Coming soon{% endif %}</p>
-        </li>
-        {% endfor %}
-      </ul>
-    </section>
-    {% endfor %}
-
-    {% else %}
-    <div class="py-20 text-center text-foca-ink/40">
-      <p class="font-display text-3xl">{% if lang == 'ka' %}სალუმერია მალე გამოჩნდება{% else %}Salumeria coming soon{% endif %}</p>
-    </div>
-    {% endif %}
-
-    {# Pre-order CTA #}
-    {% if site.whatsapp %}
-    <div class="overflow-hidden rounded-3xl border border-foca-green-deep/30 bg-foca-green/10 p-8 text-center">
-      <div class="mx-auto max-w-lg">
-        <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-foca-green-deep/20 text-3xl">🧀</div>
-        <h3 class="font-display text-3xl text-foca-ink">{% if lang == 'ka' %}სპეციალური შეკვეთა{% else %}Special Order{% endif %}</h3>
-        <p class="mt-2 text-foca-ink/60">
-          {% if lang == 'ka' %}სტრაჩიატელა, მოცარელა, პარმიჯანო — 48 საათით ადრე შეუკვეთეთ WhatsApp-ით{% else %}Stracciatella, Mozzarella, Parmigiano — pre-order 48h in advance via WhatsApp{% endif %}
+<section class="section section--tight">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <div class="kicker">{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %}</div>
+        <h1 class="h1" style="font-size:clamp(30px, 3vw, 46px);">{% if current_lang == 'ka' %}იტალიური დელიკატესები სახლში წასაღებად{% else %}Italian delicacies to take home{% endif %}</h1>
+        <p class="lead">{% if current_lang == 'ka' %}ხორცეული, ყველი, ზეთები და ნაკრები — შეკვეთა WhatsApp-ით.{% else %}Cold cuts, cheese, oils and packages — order with WhatsApp.{% endif %}</p>
+        <div class="filters" style="margin-top:12px;">
+          <button class="fbtn is-active" data-menu-filter="ყველა">{% if current_lang == 'ka' %}ყველა{% else %}All{% endif %}</button>
+          {% for cat in categories %}
+          <button class="fbtn" data-menu-filter="{% if current_lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}">
+            {% if current_lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}
+          </button>
+          {% endfor %}
+        </div>
+        <p class="muted-note" style="margin:10px 0 0;">
+          {% if current_lang == 'ka' %}ფასი და ხელმისაწვდომობა შეიძლება იცვლებოდეს — დაგვიწერე და დაგიდასტურებთ.{% else %}Prices and availability may vary — message us to confirm.{% endif %}
         </p>
-        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank"
-           class="mt-6 inline-flex items-center gap-2 rounded-full bg-foca-green-deep px-6 py-3 text-sm font-bold uppercase tracking-wide text-foca-cream shadow-lg transition hover:bg-foca-green-deep/80">
-          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp {% if lang == 'ka' %}-ით შეკვეთა{% else %}Pre-order{% endif %}
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-self:flex-start;">
+        <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}მენიუ{% else %}Menu{% endif %}</a>
+        {% if site.whatsapp %}
+        <a class="btn btn-primary" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+          {% if current_lang == 'ka' %}WhatsApp შეკვეთა{% else %}WhatsApp Order{% endif %}
         </a>
+        {% endif %}
       </div>
     </div>
-    {% endif %}
-
   </div>
 </section>
 
+<section class="section">
+  <div class="container">
+    <div class="grid">
+      {% for cat in categories %}
+        {% for item in cat.items.all %}
+          {% if item.is_available %}
+          <article class="card reveal" data-menu-item 
+            data-name="{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}" 
+            data-tags="{% if current_lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}, {{ cat.slug }}, {{ item.tags }}">
+            <div class="card__media">
+              {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}">
+              {% else %}
+              <div style="width:100%;height:100%;display:grid;place-items:center;background:rgb(var(--cream));"><span style="font-size:48px;opacity:.3;">🥪</span></div>
+              {% endif %}
+            </div>
+            <div class="card__body">
+              {% if item.badge_ka or item.badge_en %}
+              <span style="display:inline-block;margin-bottom:6px;border-radius:999px;background:var(--c-red);padding:2px 10px;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:rgb(var(--paper));">
+                {% if current_lang == 'ka' %}{{ item.badge_ka }}{% else %}{{ item.badge_en }}{% endif %}
+              </span>
+              {% endif %}
+              <h3 class="card__title">{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}</h3>
+              <div class="card__desc">
+                {% if current_lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}
+                {% if item.price_unit %} • {% if item.price_unit == '100g' %}100g{% else %}{{ item.price_unit }}{% endif %}{% endif %}
+              </div>
+              <div class="card__row">
+                <span class="price">{{ item.price }} ₾</span>
+                {% if site.whatsapp %}
+                <a class="mini" href="https://wa.me/{{ site.whatsapp }}?text={% if current_lang == 'ka' %}გამარჯობა! მინდა შევუკვეთო სალუმერიიდან — {{ item.name_ka }}{% else %}Hello! I want to order from salumeria — {{ item.name_en }}{% endif %}" target="_blank" rel="noopener">WhatsApp</a>
+                {% else %}
+                <button class="mini" data-open-order>{% if current_lang == 'ka' %}შეკვეთა{% else %}Order{% endif %}</button>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+          {% endif %}
+        {% endfor %}
+      {% empty %}
+      <p style="color:var(--c-muted);text-align:center;padding:40px 0;width:100%;">
+        {% if current_lang == 'ka' %}სალუმერია მალე გამოჩნდება{% else %}Salumeria coming soon{% endif %}
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock %}
