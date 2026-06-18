@@ -221,6 +221,17 @@
         </label>
       </div>
     </div>
+    <div class="form-row" style="margin-bottom: 1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_menu_products" {% if settings.show_menu_products %}checked{% endif %}>
+          <span style="font-weight:600;color:var(--accent);">მენიუს პროდუქტების და კატეგორიების მართვა დეშბორდში (Local Menu)</span>
+        </label>
+        <small style="display:block;margin-top:.2rem;color:var(--text-muted);margin-left:1.55rem;">
+          გათიშვის შემთხვევაში, დეშბორდის მენიუდან (Sidebar) დაიმალება კატეგორიები, პროდუქტები და დამატებები.
+        </small>
+      </div>
+    </div>
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">🇬🇪 მორბენალი სტრიქონის ტექსტი (ქართული)</label>

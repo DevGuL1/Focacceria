@@ -97,6 +97,8 @@ class SiteSettings(models.Model):
     salumeria_lead_ka = models.TextField(default='ხორცეული, ყველი, ზეთები და ნაკრები — შეკვეთა WhatsApp-ით.', blank=True)
     salumeria_lead_en = models.TextField(default='Cold cuts, cheese, oils and packages — order with WhatsApp.', blank=True)
 
+    show_menu_products = models.BooleanField(default=True)
+
     class Meta:
         verbose_name = 'Site Settings'
 

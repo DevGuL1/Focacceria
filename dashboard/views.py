@@ -78,6 +78,7 @@ def site_settings(request):
         settings.show_visit = request.POST.get('show_visit') == 'on'
         settings.show_menu = request.POST.get('show_menu') == 'on'
         settings.show_marquee = request.POST.get('show_marquee') == 'on'
+        settings.show_menu_products = request.POST.get('show_menu_products') == 'on'
 
         if settings.menu_iframe_url and not settings.menu_iframe_url.startswith('https://'):
             messages.error(request, 'Iframe URL უნდა იწყებოდეს https://-ით.')

@@ -79,6 +79,7 @@
       <!-- Menu -->
       <div class="nav-section">
         <div class="nav-section-label">მენიუ</div>
+        {% if site.show_menu_products %}
         <a href="{% url 'menu_categories' %}" class="nav-link {% block nav_categories %}{% endblock %}">
           <span class="icon">📂</span> კატეგორიები
         </a>
@@ -88,6 +89,7 @@
         <a href="{% url 'addons' %}" class="nav-link {% block nav_addons %}{% endblock %}">
           <span class="icon">➕</span> დამატებები
         </a>
+        {% endif %}
         <a href="{% url 'salumeria_dashboard' %}" class="nav-link {% block nav_salumeria %}{% endblock %}">
           <span class="icon">🧀</span> სალუმერია
         </a>
