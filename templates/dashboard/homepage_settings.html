@@ -74,7 +74,41 @@
 
   <!-- About Us Section -->
   <div class="form-card" style="margin-bottom:1.5rem;">
-    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ჩვენი ისტორია (About) სექცია</h4>
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ჩვენი ისტორია (Story) სექცია</h4>
+    <div style="background:rgba(201,164,128,0.06);padding:1rem;border-radius:var(--radius-md);margin-bottom:1rem;border:1px solid var(--border);">
+      <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-olive);">სექციის ზედა სათაურები (Header)</h5>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 მცირე სათაური (Kicker)</label>
+          <input type="text" name="story_kicker_ka" value="{{ settings.story_kicker_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Small Title (Kicker)</label>
+          <input type="text" name="story_kicker_en" value="{{ settings.story_kicker_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 სათაური (Title)</label>
+          <input type="text" name="story_title_ka" value="{{ settings.story_title_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Title</label>
+          <input type="text" name="story_title_en" value="{{ settings.story_title_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 ქვესათაური (Subtitle)</label>
+          <textarea name="story_subtitle_ka" class="form-control" rows="2">{{ settings.story_subtitle_ka }}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Subtitle</label>
+          <textarea name="story_subtitle_en" class="form-control" rows="2">{{ settings.story_subtitle_en }}</textarea>
+        </div>
+      </div>
+    </div>
+    <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-red);">სექციის შიდა ბარათის შემცველობა (Card Body)</h5>
     <div class="form-row" style="margin-bottom:1rem;">
       <div class="form-group">
         <label class="form-label">🇬🇪 სათაური (ქართული)</label>
@@ -104,9 +138,88 @@
     </div>
   </div>
 
+  <!-- Culinary Moment (Craft) Section -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">კულინარიული მომენტი (როგორ მზადდება გემო)</h4>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="video_is_active" {% if video_section.is_active %}checked{% endif %}>
+          <span>სექციის გამოჩენა</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+        <input type="text" name="video_title_ka" value="{{ video_section.title_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="video_title_en" value="{{ video_section.title_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ქვესათაური (ქართული)</label>
+        <textarea name="video_subtitle_ka" class="form-control" rows="3">{{ video_section.subtitle_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Subtitle (English)</label>
+        <textarea name="video_subtitle_en" class="form-control" rows="3">{{ video_section.subtitle_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ვიდეო ფაილი (MP4/MOV)</label>
+      {% if video_section.video_file %}
+      <div style="margin-bottom:.5rem;">
+        <span style="font-size:14px;color:var(--text-muted);">ატვირთულია: <a href="{{ video_section.video_file.url }}" target="_blank">{{ video_section.video_file.name }}</a></span>
+        <label style="display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;cursor:pointer;font-weight:normal;">
+          <input type="checkbox" name="video_file_clear" value="on"> წაშლა
+        </label>
+      </div>
+      {% endif %}
+      <input type="file" name="video_file" class="form-control" accept="video/*">
+    </div>
+  </div>
+
   <!-- Visit Us Section -->
   <div class="form-card" style="margin-bottom:1.5rem;">
     <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ვიზიტი & სამუშაო საათები</h4>
+    <div style="background:rgba(201,164,128,0.06);padding:1rem;border-radius:var(--radius-md);margin-bottom:1rem;border:1px solid var(--border);">
+      <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-olive);">სექციის ზედა სათაურები (Header)</h5>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 მცირე სათაური (Kicker)</label>
+          <input type="text" name="visit_kicker_ka" value="{{ settings.visit_kicker_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Small Title (Kicker)</label>
+          <input type="text" name="visit_kicker_en" value="{{ settings.visit_kicker_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 სათაური (Title)</label>
+          <input type="text" name="visit_title_ka" value="{{ settings.visit_title_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Title</label>
+          <input type="text" name="visit_title_en" value="{{ settings.visit_title_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 ქვესათაური (Subtitle)</label>
+          <textarea name="visit_subtitle_ka" class="form-control" rows="2">{{ settings.visit_subtitle_ka }}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Subtitle</label>
+          <textarea name="visit_subtitle_en" class="form-control" rows="2">{{ settings.visit_subtitle_en }}</textarea>
+        </div>
+      </div>
+    </div>
+    <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-red);">საკონტაქტო ინფორმაცია (Details)</h5>
     <div class="form-row" style="margin-bottom:1rem;">
       <div class="form-group">
         <label class="form-label">🇬🇪 მისამართი (ქართული)</label>

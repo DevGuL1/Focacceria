@@ -194,9 +194,9 @@
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}ჩვენი ისტორია{% else %}Our Story{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}იტალია + თბილისი{% else %}Italy + Tbilisi{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}იტალიური ტექნიკა და ინგრედიენტები — თბილისის რიტმით.{% else %}Italian technique and ingredients — with Tbilisi rhythm.{% endif %}</p>
+        <div class="kicker">{% if current_lang == 'ka' %}{{ site.story_kicker_ka }}{% else %}{{ site.story_kicker_en }}{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}{{ site.story_title_ka }}{% else %}{{ site.story_title_en }}{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}{{ site.story_subtitle_ka }}{% else %}{{ site.story_subtitle_en }}{% endif %}</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/salumeria/{% else %}/en/salumeria/{% endif %}">{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %}</a>
@@ -239,9 +239,9 @@
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}ვიზიტი{% else %}Visit{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}მოდი, კარგად ჭამეთ{% else %}Come, eat well{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}დღეს ღიაა · ძველი ქალაქი, თბილისი{% else %}Open today · Old Town, Tbilisi{% endif %}</p>
+        <div class="kicker">{% if current_lang == 'ka' %}{{ site.visit_kicker_ka }}{% else %}{{ site.visit_kicker_en }}{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}{{ site.visit_title_ka }}{% else %}{{ site.visit_title_en }}{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}{{ site.visit_subtitle_ka }}{% else %}{{ site.visit_subtitle_en }}{% endif %}</p>
       </div>
     </div>
 

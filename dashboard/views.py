@@ -96,6 +96,7 @@ def site_settings(request):
 @login_required
 def homepage_settings(request):
     settings = SiteSettings.get_settings()
+    video_section = HomeVideoSection.get_settings()
     if request.method == 'POST':
         fields = [
             'tagline_ka', 'tagline_en',
@@ -103,7 +104,11 @@ def homepage_settings(request):
             'about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en',
             'address_ka', 'address_en', 'opening_hours_ka', 'opening_hours_en',
             'phone', 'whatsapp', 'instagram', 'google_maps_url',
-            'wolt_url', 'glovo_url'
+            'wolt_url', 'glovo_url',
+            'story_kicker_ka', 'story_kicker_en', 'story_title_ka', 'story_title_en',
+            'story_subtitle_ka', 'story_subtitle_en',
+            'visit_kicker_ka', 'visit_kicker_en', 'visit_title_ka', 'visit_title_en',
+            'visit_subtitle_ka', 'visit_subtitle_en',
         ]
         for field in fields:
             setattr(settings, field, request.POST.get(field, '').strip())
@@ -117,9 +122,27 @@ def homepage_settings(request):
             settings.about_image = request.FILES['about_image']
 
         settings.save()
+
+        # Save HomeVideoSection (Culinary Moment) fields
+        video_section.title_ka = request.POST.get('video_title_ka', '').strip()
+        video_section.title_en = request.POST.get('video_title_en', '').strip()
+        video_section.subtitle_ka = request.POST.get('video_subtitle_ka', '').strip()
+        video_section.subtitle_en = request.POST.get('video_subtitle_en', '').strip()
+        video_section.is_active = request.POST.get('video_is_active') == 'on'
+
+        if request.POST.get('video_file_clear') == 'on':
+            video_section.video_file = None
+        if 'video_file' in request.FILES:
+            video_section.video_file = request.FILES['video_file']
+
+        video_section.save()
+
         messages.success(request, 'მთავარი გვერდის პარამეტრები შენახულია.')
         return redirect('homepage_settings')
-    return render(request, 'dashboard/homepage_settings.html', {'settings': settings})
+    return render(request, 'dashboard/homepage_settings.html', {
+        'settings': settings,
+        'video_section': video_section,
+    })
 
 
 @login_required
