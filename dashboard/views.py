@@ -619,6 +619,12 @@ def addons(request):
         settings.whatsapp_widget_phone = request.POST.get('whatsapp_widget_phone', '').strip()
         settings.whatsapp_widget_message_ka = request.POST.get('whatsapp_widget_message_ka', '').strip()
         settings.whatsapp_widget_message_en = request.POST.get('whatsapp_widget_message_en', '').strip()
+        settings.whatsapp_widget_btn_ka = request.POST.get('whatsapp_widget_btn_ka', '').strip()
+        settings.whatsapp_widget_btn_en = request.POST.get('whatsapp_widget_btn_en', '').strip()
+        settings.whatsapp_widget_name_ka = request.POST.get('whatsapp_widget_name_ka', '').strip()
+        settings.whatsapp_widget_name_en = request.POST.get('whatsapp_widget_name_en', '').strip()
+        if 'whatsapp_widget_avatar' in request.FILES:
+            settings.whatsapp_widget_avatar = request.FILES['whatsapp_widget_avatar']
         settings.save()
         messages.success(request, 'WhatsApp ჩატის პარამეტრები შენახულია.')
         return redirect('addons')

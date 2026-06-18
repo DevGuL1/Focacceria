@@ -103,6 +103,11 @@ class SiteSettings(models.Model):
     whatsapp_widget_phone = models.CharField(max_length=50, blank=True, default='')
     whatsapp_widget_message_ka = models.CharField(max_length=300, default='რითი დაგეხმაროთ?', blank=True)
     whatsapp_widget_message_en = models.CharField(max_length=300, default='How can we help you?', blank=True)
+    whatsapp_widget_btn_ka = models.CharField(max_length=100, default='მიწერა', blank=True)
+    whatsapp_widget_btn_en = models.CharField(max_length=100, default='Message Us', blank=True)
+    whatsapp_widget_name_ka = models.CharField(max_length=100, default='Focacceria Support', blank=True)
+    whatsapp_widget_name_en = models.CharField(max_length=100, default='Focacceria Support', blank=True)
+    whatsapp_widget_avatar = models.ImageField(upload_to='site/', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Site Settings'
