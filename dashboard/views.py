@@ -94,6 +94,35 @@ def site_settings(request):
 
 
 @login_required
+def homepage_settings(request):
+    settings = SiteSettings.get_settings()
+    if request.method == 'POST':
+        fields = [
+            'tagline_ka', 'tagline_en',
+            'marquee_text_ka', 'marquee_text_en',
+            'about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en',
+            'address_ka', 'address_en', 'opening_hours_ka', 'opening_hours_en',
+            'phone', 'whatsapp', 'instagram', 'google_maps_url',
+            'wolt_url', 'glovo_url'
+        ]
+        for field in fields:
+            setattr(settings, field, request.POST.get(field, '').strip())
+
+        settings.show_about = request.POST.get('show_about') == 'on'
+        settings.show_visit = request.POST.get('show_visit') == 'on'
+        settings.show_menu = request.POST.get('show_menu') == 'on'
+        settings.show_marquee = request.POST.get('show_marquee') == 'on'
+
+        if 'about_image' in request.FILES:
+            settings.about_image = request.FILES['about_image']
+
+        settings.save()
+        messages.success(request, 'მთავარი გვერდის პარამეტრები შენახულია.')
+        return redirect('homepage_settings')
+    return render(request, 'dashboard/homepage_settings.html', {'settings': settings})
+
+
+@login_required
 def font_settings(request):
     settings = FontSettings.get_settings()
     if request.method == 'POST':
