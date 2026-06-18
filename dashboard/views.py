@@ -146,6 +146,44 @@ def homepage_settings(request):
 
 
 @login_required
+def salumeria_dashboard(request):
+    settings = SiteSettings.get_settings()
+    seo_obj, _ = SEOSettings.objects.get_or_create(page='salumeria')
+    categories = MenuCategory.objects.filter(page='salumeria')
+    items = MenuItem.objects.filter(category__page='salumeria').select_related('category')
+
+    if request.method == 'POST':
+        form_type = request.POST.get('form_type')
+        if form_type == 'settings':
+            settings.salumeria_kicker_ka = request.POST.get('salumeria_kicker_ka', '').strip()
+            settings.salumeria_kicker_en = request.POST.get('salumeria_kicker_en', '').strip()
+            settings.salumeria_title_ka = request.POST.get('salumeria_title_ka', '').strip()
+            settings.salumeria_title_en = request.POST.get('salumeria_title_en', '').strip()
+            settings.salumeria_lead_ka = request.POST.get('salumeria_lead_ka', '').strip()
+            settings.salumeria_lead_en = request.POST.get('salumeria_lead_en', '').strip()
+            settings.save()
+            messages.success(request, 'სალუმერიის გვერდის ტექსტები შენახულია.')
+        elif form_type == 'seo':
+            seo_obj.title_ka = request.POST.get('title_ka', '').strip()
+            seo_obj.title_en = request.POST.get('title_en', '').strip()
+            seo_obj.description_ka = request.POST.get('description_ka', '').strip()
+            seo_obj.description_en = request.POST.get('description_en', '').strip()
+            seo_obj.keywords = request.POST.get('keywords', '').strip()
+            if 'og_image' in request.FILES:
+                seo_obj.og_image = request.FILES['og_image']
+            seo_obj.save()
+            messages.success(request, 'სალუმერიის SEO პარამეტრები შენახულია.')
+        return redirect('salumeria_dashboard')
+
+    return render(request, 'dashboard/salumeria_dashboard.html', {
+        'settings': settings,
+        'seo': seo_obj,
+        'categories': categories,
+        'items': items,
+    })
+
+
+@login_required
 def font_settings(request):
     settings = FontSettings.get_settings()
     if request.method == 'POST':
@@ -416,6 +454,7 @@ def menu_categories(request):
 
 @login_required
 def category_add(request):
+    default_page = request.GET.get('page', 'menu')
     if request.method == 'POST':
         MenuCategory.objects.create(
             name_ka=request.POST.get('name_ka', ''),
@@ -423,12 +462,15 @@ def category_add(request):
             slug=request.POST.get('slug', ''),
             description_ka=request.POST.get('description_ka', ''),
             description_en=request.POST.get('description_en', ''),
-            page=request.POST.get('page', 'menu'),
+            page=request.POST.get('page', default_page),
             order=int(request.POST.get('order', 0)),
             is_active=request.POST.get('is_active') == 'on',
         )
         messages.success(request, 'კატეგორია დამატებულია.')
-    return redirect('menu_categories')
+        if default_page == 'salumeria':
+            return redirect('salumeria_dashboard')
+        return redirect('menu_categories')
+    return render(request, 'dashboard/category_form.html', {'cat': None, 'default_page': default_page})
 
 
 @login_required
@@ -445,14 +487,20 @@ def category_edit(request, pk):
         cat.is_active = request.POST.get('is_active') == 'on'
         cat.save()
         messages.success(request, 'კატეგორია განახლებულია.')
+        if cat.page == 'salumeria':
+            return redirect('salumeria_dashboard')
         return redirect('menu_categories')
     return render(request, 'dashboard/category_form.html', {'cat': cat})
 
 
 @login_required
 def category_delete(request, pk):
-    get_object_or_404(MenuCategory, pk=pk).delete()
+    cat = get_object_or_404(MenuCategory, pk=pk)
+    page_type = cat.page
+    cat.delete()
     messages.success(request, 'კატეგორია წაშლილია.')
+    if page_type == 'salumeria':
+        return redirect('salumeria_dashboard')
     return redirect('menu_categories')
 
 
@@ -485,30 +533,48 @@ def menu_items(request, category_pk=None):
 
 @login_required
 def item_add(request):
-    categories = MenuCategory.objects.all()
+    default_page = request.GET.get('page', 'menu')
+    categories = MenuCategory.objects.filter(page=default_page)
     if request.method == 'POST':
         item = MenuItem()
         _save_item(item, request)
         messages.success(request, 'პროდუქტი დამატებულია.')
+        if default_page == 'salumeria':
+            return redirect('salumeria_dashboard')
         return redirect('menu_items')
-    return render(request, 'dashboard/item_form.html', {'item': None, 'categories': categories})
+    return render(request, 'dashboard/item_form.html', {
+        'item': None,
+        'categories': categories,
+        'default_page': default_page
+    })
 
 
 @login_required
 def item_edit(request, pk):
     item = get_object_or_404(MenuItem, pk=pk)
-    categories = MenuCategory.objects.all()
+    default_page = item.category.page
+    categories = MenuCategory.objects.filter(page=default_page)
     if request.method == 'POST':
         _save_item(item, request)
         messages.success(request, 'პროდუქტი განახლებულია.')
+        if item.category.page == 'salumeria':
+            return redirect('salumeria_dashboard')
         return redirect('menu_items')
-    return render(request, 'dashboard/item_form.html', {'item': item, 'categories': categories})
+    return render(request, 'dashboard/item_form.html', {
+        'item': item,
+        'categories': categories,
+        'default_page': default_page
+    })
 
 
 @login_required
 def item_delete(request, pk):
-    get_object_or_404(MenuItem, pk=pk).delete()
+    item = get_object_or_404(MenuItem, pk=pk)
+    page_type = item.category.page
+    item.delete()
     messages.success(request, 'პროდუქტი წაშლილია.')
+    if page_type == 'salumeria':
+        return redirect('salumeria_dashboard')
     return redirect('menu_items')
 
 

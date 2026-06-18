@@ -90,6 +90,13 @@ class SiteSettings(models.Model):
     visit_subtitle_ka = models.TextField(default='დღეს ღიაა · ძველი ქალაქი, თბილისი', blank=True)
     visit_subtitle_en = models.TextField(default='Open today · Old Town, Tbilisi', blank=True)
 
+    salumeria_kicker_ka = models.CharField(max_length=200, default='სალუმერია', blank=True)
+    salumeria_kicker_en = models.CharField(max_length=200, default='Salumeria', blank=True)
+    salumeria_title_ka = models.CharField(max_length=200, default='იტალიური დელიკატესები სახლში წასაღებად', blank=True)
+    salumeria_title_en = models.CharField(max_length=200, default='Italian delicacies to take home', blank=True)
+    salumeria_lead_ka = models.TextField(default='ხორცეული, ყველი, ზეთები და ნაკრები — შეკვეთა WhatsApp-ით.', blank=True)
+    salumeria_lead_en = models.TextField(default='Cold cuts, cheese, oils and packages — order with WhatsApp.', blank=True)
+
     class Meta:
         verbose_name = 'Site Settings'
 

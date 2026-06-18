@@ -14,6 +14,7 @@ urlpatterns = [
     path('homepage/', views.homepage_settings, name='homepage_settings'),
     path('fonts/', views.font_settings, name='font_settings'),
     path('home-video/', views.home_video_settings, name='home_video_settings'),
+    path('salumeria/', views.salumeria_dashboard, name='salumeria_dashboard'),
 
     # Sliders
     path('sliders/', views.sliders, name='sliders'),

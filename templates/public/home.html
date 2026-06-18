@@ -116,45 +116,179 @@
 </section>
 
 {% if site.show_menu %}
-<!-- BESTSELLERS -->
+<!-- POPULAR MENU CAROUSEL -->
+<style>
+.popular-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 10px;
+}
+.carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  gap: 18px;
+}
+.carousel-card {
+  flex: 0 0 calc((100% - (18px * 2)) / 3); /* 3 cards visible on desktop */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.carousel-card:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+.carousel-nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--c-surface);
+  border: 1.5px solid var(--border-strong);
+  color: var(--c-ink);
+  font-size: 18px;
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, transform 0.2s, color 0.2s;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+}
+.carousel-nav:hover {
+  background: var(--c-red);
+  color: rgb(var(--paper));
+  border-color: transparent;
+  transform: scale(1.08);
+}
+@media(max-width: 900px) {
+  .carousel-card {
+    flex: 0 0 calc((100% - 18px) / 2); /* 2 cards visible on tablet */
+  }
+}
+@media(max-width: 600px) {
+  .carousel-card {
+    flex: 0 0 100%; /* 1 card visible on mobile */
+  }
+  .carousel-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+</style>
+
 <section class="section">
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}სწრაფი არჩევანი{% else %}Quick choice{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}ყველაზე მოთხოვნადი{% else %}Bestsellers{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}ბესტსელერები. დანარჩენი — სრულ მენიუში.{% else %}Bestsellers. The rest — in the full menu.{% endif %}</p>
+        <div class="kicker">{% if current_lang == 'ka' %}პოპულარული{% else %}Popular{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}პოპულარული მენიუ{% else %}Popular Menu{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}ყველაზე მოთხოვნადი კერძები საუკეთესო ინგრედიენტებით.{% else %}Most popular dishes with the finest ingredients.{% endif %}</p>
       </div>
       <a class="btn btn-primary" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}სრული მენიუ{% else %}Full Menu{% endif %}</a>
     </div>
 
-    <div class="grid">
-      {% for item in featured_items %}
-      <article class="card reveal">
-        <div class="card__media">
-          {% if item.image %}
-          <img src="{{ item.image.url }}" alt="{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}">
-          {% else %}
-          <div style="width:100%;height:100%;display:grid;place-items:center;background:rgb(var(--cream));"><span style="font-size:48px;opacity:.3;">🥪</span></div>
-          {% endif %}
+    <div class="popular-carousel-wrapper reveal">
+      <button class="carousel-nav prev-btn" aria-label="Previous">❮</button>
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="popularTrack">
+          {% for item in featured_items %}
+          <article class="card carousel-card">
+            <div class="card__media">
+              {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}">
+              {% else %}
+              <div style="width:100%;height:100%;display:grid;place-items:center;background:rgb(var(--cream));"><span style="font-size:48px;opacity:.3;">🥪</span></div>
+              {% endif %}
+            </div>
+            <div class="card__body">
+              {% if item.badge_ka or item.badge_en %}
+              <span style="display:inline-block;margin-bottom:6px;border-radius:999px;background:var(--c-red);padding:2px 10px;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:rgb(var(--paper));">
+                {% if current_lang == 'ka' %}{{ item.badge_ka }}{% else %}{{ item.badge_en }}{% endif %}
+              </span>
+              {% endif %}
+              <h3 class="card__title">{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}</h3>
+              <div class="card__desc">{% if current_lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}</div>
+              <div class="card__row">
+                <span class="price">{{ item.price }} ₾</span>
+                {% if site.whatsapp %}
+                <a class="mini" href="https://wa.me/{{ site.whatsapp }}?text={% if current_lang == 'ka' %}გამარჯობა! მინდა შევუკვეთო — {{ item.name_ka }}{% else %}Hello! I want to order — {{ item.name_en }}{% endif %}" target="_blank" rel="noopener">WhatsApp</a>
+                {% else %}
+                <button class="mini" data-open-order>{% if current_lang == 'ka' %}შეკვეთა{% else %}Order{% endif %}</button>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+          {% endfor %}
         </div>
-        <div class="card__body">
-          <h3 class="card__title">{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}</h3>
-          <div class="card__desc">{% if current_lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}</div>
-          <div class="card__row">
-            <span class="price">{{ item.price }} ₾</span>
-            {% if site.whatsapp %}
-            <a class="mini" href="https://wa.me/{{ site.whatsapp }}?text={% if current_lang == 'ka' %}გამარჯობა! მინდა შევუკვეთო — {{ item.name_ka }}{% else %}Hello! I want to order — {{ item.name_en }}{% endif %}" target="_blank" rel="noopener">WhatsApp</a>
-            {% else %}
-            <button class="mini" data-open-order>{% if current_lang == 'ka' %}შეკვეთა{% else %}Order{% endif %}</button>
-            {% endif %}
-          </div>
-        </div>
-      </article>
-      {% endfor %}
+      </div>
+      <button class="carousel-nav next-btn" aria-label="Next">❯</button>
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.getElementById('popularTrack');
+  if (!track) return;
+  const cards = Array.from(track.children);
+  const nextBtn = document.querySelector('.next-btn');
+  const prevBtn = document.querySelector('.prev-btn');
+  if (!cards.length || !nextBtn || !prevBtn) return;
+
+  let index = 0;
+
+  const getVisibleCardsCount = () => {
+    const w = window.innerWidth;
+    if (w <= 600) return 1;
+    if (w <= 900) return 2;
+    return 3;
+  };
+
+  const updatePosition = () => {
+    const cardWidth = cards[0].getBoundingClientRect().width;
+    const gap = 18;
+    const moveAmount = index * (cardWidth + gap);
+    track.style.transform = `translateX(-${moveAmount}px)`;
+
+    const visibleCount = getVisibleCardsCount();
+    const maxIndex = Math.max(0, cards.length - visibleCount);
+
+    prevBtn.style.opacity = index === 0 ? '0.3' : '1';
+    prevBtn.style.pointerEvents = index === 0 ? 'none' : 'auto';
+    nextBtn.style.opacity = index >= maxIndex ? '0.3' : '1';
+    nextBtn.style.pointerEvents = index >= maxIndex ? 'none' : 'auto';
+  };
+
+  nextBtn.addEventListener('click', () => {
+    const visibleCount = getVisibleCardsCount();
+    const maxIndex = Math.max(0, cards.length - visibleCount);
+    if (index < maxIndex) {
+      index++;
+      updatePosition();
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (index > 0) {
+      index--;
+      updatePosition();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    index = 0;
+    updatePosition();
+  });
+
+  updatePosition();
+});
+</script>
 {% endif %}
 
 {% if home_video_section.is_active %}

@@ -8,9 +8,9 @@
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %}</div>
-        <h1 class="h1" style="font-size:clamp(30px, 3vw, 46px);">{% if current_lang == 'ka' %}იტალიური დელიკატესები სახლში წასაღებად{% else %}Italian delicacies to take home{% endif %}</h1>
-        <p class="lead">{% if current_lang == 'ka' %}ხორცეული, ყველი, ზეთები და ნაკრები — შეკვეთა WhatsApp-ით.{% else %}Cold cuts, cheese, oils and packages — order with WhatsApp.{% endif %}</p>
+        <div class="kicker">{% if current_lang == 'ka' %}{{ site.salumeria_kicker_ka }}{% else %}{{ site.salumeria_kicker_en }}{% endif %}</div>
+        <h1 class="h1" style="font-size:clamp(30px, 3vw, 46px);">{% if current_lang == 'ka' %}{{ site.salumeria_title_ka }}{% else %}{{ site.salumeria_title_en }}{% endif %}</h1>
+        <p class="lead">{% if current_lang == 'ka' %}{{ site.salumeria_lead_ka }}{% else %}{{ site.salumeria_lead_en }}{% endif %}</p>
         <div class="filters" style="margin-top:12px;">
           <button class="fbtn is-active" data-menu-filter="ყველა">{% if current_lang == 'ka' %}ყველა{% else %}All{% endif %}</button>
           {% for cat in categories %}

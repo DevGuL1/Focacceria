@@ -1,0 +1,224 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}სალუმერია{% endblock %}
+{% block nav_salumeria %}active{% endblock %}
+{% block breadcrumb %}საიტი / <strong>სალუმერია</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">სალუმერიის მართვის პანელი</h1>
+    <p class="page-subtitle">გვერდის ტექსტები, SEO პარამეტრები, კატეგორიები და პროდუქტები</p>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+  <!-- Left Column: Settings and SEO -->
+  <div style="display:flex;flex-direction:column;gap:2rem;">
+    
+    <!-- Page Texts Settings -->
+    <div class="form-card">
+      <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);display:flex;align-items:center;gap:.5rem;">
+        📝 გვერდის ტექსტები
+      </h4>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="settings">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 Kicker (ქართული)</label>
+            <input type="text" name="salumeria_kicker_ka" value="{{ settings.salumeria_kicker_ka }}" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Kicker (English)</label>
+            <input type="text" name="salumeria_kicker_en" value="{{ settings.salumeria_kicker_en }}" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+            <input type="text" name="salumeria_title_ka" value="{{ settings.salumeria_title_ka }}" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Title (English)</label>
+            <input type="text" name="salumeria_title_en" value="{{ settings.salumeria_title_en }}" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 Lead აღწერა (ქართული)</label>
+            <textarea name="salumeria_lead_ka" class="form-control" rows="3" required>{{ settings.salumeria_lead_ka }}</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Lead Description (English)</label>
+            <textarea name="salumeria_lead_en" class="form-control" rows="3" required>{{ settings.salumeria_lead_en }}</textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">✓ ტექსტების შენახვა</button>
+      </form>
+    </div>
+
+    <!-- SEO Settings -->
+    <div class="form-card">
+      <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);display:flex;align-items:center;gap:.5rem;">
+        🔍 SEO პარამეტრები
+      </h4>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="seo">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 SEO Title (ქართული)</label>
+            <input type="text" name="title_ka" value="{{ seo.title_ka }}" class="form-control" placeholder="Focacceria — სალუმერია">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 SEO Title (English)</label>
+            <input type="text" name="title_en" value="{{ seo.title_en }}" class="form-control" placeholder="Focacceria — Salumeria">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 SEO Description (ქართული)</label>
+            <textarea name="description_ka" class="form-control" rows="3">{{ seo.description_ka }}</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 SEO Description (English)</label>
+            <textarea name="description_en" class="form-control" rows="3">{{ seo.description_en }}</textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Keywords (მძიმით გამოყოფილი)</label>
+            <input type="text" name="keywords" value="{{ seo.keywords }}" class="form-control" placeholder="salumeria, ham, cheese, focacceria">
+          </div>
+          <div class="form-group">
+            <label class="form-label">OG Image (Social Share)</label>
+            {% if seo.og_image %}
+            <img src="{{ seo.og_image.url }}" style="height:60px;border-radius:4px;display:block;margin-bottom:.4rem;object-fit:cover;">
+            {% endif %}
+            <input type="file" name="og_image" class="form-control" accept="image/*">
+            <span style="font-size:.72rem;color:var(--text-muted);">1200×630px</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">✓ SEO შენახვა</button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Right Column: Categories and Products -->
+  <div style="display:flex;flex-direction:column;gap:2rem;">
+
+    <!-- Categories Card -->
+    <div class="table-card">
+      <div class="table-card-header" style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="table-card-title">📂 კატეგორიები ({{ categories|length }})</span>
+        <a href="{% url 'category_add' %}?page=salumeria" class="btn btn-primary btn-sm">+ კატეგორია</a>
+      </div>
+      {% if categories %}
+      <table class="data-table" style="font-size:0.9rem;">
+        <thead>
+          <tr>
+            <th style="width:30px;"></th>
+            <th>ქართული</th>
+            <th>English</th>
+            <th>პროდ.</th>
+            <th style="width:90px;">მოქმედება</th>
+          </tr>
+        </thead>
+        <tbody data-sortable data-reorder-url="{% url 'category_reorder' %}">
+          {% for cat in categories %}
+          <tr data-id="{{ cat.pk }}">
+            <td><span class="drag-handle" style="cursor:move;color:var(--text-muted);">⠿</span></td>
+            <td style="font-weight:500;">{{ cat.name_ka }}</td>
+            <td style="color:var(--text-muted);">{{ cat.name_en }}</td>
+            <td>{{ cat.items.count }}</td>
+            <td>
+              <div class="td-actions">
+                <a href="{% url 'category_edit' cat.pk %}" class="btn btn-ghost btn-sm" title="რედაქტირება">✎</a>
+                <a href="{% url 'category_delete' cat.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
+                   data-confirm="კატეგორიის წაშლა? ყველა პროდუქტიც წაიშლება!" title="წაშლა">✕</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state" style="padding:2rem 1rem;">
+        <p style="color:var(--text-muted);margin:0;">კატეგორიები არ არის</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Products Card -->
+    <div class="table-card">
+      <div class="table-card-header" style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="table-card-title">🧀 პროდუქტები ({{ items|length }})</span>
+        <a href="{% url 'item_add' %}?page=salumeria" class="btn btn-primary btn-sm">+ პროდუქტი</a>
+      </div>
+      {% if items %}
+      <table class="data-table" style="font-size:0.9rem;">
+        <thead>
+          <tr>
+            <th style="width:30px;"></th>
+            <th>სურათი</th>
+            <th>დასახელება</th>
+            <th>ფასი</th>
+            <th>ხელმის.</th>
+            <th style="width:90px;">მოქმედება</th>
+          </tr>
+        </thead>
+        <tbody data-sortable data-reorder-url="{% url 'item_reorder' %}">
+          {% for item in items %}
+          <tr data-id="{{ item.pk }}">
+            <td><span class="drag-handle" style="cursor:move;color:var(--text-muted);">⠿</span></td>
+            <td>
+              {% if item.image %}
+              <img src="{{ item.image.url }}" style="width:40px;height:30px;object-fit:cover;border-radius:var(--radius-sm);">
+              {% else %}
+              <div style="width:40px;height:30px;background:var(--bg-surface);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1rem;">🧀</div>
+              {% endif %}
+            </td>
+            <td>
+              <div style="font-weight:500;">{{ item.name_ka }}</div>
+              <div style="font-size:.75rem;color:var(--text-muted);">{{ item.name_en }}</div>
+            </td>
+            <td style="font-weight:600;color:var(--accent);">{{ item.price }}₾</td>
+            <td>
+              {% if item.is_available %}
+              <span class="status-pill status-active" style="padding:0.1rem 0.4rem;font-size:0.75rem;">კი</span>
+              {% else %}
+              <span class="status-pill status-inactive" style="padding:0.1rem 0.4rem;font-size:0.75rem;">არა</span>
+              {% endif %}
+            </td>
+            <td>
+              <div class="td-actions">
+                <a href="{% url 'item_edit' item.pk %}" class="btn btn-ghost btn-sm" title="რედაქტირება">✎</a>
+                <a href="{% url 'item_delete' item.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
+                   data-confirm="პროდუქტის წაშლა?" title="წაშლა">✕</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state" style="padding:2rem 1rem;">
+        <p style="color:var(--text-muted);margin:0;">პროდუქტები არ არის</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

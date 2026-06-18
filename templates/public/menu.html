@@ -11,7 +11,7 @@
       <div>
         <div class="kicker">{% if current_lang == 'ka' %}მენიუ{% else %}Menu{% endif %}</div>
         <h1 class="h1" style="font-size:clamp(30px,3vw,48px);">{% if current_lang == 'ka' %}ჭამე, როგორც იტალიელი{% else %}Eat like an Italian{% endif %}</h1>
-        <p class="lead">{% if current_lang == 'ka' %}შეუკვეთე პირდაპირ ონლაინ, ან გაეცანი ჩვენს კარტ-მენიუს.{% else %}Order online directly, or browse our card menu.{% endif %}</p>
+        <p class="lead">{% if current_lang == 'ka' %}შეუკვეთე პირდაპირ ონლაინ.{% else %}Order online directly.{% endif %}</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/salumeria/{% else %}/en/salumeria/{% endif %}">{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %}</a>
@@ -22,124 +22,44 @@
         {% endif %}
       </div>
     </div>
-
-    <!-- Tab switcher — ონლაინ შეკვეთა is DEFAULT -->
-    <div class="menu-tabs reveal" role="tablist">
-      <button class="tab-btn is-active" data-tab="online" role="tab" aria-selected="true">🛒 {% if current_lang == 'ka' %}ონლაინ შეკვეთა{% else %}Online Order{% endif %}</button>
-      <button class="tab-btn" data-tab="cards" role="tab" aria-selected="false">🍕 {% if current_lang == 'ka' %}კარტ-მენიუ{% else %}Card Menu{% endif %}</button>
-    </div>
   </div>
 </section>
 
-<!-- ══════ TAB: ONLINE ORDER (iframe) — DEFAULT ══════ -->
-<div class="tab-panel is-active" data-panel="online">
-  <section class="section section--tight">
-    <div class="container">
-      <div class="iframe-shell reveal">
-        <!-- Our branded top bar overlaid on the iframe -->
-        <div class="iframe-header">
-          {% if site.logo %}
-            {% if site.logo_dark %}
-              <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-light">
-              <img src="{{ site.logo_dark.url }}" alt="Focacceria" class="logo-dark">
-            {% else %}
-              <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-default">
-            {% endif %}
+<!-- Online Order (iframe) -->
+<section class="section section--tight" style="padding-top: 0;">
+  <div class="container">
+    <div class="iframe-shell reveal">
+      <!-- Our branded top bar overlaid on the iframe -->
+      <div class="iframe-header">
+        {% if site.logo %}
+          {% if site.logo_dark %}
+            <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-light">
+            <img src="{{ site.logo_dark.url }}" alt="Focacceria" class="logo-dark">
           {% else %}
-            <span style="font-size:18px;font-weight:900;letter-spacing:-0.02em;color:var(--c-red);">FOCACCERIA</span>
+            <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-default">
           {% endif %}
-          <span>Focacceria · {% if current_lang == 'ka' %}ონლაინ შეკვეთა{% else %}Online Order{% endif %}</span>
-        </div>
-        <div class="iframe-body">
-          <iframe
-            src="{% if site.menu_iframe_url %}{{ site.menu_iframe_url }}{% else %}https://focacceria.eat-me.online/en/category/mortadella{% endif %}"
-            title="Foca — ონლაინ მენიუ"
-            loading="lazy"
-            allow="payment"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
-          ></iframe>
-        </div>
-      </div>
-
-      <p style="margin-top:14px;font-size:13px;color:var(--c-muted);text-align:center;">
-        {% if current_lang == 'ka' %}პრობლემის შემთხვევაში გვიწერე{% else %}Having trouble? Message us on{% endif %}
-        {% if site.whatsapp %}
-        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" style="font-weight:800;color:var(--c-red);">WhatsApp-ზე</a>
+        {% else %}
+          <span style="font-size:18px;font-weight:900;letter-spacing:-0.02em;color:var(--c-red);">FOCACCERIA</span>
         {% endif %}
-      </p>
-    </div>
-  </section>
-</div>
-
-<!-- ══════ TAB: CARD MENU ══════ -->
-<div class="tab-panel" data-panel="cards">
-  <div class="tools">
-    <div class="container">
-      <input class="search" type="search"
-        placeholder="{% if current_lang == 'ka' %}მოძებნე: მორტადელა, ბურგერი, პესტო…{% else %}Search: mortadella, burger, pesto…{% endif %}"
-        data-menu-search aria-label="{% if current_lang == 'ka' %}მენიუში ძიება{% else %}Search Menu{% endif %}" />
-      <div class="filters" role="tablist" aria-label="{% if current_lang == 'ka' %}ფილტრები{% else %}Filters{% endif %}">
-        <button class="fbtn is-active" data-menu-filter="ყველა">{% if current_lang == 'ka' %}ყველა{% else %}All{% endif %}</button>
-        {% for cat in categories %}
-        <button class="fbtn" data-menu-filter="{% if current_lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}">
-          {% if current_lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}
-        </button>
-        {% endfor %}
+        <span>Focacceria · {% if current_lang == 'ka' %}ონლაინ შეკვეთა{% else %}Online Order{% endif %}</span>
       </div>
-      <p class="muted-note">
-        {% if current_lang == 'ka' %}მორგება: შეკვეთაში დაამატე შენიშვნა ("უმარილო", "დამატებით ბაზილიკი" და ა.შ.).{% else %}Note: You can add special instructions during ordering ("no salt", "extra basil", etc.).{% endif %}
-      </p>
+      <div class="iframe-body">
+        <iframe
+          src="{% if site.menu_iframe_url %}{{ site.menu_iframe_url }}{% else %}https://focacceria.eat-me.online/en/category/mortadella{% endif %}"
+          title="Foca — ონლაინ მენიუ"
+          loading="lazy"
+          allow="payment"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+        ></iframe>
+      </div>
     </div>
+
+    <p style="margin-top:14px;font-size:13px;color:var(--c-muted);text-align:center;">
+      {% if current_lang == 'ka' %}პრობლემის შემთხვევაში გვიწერე{% else %}Having trouble? Message us on{% endif %}
+      {% if site.whatsapp %}
+      <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" style="font-weight:800;color:var(--c-red);">WhatsApp-ზე</a>
+      {% endif %}
+    </p>
   </div>
-
-  <section class="section">
-    <div class="container">
-      <div class="grid">
-        {% for cat in categories %}
-          {% for item in cat.items.all %}
-            {% if item.is_available %}
-            <article class="card reveal" data-menu-item 
-              data-name="{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}" 
-              data-tags="{% if current_lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}, {{ cat.slug }}, {{ item.tags }}">
-              <div class="card__media">
-                {% if item.image %}
-                <img src="{{ item.image.url }}" alt="{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}">
-                {% else %}
-                <div style="width:100%;height:100%;display:grid;place-items:center;background:rgb(var(--cream));"><span style="font-size:48px;opacity:.3;">🥪</span></div>
-                {% endif %}
-              </div>
-              <div class="card__body">
-                {% if item.badge_ka or item.badge_en %}
-                <span style="display:inline-block;margin-bottom:6px;border-radius:999px;background:var(--c-red);padding:2px 10px;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:rgb(var(--paper));">
-                  {% if current_lang == 'ka' %}{{ item.badge_ka }}{% else %}{{ item.badge_en }}{% endif %}
-                </span>
-                {% endif %}
-                <h3 class="card__title">{% if current_lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}</h3>
-                <div class="card__desc">{% if current_lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}</div>
-                <div class="card__row">
-                  <span class="price">
-                    {{ item.price }} ₾
-                    {% if item.price_unit %}
-                    <small style="font-weight:400;font-size:12px;color:var(--c-muted);">/ {% if item.price_unit == '100g' %}100g{% else %}{{ item.price_unit }}{% endif %}</small>
-                    {% endif %}
-                  </span>
-                  {% if site.whatsapp %}
-                  <a class="mini" href="https://wa.me/{{ site.whatsapp }}?text={% if current_lang == 'ka' %}გამარჯობა! მინდა შევუკვეთო — {{ item.name_ka }}{% else %}Hello! I want to order — {{ item.name_en }}{% endif %}" target="_blank" rel="noopener">WhatsApp</a>
-                  {% else %}
-                  <button class="mini" data-open-order>{% if current_lang == 'ka' %}შეკვეთა{% else %}Order{% endif %}</button>
-                  {% endif %}
-                </div>
-              </div>
-            </article>
-            {% endif %}
-          {% endfor %}
-        {% empty %}
-        <p style="color:var(--c-muted);text-align:center;padding:40px 0;width:100%;">
-          {% if current_lang == 'ka' %}მენიუ მალე გამოჩნდება{% else %}Menu coming soon{% endif %}
-        </p>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-</div>
+</section>
 {% endblock %}
