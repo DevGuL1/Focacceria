@@ -612,7 +612,21 @@ def _save_item(item, request):
 @login_required
 def addons(request):
     addon_list = AddOn.objects.all()
-    return render(request, 'dashboard/addons.html', {'addons': addon_list})
+    settings = SiteSettings.get_settings()
+
+    if request.method == 'POST' and request.POST.get('form_type') == 'whatsapp_widget':
+        settings.whatsapp_widget_enabled = request.POST.get('whatsapp_widget_enabled') == 'on'
+        settings.whatsapp_widget_phone = request.POST.get('whatsapp_widget_phone', '').strip()
+        settings.whatsapp_widget_message_ka = request.POST.get('whatsapp_widget_message_ka', '').strip()
+        settings.whatsapp_widget_message_en = request.POST.get('whatsapp_widget_message_en', '').strip()
+        settings.save()
+        messages.success(request, 'WhatsApp ჩატის პარამეტრები შენახულია.')
+        return redirect('addons')
+
+    return render(request, 'dashboard/addons.html', {
+        'addons': addon_list,
+        'settings': settings,
+    })
 
 
 @login_required

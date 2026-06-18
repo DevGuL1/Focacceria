@@ -99,6 +99,11 @@ class SiteSettings(models.Model):
 
     show_menu_products = models.BooleanField(default=True)
 
+    whatsapp_widget_enabled = models.BooleanField(default=True)
+    whatsapp_widget_phone = models.CharField(max_length=50, blank=True, default='')
+    whatsapp_widget_message_ka = models.CharField(max_length=300, default='რითი დაგეხმაროთ?', blank=True)
+    whatsapp_widget_message_en = models.CharField(max_length=300, default='How can we help you?', blank=True)
+
     class Meta:
         verbose_name = 'Site Settings'
 
