@@ -47,6 +47,11 @@ def menu_page(request):
     })
 
 
+def contact_page(request):
+    lang = request.session.get('lang', 'ka')
+    return render(request, 'public/contact.html', {'lang': lang})
+
+
 def salumeria_page(request):
     lang = request.session.get('lang', 'ka')
     categories = MenuCategory.objects.filter(
