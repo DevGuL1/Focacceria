@@ -111,14 +111,41 @@
     let active = 'ყველა';
     const norm = s => (s || '').toLowerCase().trim();
 
-    const apply = () => {
+    const apply = (animateAll = false) => {
       const q = norm(searchInput ? searchInput.value : '');
-      items.forEach(el => {
+      let visibleIdx = 0;
+      items.forEach((el, idx) => {
         const name = norm(el.getAttribute('data-name'));
         const tags = norm(el.getAttribute('data-tags'));
         const passQ = !q || name.includes(q) || tags.includes(q);
         const passF = active === 'ყველა' || tags.split(',').map(t => t.trim()).includes(norm(active));
-        el.style.display = (passQ && passF) ? '' : 'none';
+        
+        if (passQ && passF) {
+          const wasHidden = el.style.display === 'none';
+          if (wasHidden || animateAll) {
+            el.style.display = '';
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.93) translateY(12px)';
+            
+            const currentIdx = visibleIdx;
+            setTimeout(() => {
+              el.style.transition = 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+              el.style.opacity = '1';
+              el.style.transform = 'scale(1) translateY(0)';
+              
+              setTimeout(() => {
+                if (el.style.display !== 'none') {
+                  el.style.opacity = '';
+                  el.style.transform = '';
+                  el.style.transition = '';
+                }
+              }, 450);
+            }, wasHidden ? 30 : currentIdx * 35);
+          }
+          visibleIdx++;
+        } else {
+          el.style.display = 'none';
+        }
       });
     };
 
@@ -127,10 +154,10 @@
         filterBtns.forEach(x => x.classList.remove('is-active'));
         b.classList.add('is-active');
         active = b.getAttribute('data-menu-filter') || 'ყველა';
-        apply();
+        apply(true);
       });
     });
-    if (searchInput) searchInput.addEventListener('input', apply);
+    if (searchInput) searchInput.addEventListener('input', () => apply(false));
     apply();
   }
 })();
