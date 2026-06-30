@@ -127,20 +127,6 @@ def homepage_settings(request):
 
         settings.save()
 
-        # Save HomeVideoSection (Culinary Moment) fields
-        video_section.title_ka = request.POST.get('video_title_ka', '').strip()
-        video_section.title_en = request.POST.get('video_title_en', '').strip()
-        video_section.subtitle_ka = request.POST.get('video_subtitle_ka', '').strip()
-        video_section.subtitle_en = request.POST.get('video_subtitle_en', '').strip()
-        video_section.is_active = request.POST.get('video_is_active') == 'on'
-
-        if request.POST.get('video_file_clear') == 'on':
-            video_section.video_file = None
-        if 'video_file' in request.FILES:
-            video_section.video_file = request.FILES['video_file']
-
-        video_section.save()
-
         messages.success(request, 'მთავარი გვერდის პარამეტრები შენახულია.')
         return redirect('homepage_settings')
     return render(request, 'dashboard/homepage_settings.html', {
@@ -312,6 +298,10 @@ def _save_slide(slide, request):
         slide.product_image = None
     if 'product_image' in request.FILES:
         slide.product_image = request.FILES['product_image']
+    if request.POST.get('video_file_clear') == 'on':
+        slide.video_file = None
+    if 'video_file' in request.FILES:
+        slide.video_file = request.FILES['video_file']
     slide.save()
 
 
@@ -608,6 +598,33 @@ def _save_item(item, request):
     if 'image' in request.FILES:
         item.image = request.FILES['image']
     item.save()
+
+
+# ── Popular Menu (homepage carousel curation) ───────────────────────────────────
+
+@login_required
+def popular_menu(request):
+    categories = MenuCategory.objects.filter(page='menu')
+    items = MenuItem.objects.filter(category__page='menu').select_related('category')
+    featured_items = items.filter(is_featured=True)
+    return render(request, 'dashboard/popular_menu.html', {
+        'categories': categories,
+        'items': items,
+        'featured_items': featured_items,
+        'featured_count': featured_items.count(),
+    })
+
+
+@require_POST
+@login_required
+def popular_menu_toggle(request, pk):
+    item = get_object_or_404(MenuItem, pk=pk)
+    item.is_featured = not item.is_featured
+    item.save(update_fields=['is_featured'])
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'ok', 'is_featured': item.is_featured})
+    messages.success(request, f'{item.name_ka or item.name_en} {"დაემატა" if item.is_featured else "მოიხსნა"} პოპულარულ მენიუში.')
+    return redirect('popular_menu')
 
 
 # ── Add-ons ───────────────────────────────────────────────────────────────────

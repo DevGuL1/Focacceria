@@ -86,6 +86,9 @@
         <a href="{% url 'menu_items' %}" class="nav-link {% block nav_items %}{% endblock %}">
           <span class="icon">🍽</span> პროდუქტები
         </a>
+        <a href="{% url 'popular_menu' %}" class="nav-link {% block nav_popular %}{% endblock %}">
+          <span class="icon">⭐</span> პოპულარული
+        </a>
         {% endif %}
         <a href="{% url 'addons' %}" class="nav-link {% block nav_addons %}{% endblock %}">
           <span class="icon">➕</span> დამატებები

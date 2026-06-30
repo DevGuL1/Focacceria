@@ -46,6 +46,20 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label class="form-label">🎬 Hero ვიდეო (არასავალდებულო)</label>
+      {% if slide.video_file %}
+      <div style="margin-bottom:.5rem;">
+        <span style="font-size:14px;color:var(--text-muted);">ატვირთულია: <a href="{{ slide.video_file.url }}" target="_blank">{{ slide.video_file.name }}</a></span>
+        <label style="display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;cursor:pointer;font-weight:normal;">
+          <input type="checkbox" name="video_file_clear" value="on"> წაშლა
+        </label>
+      </div>
+      {% endif %}
+      <input type="file" name="video_file" class="form-control" accept="video/*">
+      <div style="font-size:.75rem;color:var(--text-muted);margin-top:.3rem;">თუ ატვირთავ, ეს ვიდეო გამოჩნდება hero-ს ფონად სურათის ნაცვლად. სრულიად დამოუკიდებელია „როგორ მზადდება გემო" სექციის ვიდეოსგან.</div>
+    </div>
+
     <hr class="divider">
 
     <!-- Titles -->

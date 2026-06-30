@@ -1,0 +1,83 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}პოპულარული მენიუ{% endblock %}
+{% block nav_popular %}active{% endblock %}
+{% block breadcrumb %}მენიუ / <strong>პოპულარული</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">პოპულარული მენიუ</h1>
+    <p class="page-subtitle">აირჩიე რომელი პროდუქტები გამოჩნდეს მთავარ გვერდზე „ყველაზე მოთხოვნადი" კარუსელში (მაქს. 8).</p>
+  </div>
+  <a href="{% url 'item_add' %}" class="btn btn-primary">+ ახალი პროდუქტი</a>
+</div>
+
+<div class="form-card" style="margin-bottom:1.5rem;">
+  <h4 style="margin-bottom:.75rem;font-family:var(--font-serif);">ამჟამად არჩეული ({{ featured_count }})</h4>
+  {% if featured_items %}
+  <div style="display:flex;flex-wrap:wrap;gap:.6rem;">
+    {% for item in featured_items %}
+    <span class="badge badge-ghost" style="display:flex;align-items:center;gap:.4rem;padding:.4rem .7rem;">
+      ★ {{ item.name_ka }}
+      <form method="post" action="{% url 'popular_menu_toggle' item.pk %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" style="background:none;border:none;cursor:pointer;color:var(--accent);font-weight:700;">✕</button>
+      </form>
+    </span>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="color:var(--text-muted);">პროდუქტი არჩეული არ არის — ქვემოთ ცხრილში დააჭირე ★-ს რომ დაამატო.</p>
+  {% endif %}
+</div>
+
+<div class="table-card">
+  <div class="table-card-header">
+    <span class="table-card-title">ყველა პროდუქტი ({{ items|length }})</span>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>სურათი</th>
+        <th>სახელი (KA)</th>
+        <th>კატეგ.</th>
+        <th>ფასი</th>
+        <th>პოპულარული</th>
+        <th>მოქმედება</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>
+          {% if item.image %}
+          <img src="{{ item.image.url }}" style="width:52px;height:40px;object-fit:cover;border-radius:var(--radius-sm);">
+          {% else %}
+          <div style="width:52px;height:40px;background:var(--bg-surface);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🥪</div>
+          {% endif %}
+        </td>
+        <td>
+          <div style="font-weight:500;">{{ item.name_ka }}</div>
+          <div style="font-size:.78rem;color:var(--text-muted);">{{ item.name_en }}</div>
+        </td>
+        <td><span class="badge badge-ghost" style="font-size:.72rem;">{{ item.category.name_ka }}</span></td>
+        <td style="font-weight:600;color:var(--accent);">{{ item.price }}₾</td>
+        <td>
+          <form method="post" action="{% url 'popular_menu_toggle' item.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm {% if item.is_featured %}btn-primary{% else %}btn-ghost{% endif %}">
+              {% if item.is_featured %}★ პოპულარული{% else %}☆ დამატება{% endif %}
+            </button>
+          </form>
+        </td>
+        <td>
+          <div class="td-actions">
+            <a href="{% url 'item_edit' item.pk %}" class="btn btn-ghost btn-sm">✎</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

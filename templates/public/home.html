@@ -9,9 +9,9 @@
 <!-- HERO — VIDEO LOOP (full-bleed, no container) -->
 <section class="hero hero--bg">
   <div class="hero-bg">
-    {% if home_video_section.is_active and home_video_section.video_file %}
+    {% if hero_slide and hero_slide.video_file %}
     <video class="hero-video" autoplay loop muted playsinline>
-      <source src="{{ home_video_section.video_file.url }}" type="video/mp4">
+      <source src="{{ hero_slide.video_file.url }}" type="video/mp4">
     </video>
     {% elif hero_slide and hero_slide.image %}
     <div class="hero-video" style="background:url('{{ hero_slide.image.url }}') center/cover no-repeat;"></div>
@@ -90,27 +90,6 @@
         <p class="lead">{% if current_lang == 'ka' %}{{ site.quick_lead_ka }}{% else %}{{ site.quick_lead_en }}{% endif %}</p>
       </div>
       <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}{{ site.quick_cta_ka }}{% else %}{{ site.quick_cta_en }}{% endif %}</a>
-    </div>
-
-    <div class="quick">
-      {% if site.wolt_url %}
-      <a class="qcard reveal" href="{{ site.wolt_url }}" target="_blank" rel="noopener">
-        <strong>{{ site.delivery_wolt_icon }} {% if current_lang == 'ka' %}Wolt-ზე შეკვეთა{% else %}Order on Wolt{% endif %}</strong>
-        <p>{% if current_lang == 'ka' %}სწრაფი მიწოდება და მარტივი checkout.{% else %}Fast delivery and simple checkout.{% endif %}</p>
-      </a>
-      {% endif %}
-      {% if site.glovo_url %}
-      <a class="qcard reveal" href="{{ site.glovo_url }}" target="_blank" rel="noopener">
-        <strong>{{ site.delivery_glovo_icon }} {% if current_lang == 'ka' %}Glovo-ზე შეკვეთა{% else %}Order on Glovo{% endif %}</strong>
-        <p>{% if current_lang == 'ka' %}მიწოდება ქალაქის მასშტაბით.{% else %}Delivery across the city.{% endif %}</p>
-      </a>
-      {% endif %}
-      {% if site.whatsapp %}
-      <a class="qcard reveal" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
-        <strong>{{ site.delivery_whatsapp_icon }} {% if current_lang == 'ka' %}WhatsApp შეკვეთა{% else %}WhatsApp Order{% endif %}</strong>
-        <p>{% if current_lang == 'ka' %}გაგვიგზავნე პოზიცია/დრო და მოვამზადებთ.{% else %}Send location/time and we'll prepare.{% endif %}</p>
-      </a>
-      {% endif %}
     </div>
   </div>
 </section>

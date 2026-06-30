@@ -58,4 +58,8 @@ urlpatterns = [
     path('menu/addons/', views.addons, name='addons'),
     path('menu/addons/add/', views.addon_add, name='addon_add'),
     path('menu/addons/<int:pk>/delete/', views.addon_delete, name='addon_delete'),
+
+    # Popular Menu (homepage carousel curation)
+    path('menu/popular/', views.popular_menu, name='popular_menu'),
+    path('menu/popular/<int:pk>/toggle/', views.popular_menu_toggle, name='popular_menu_toggle'),
 ]
