@@ -257,6 +257,9 @@
       }
     }
   </style>
+  {% if site.custom_css %}
+  <style id="site-custom-css">{{ site.custom_css|safe }}</style>
+  {% endif %}
 </head>
 <body class="bg-paper font-sans text-foca-ink antialiased">
 {% load static %}
@@ -466,5 +469,8 @@
   })();
 </script>
 {% block extra_js %}{% endblock %}
+{% if site.custom_js %}
+<script id="site-custom-js">{{ site.custom_js|safe }}</script>
+{% endif %}
 </body>
 </html>

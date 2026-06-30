@@ -63,6 +63,15 @@ class SiteSettings(models.Model):
     about_text_en = models.TextField(blank=True)
     about_image = models.ImageField(upload_to='site/', blank=True, null=True)
 
+    custom_css = models.TextField(
+        blank=True,
+        help_text='Custom CSS injected before </head> on every page. No <style> tags needed.'
+    )
+    custom_js = models.TextField(
+        blank=True,
+        help_text='Custom JavaScript injected before </body> on every page. No <script> tags needed.'
+    )
+
     class Meta:
         verbose_name = 'Site Settings'
 
