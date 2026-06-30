@@ -74,36 +74,17 @@
 
   <!-- About Us Section -->
   <div class="form-card" style="margin-bottom:1.5rem;">
-    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ჩვენი ისტორია (Story) სექცია</h4>
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ჩვენს შესახებ სექცია</h4>
     <div style="background:rgba(201,164,128,0.06);padding:1rem;border-radius:var(--radius-md);margin-bottom:1rem;border:1px solid var(--border);">
-      <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-olive);">სექციის ზედა სათაურები (Header)</h5>
-      <div class="form-row" style="margin-bottom:1rem;">
-        <div class="form-group">
-          <label class="form-label">🇬🇪 მცირე სათაური (Kicker)</label>
-          <input type="text" name="story_kicker_ka" value="{{ settings.story_kicker_ka }}" class="form-control">
-        </div>
-        <div class="form-group">
-          <label class="form-label">🇬🇧 Small Title (Kicker)</label>
-          <input type="text" name="story_kicker_en" value="{{ settings.story_kicker_en }}" class="form-control">
-        </div>
-      </div>
-      <div class="form-row" style="margin-bottom:1rem;">
-        <div class="form-group">
-          <label class="form-label">🇬🇪 სათაური (Title)</label>
-          <input type="text" name="story_title_ka" value="{{ settings.story_title_ka }}" class="form-control">
-        </div>
-        <div class="form-group">
-          <label class="form-label">🇬🇧 Title</label>
-          <input type="text" name="story_title_en" value="{{ settings.story_title_en }}" class="form-control">
-        </div>
-      </div>
+      <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-olive);">სათაურის ქვემოთ ტექსტი</h5>
+      <p style="margin:0 0 .8rem;color:var(--text-muted);font-size:.85rem;">სათაური ფიქსირებულია — „ჩვენს შესახებ" / „About Us". ქვემოთ მხოლოდ ტექსტი იცვლება.</p>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">🇬🇪 ქვესათაური (Subtitle)</label>
+          <label class="form-label">🇬🇪 ტექსტი (ქართული)</label>
           <textarea name="story_subtitle_ka" class="form-control" rows="2">{{ settings.story_subtitle_ka }}</textarea>
         </div>
         <div class="form-group">
-          <label class="form-label">🇬🇧 Subtitle</label>
+          <label class="form-label">🇬🇧 Text (English)</label>
           <textarea name="story_subtitle_en" class="form-control" rows="2">{{ settings.story_subtitle_en }}</textarea>
         </div>
       </div>

@@ -109,7 +109,6 @@ def homepage_settings(request):
             'address_ka', 'address_en', 'opening_hours_ka', 'opening_hours_en',
             'phone', 'whatsapp', 'instagram', 'google_maps_url',
             'wolt_url', 'glovo_url',
-            'story_kicker_ka', 'story_kicker_en', 'story_title_ka', 'story_title_en',
             'story_subtitle_ka', 'story_subtitle_en',
             'visit_kicker_ka', 'visit_kicker_en', 'visit_title_ka', 'visit_title_en',
             'visit_subtitle_ka', 'visit_subtitle_en',
