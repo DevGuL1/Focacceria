@@ -128,7 +128,7 @@ MEDIA_URL = '/media/'
 # On Render, point this at a mounted persistent disk via MEDIA_ROOT env var
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT', str(BASE_DIR / 'media'))
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
-DATA_UPLOAD_MAX_MEMORY_SIZE = 60 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 110 * 1024 * 1024
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

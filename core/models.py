@@ -4,8 +4,8 @@ from django.db import models
 
 
 def validate_max_video_size(value):
-    if value and getattr(value, 'size', 0) > 40 * 1024 * 1024:
-        raise ValidationError('Video file size must be 40MB or smaller.')
+    if value and getattr(value, 'size', 0) > 80 * 1024 * 1024:
+        raise ValidationError('Video file size must be 80MB or smaller.')
 
 
 def validate_max_font_size(value):

@@ -144,6 +144,17 @@ def homepage_settings(request):
         if 'video_file' in request.FILES:
             video_section.video_file = request.FILES['video_file']
 
+        try:
+            video_section.full_clean()
+        except ValidationError as exc:
+            for messages_list in exc.message_dict.values():
+                for message in messages_list:
+                    messages.error(request, message)
+            return render(request, 'dashboard/homepage_settings.html', {
+                'settings': settings,
+                'video_section': video_section,
+            })
+
         video_section.save()
 
         messages.success(request, 'მთავარი გვერდის პარამეტრები შენახულია.')
