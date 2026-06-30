@@ -244,6 +244,22 @@
     </div>
   </div>
 
+  <!-- Custom CSS / JS -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">Custom CSS & JS</h4>
+    <p style="margin:-0.5rem 0 1rem;color:var(--text-muted);font-size:.9rem;">
+      აქ დამატებული კოდი ავტომატურად ჩაიტვირთება საიტის ყველა გვერდზე — CSS ემატება &lt;/head&gt;-მდე, JS &lt;/body&gt;-მდე. &lt;style&gt;/&lt;script&gt; ტეგების დამატება არ არის საჭირო.
+    </p>
+    <div class="form-group">
+      <label class="form-label">🎨 Custom CSS</label>
+      <textarea name="custom_css" class="form-control" rows="12" style="font-family:monospace;" placeholder=".header { background: #000; }">{{ settings.custom_css }}</textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">⚙️ Custom JavaScript</label>
+      <textarea name="custom_js" class="form-control" rows="12" style="font-family:monospace;" placeholder="console.log('hello');">{{ settings.custom_js }}</textarea>
+    </div>
+  </div>
+
   <div style="display:flex;gap:1rem;">
     <button type="submit" class="btn btn-primary">✓ შენახვა</button>
     <a href="{% url 'dashboard_home' %}" class="btn btn-ghost">გაუქმება</a>

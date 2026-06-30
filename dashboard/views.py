@@ -69,6 +69,7 @@ def site_settings(request):
             'delivery_maps_icon', 'delivery_whatsapp_icon', 'menu_iframe_url',
             'about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en',
             'marquee_text_ka', 'marquee_text_en',
+            'custom_css', 'custom_js',
         ]
         for field in fields:
             setattr(settings, field, request.POST.get(field, ''))
