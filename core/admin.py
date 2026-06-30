@@ -26,6 +26,12 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         )}),
         ('Menu', {'fields': ('menu_iframe_url', 'menu_loader_enabled')}),
         ('About', {'fields': ('about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en', 'about_image')}),
+        ('Home · Quick Section (About copy above order cards)', {
+            'fields': (
+                'quick_kicker_ka', 'quick_kicker_en', 'quick_title_ka', 'quick_title_en',
+                'quick_lead_ka', 'quick_lead_en', 'quick_cta_ka', 'quick_cta_en',
+            ),
+        }),
         ('Custom Design (CSS / JS)', {
             'fields': ('custom_css', 'custom_js'),
             'description': 'Add custom CSS/JS here to change the site design without editing code. CSS is injected before </head>, JS before </body>.',

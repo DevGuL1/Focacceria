@@ -190,6 +190,51 @@
     </div>
   </div>
 
+  <!-- Quick Section / About text -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">მთავარი გვერდი · „ჩვენ შესახებ" სექცია (Wolt/Glovo/WhatsApp ბარათების ზემოთ)</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 Kicker (ქართული)</label>
+        <input type="text" name="quick_kicker_ka" value="{{ settings.quick_kicker_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Kicker (English)</label>
+        <input type="text" name="quick_kicker_en" value="{{ settings.quick_kicker_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+        <input type="text" name="quick_title_ka" value="{{ settings.quick_title_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="quick_title_en" value="{{ settings.quick_title_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ტექსტი (ქართული)</label>
+        <textarea name="quick_lead_ka" class="form-control" rows="3">{{ settings.quick_lead_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Text (English)</label>
+        <textarea name="quick_lead_en" class="form-control" rows="3">{{ settings.quick_lead_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ღილაკის ტექსტი (ქართული)</label>
+        <input type="text" name="quick_cta_ka" value="{{ settings.quick_cta_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Button Text (English)</label>
+        <input type="text" name="quick_cta_en" value="{{ settings.quick_cta_en }}" class="form-control">
+      </div>
+    </div>
+  </div>
+
   <!-- Section Visibility & Marquee -->
   <div class="form-card" style="margin-bottom:1.5rem;">
     <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">სექციების გამოჩენა & მორბენალი სტრიქონი</h4>

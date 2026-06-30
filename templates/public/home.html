@@ -85,11 +85,11 @@
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}სწრაფი გზა შეკვეთამდე{% else %}Quick way to order{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}შეუკვეთე, როგორ გირჩევნია{% else %}Order your way{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}ერთი კლიკი — და მზად ხარ.{% else %}One click — and you are ready.{% endif %}</p>
+        <div class="kicker">{% if current_lang == 'ka' %}{{ site.quick_kicker_ka }}{% else %}{{ site.quick_kicker_en }}{% endif %}</div>
+        <h2 class="h2">{% if current_lang == 'ka' %}{{ site.quick_title_ka }}{% else %}{{ site.quick_title_en }}{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}{{ site.quick_lead_ka }}{% else %}{{ site.quick_lead_en }}{% endif %}</p>
       </div>
-      <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}მენიუზე გადასვლა{% else %}Go to Menu{% endif %}</a>
+      <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}{{ site.quick_cta_ka }}{% else %}{{ site.quick_cta_en }}{% endif %}</a>
     </div>
 
     <div class="quick">

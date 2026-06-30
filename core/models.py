@@ -106,6 +106,21 @@ class SiteSettings(models.Model):
     salumeria_lead_ka = models.TextField(default='ხორცეული, ყველი, ზეთები და ნაკრები — შეკვეთა WhatsApp-ით.', blank=True)
     salumeria_lead_en = models.TextField(default='Cold cuts, cheese, oils and packages — order with WhatsApp.', blank=True)
 
+    quick_kicker_ka = models.CharField(max_length=200, default='ჩვენ შესახებ', blank=True)
+    quick_kicker_en = models.CharField(max_length=200, default='About Us', blank=True)
+    quick_title_ka = models.CharField(max_length=200, default='ჩვენი ამბავი', blank=True)
+    quick_title_en = models.CharField(max_length=200, default='Our Story', blank=True)
+    quick_lead_ka = models.TextField(
+        default='ორიგინალი იტალიური რეცეპტებითა და თბილისის გულში — ჩვენ ვამზადებთ schiacciata სენდვიჩებს, რომლებიც გაგახსენებთ იტალიას.',
+        blank=True,
+    )
+    quick_lead_en = models.TextField(
+        default="Made with original Italian recipes, in the heart of Tbilisi — we craft schiacciata sandwiches that taste like Italy.",
+        blank=True,
+    )
+    quick_cta_ka = models.CharField(max_length=100, default='მენიუზე გადასვლა', blank=True)
+    quick_cta_en = models.CharField(max_length=100, default='Go to Menu', blank=True)
+
     show_menu_products = models.BooleanField(default=True)
 
     whatsapp_widget_enabled = models.BooleanField(default=True)

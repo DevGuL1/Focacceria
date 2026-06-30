@@ -70,6 +70,8 @@ def site_settings(request):
             'about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en',
             'marquee_text_ka', 'marquee_text_en',
             'custom_css', 'custom_js',
+            'quick_kicker_ka', 'quick_kicker_en', 'quick_title_ka', 'quick_title_en',
+            'quick_lead_ka', 'quick_lead_en', 'quick_cta_ka', 'quick_cta_en',
         ]
         for field in fields:
             setattr(settings, field, request.POST.get(field, ''))
