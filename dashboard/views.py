@@ -126,6 +126,26 @@ def homepage_settings(request):
 
         settings.save()
 
+        # Hero video
+        if request.POST.get('hero_video_file_clear') == 'on':
+            video_section.hero_video_file = None
+        if 'hero_video_file' in request.FILES:
+            video_section.hero_video_file = request.FILES['hero_video_file']
+
+        # Culinary Moment ("How it's made") section
+        video_section.title_ka = request.POST.get('video_title_ka', '').strip()
+        video_section.title_en = request.POST.get('video_title_en', '').strip()
+        video_section.subtitle_ka = request.POST.get('video_subtitle_ka', '').strip()
+        video_section.subtitle_en = request.POST.get('video_subtitle_en', '').strip()
+        video_section.is_active = request.POST.get('video_is_active') == 'on'
+
+        if request.POST.get('video_file_clear') == 'on':
+            video_section.video_file = None
+        if 'video_file' in request.FILES:
+            video_section.video_file = request.FILES['video_file']
+
+        video_section.save()
+
         messages.success(request, 'მთავარი გვერდის პარამეტრები შენახულია.')
         return redirect('homepage_settings')
     return render(request, 'dashboard/homepage_settings.html', {
@@ -216,33 +236,9 @@ def font_settings(request):
 
 @login_required
 def home_video_settings(request):
-    section = HomeVideoSection.get_settings()
-    if request.method == 'POST':
-        section.title_ka = request.POST.get('title_ka', '').strip()
-        section.title_en = request.POST.get('title_en', '').strip()
-        section.subtitle_ka = request.POST.get('subtitle_ka', '').strip()
-        section.subtitle_en = request.POST.get('subtitle_en', '').strip()
-        section.effect = request.POST.get('effect', 'split')
-        section.is_active = request.POST.get('is_active') == 'on'
-
-        if request.POST.get('video_file_clear') == 'on':
-            section.video_file = None
-        if 'video_file' in request.FILES:
-            section.video_file = request.FILES['video_file']
-
-        try:
-            section.full_clean()
-        except ValidationError as exc:
-            for messages_list in exc.message_dict.values():
-                for message in messages_list:
-                    messages.error(request, message)
-            return render(request, 'dashboard/home_video_settings.html', {'section': section})
-
-        section.save()
-        messages.success(request, 'ვიდეო სექცია შენახულია.')
-        return redirect('home_video_settings')
-
-    return render(request, 'dashboard/home_video_settings.html', {'section': section})
+    # Consolidated into homepage_settings (Hero video + Culinary Moment video are
+    # both managed there now). Kept as a redirect for backward-compat URLs.
+    return redirect('homepage_settings')
 
 
 # ── Sliders ───────────────────────────────────────────────────────────────────
@@ -297,10 +293,6 @@ def _save_slide(slide, request):
         slide.product_image = None
     if 'product_image' in request.FILES:
         slide.product_image = request.FILES['product_image']
-    if request.POST.get('video_file_clear') == 'on':
-        slide.video_file = None
-    if 'video_file' in request.FILES:
-        slide.video_file = request.FILES['video_file']
     slide.save()
 
 

@@ -204,6 +204,14 @@ class HomeVideoSection(models.Model):
         blank=True,
         null=True,
         validators=video_file_validators,
+        help_text='Culinary Moment ("How it\'s made") section video.',
+    )
+    hero_video_file = models.FileField(
+        upload_to='home-video/',
+        blank=True,
+        null=True,
+        validators=video_file_validators,
+        help_text='Hero (top of homepage) background video. Separate from the Culinary Moment video above.',
     )
     title_ka = models.CharField(max_length=220, blank=True, default='როგორ მზადდება გემო')
     title_en = models.CharField(max_length=220, blank=True, default='Where flavor gets made')
@@ -235,13 +243,6 @@ class HomeVideoSection(models.Model):
 class HeroSlide(models.Model):
     image = models.ImageField(upload_to='slides/')
     product_image = models.ImageField(upload_to='slides/', blank=True, null=True)
-    video_file = models.FileField(
-        upload_to='hero-video/',
-        blank=True,
-        null=True,
-        validators=video_file_validators,
-        help_text='Optional. If set, this video plays in the hero background instead of the image. Separate from the "How it\'s made" video.',
-    )
     title_ka = models.CharField(max_length=200, blank=True)
     title_en = models.CharField(max_length=200, blank=True)
     subtitle_ka = models.CharField(max_length=400, blank=True)

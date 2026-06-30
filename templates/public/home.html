@@ -9,9 +9,9 @@
 <!-- HERO — VIDEO LOOP (full-bleed, no container) -->
 <section class="hero hero--bg">
   <div class="hero-bg">
-    {% if hero_slide and hero_slide.video_file %}
+    {% if home_video_section.hero_video_file %}
     <video class="hero-video" autoplay loop muted playsinline>
-      <source src="{{ hero_slide.video_file.url }}" type="video/mp4">
+      <source src="{{ home_video_section.hero_video_file.url }}" type="video/mp4">
     </video>
     {% elif hero_slide and hero_slide.image %}
     <div class="hero-video" style="background:url('{{ hero_slide.image.url }}') center/cover no-repeat;"></div>
@@ -42,12 +42,12 @@
             {% else %}{% if current_lang == 'ka' %}მენიუ{% else %}Menu{% endif %}{% endif %}
           </a>
           {% elif site.whatsapp %}
-          <a class="btn btn-primary" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+          <!--<a class="btn btn-primary" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
             {% if current_lang == 'ka' %}WhatsApp შეკვეთა{% else %}WhatsApp Order{% endif %}
-          </a>
+          </a>-->
           {% endif %}
-          <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}" style="color:#fff;border-color:rgba(239,221,198,0.38);">
-            {% if current_lang == 'ka' %}სრული მენიუ{% else %}Full Menu{% endif %}
+          <!-- <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}" style="color:#fff;border-color:rgba(239,221,198,0.38);">
+             {% if current_lang == 'ka' %}სრული მენიუ{% else %}Full Menu{% endif %}-->
           </a>
         </div>
         <div class="trustline" style="justify-content:center;">
@@ -80,19 +80,40 @@
 <style>@keyframes marquee-foca{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}</style>
 {% endif %}
 
-<!-- QUICK ORDER -->
-<section id="quick" class="section section--tight">
+
+{% if site.show_about %}
+<!-- STORY -->
+<section class="section">
   <div class="container">
     <div class="section__head reveal">
       <div>
-        <div class="kicker">{% if current_lang == 'ka' %}{{ site.quick_kicker_ka }}{% else %}{{ site.quick_kicker_en }}{% endif %}</div>
-        <h2 class="h2">{% if current_lang == 'ka' %}{{ site.quick_title_ka }}{% else %}{{ site.quick_title_en }}{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}{{ site.quick_lead_ka }}{% else %}{{ site.quick_lead_en }}{% endif %}</p>
+        <h2 class="h2">{% if current_lang == 'ka' %}ჩვენს შესახებ{% else %}About Us{% endif %}</h2>
+        <p class="lead">{% if current_lang == 'ka' %}{{ site.story_subtitle_ka }}{% else %}{{ site.story_subtitle_en }}{% endif %}</p>
       </div>
-      <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}{{ site.quick_cta_ka }}{% else %}{{ site.quick_cta_en }}{% endif %}</a>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1.2fr 0.8fr;">
+      <div class="card reveal" style="min-height:320px;">
+        <div class="card__media" style="height:320px;">
+          {% if site.about_image %}
+          <img src="{{ site.about_image.url }}" alt="About Focacceria">
+          {% else %}
+          <img alt="Our story" src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1400&q=80">
+          {% endif %}
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card__body" style="padding:22px;">
+          <h3 class="card__title" style="margin-bottom:12px;">{% if current_lang == 'ka' %}{{ site.about_title_ka }}{% else %}{{ site.about_title_en }}{% endif %}</h3>
+          <p class="card__desc" style="min-height:auto;font-size:15px;">
+            {% if current_lang == 'ka' %}{{ site.about_text_ka }}{% else %}{{ site.about_text_en }}{% endif %}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+{% endif %} 
 
 {% if site.show_menu %}
 <!-- POPULAR MENU CAROUSEL -->
@@ -301,39 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </section>
 {% endif %}
 
-{% if site.show_about %}
-<!-- STORY -->
-<section class="section">
-  <div class="container">
-    <div class="section__head reveal">
-      <div>
-        <h2 class="h2">{% if current_lang == 'ka' %}ჩვენს შესახებ{% else %}About Us{% endif %}</h2>
-        <p class="lead">{% if current_lang == 'ka' %}{{ site.story_subtitle_ka }}{% else %}{{ site.story_subtitle_en }}{% endif %}</p>
-      </div>
-    </div>
-
-    <div class="grid" style="grid-template-columns:1.2fr 0.8fr;">
-      <div class="card reveal" style="min-height:320px;">
-        <div class="card__media" style="height:320px;">
-          {% if site.about_image %}
-          <img src="{{ site.about_image.url }}" alt="About Focacceria">
-          {% else %}
-          <img alt="Our story" src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1400&q=80">
-          {% endif %}
-        </div>
-      </div>
-      <div class="card reveal">
-        <div class="card__body" style="padding:22px;">
-          <h3 class="card__title" style="margin-bottom:12px;">{% if current_lang == 'ka' %}{{ site.about_title_ka }}{% else %}{{ site.about_title_en }}{% endif %}</h3>
-          <p class="card__desc" style="min-height:auto;font-size:15px;">
-            {% if current_lang == 'ka' %}{{ site.about_text_ka }}{% else %}{{ site.about_text_en }}{% endif %}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-{% endif %}
 
 {% if site.show_visit %}
 <!-- VISIT -->

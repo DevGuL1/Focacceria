@@ -72,6 +72,68 @@
     </div>
   </div>
 
+  <!-- Hero Video -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:.5rem;font-family:var(--font-serif);">🎬 Hero ფონური ვიდეო</h4>
+    <p style="margin:0 0 1rem;color:var(--text-muted);font-size:.85rem;">გამოჩნდება გვერდის სათავეში, სლაიდერის ფონად. ცარიელის შემთხვევაში გამოჩნდება სლაიდის სურათი.</p>
+    <div class="form-group">
+      {% if video_section.hero_video_file %}
+      <div style="margin-bottom:.5rem;">
+        <span style="font-size:14px;color:var(--text-muted);">ატვირთულია: <a href="{{ video_section.hero_video_file.url }}" target="_blank">{{ video_section.hero_video_file.name }}</a></span>
+        <label style="display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;cursor:pointer;font-weight:normal;">
+          <input type="checkbox" name="hero_video_file_clear" value="on"> წაშლა
+        </label>
+      </div>
+      {% endif %}
+      <input type="file" name="hero_video_file" class="form-control" accept="video/*">
+    </div>
+  </div>
+
+  <!-- Culinary Moment (Craft) Section -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">კულინარიული მომენტი (როგორ მზადდება გემო)</h4>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="video_is_active" {% if video_section.is_active %}checked{% endif %}>
+          <span>სექციის გამოჩენა</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+        <input type="text" name="video_title_ka" value="{{ video_section.title_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="video_title_en" value="{{ video_section.title_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ქვესათაური (ქართული)</label>
+        <textarea name="video_subtitle_ka" class="form-control" rows="3">{{ video_section.subtitle_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Subtitle (English)</label>
+        <textarea name="video_subtitle_en" class="form-control" rows="3">{{ video_section.subtitle_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ვიდეო ფაილი (MP4/MOV)</label>
+      {% if video_section.video_file %}
+      <div style="margin-bottom:.5rem;">
+        <span style="font-size:14px;color:var(--text-muted);">ატვირთულია: <a href="{{ video_section.video_file.url }}" target="_blank">{{ video_section.video_file.name }}</a></span>
+        <label style="display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;cursor:pointer;font-weight:normal;">
+          <input type="checkbox" name="video_file_clear" value="on"> წაშლა
+        </label>
+      </div>
+      {% endif %}
+      <input type="file" name="video_file" class="form-control" accept="video/*">
+    </div>
+  </div>
+
   <!-- About Us Section -->
   <div class="form-card" style="margin-bottom:1.5rem;">
     <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ჩვენს შესახებ სექცია</h4>
@@ -117,15 +179,6 @@
       {% endif %}
       <input type="file" name="about_image" class="form-control" accept="image/*">
     </div>
-  </div>
-
-  <!-- Culinary Moment (Craft) Section: managed on its own dedicated page now -->
-  <div class="form-card" style="margin-bottom:1.5rem;">
-    <h4 style="margin-bottom:.5rem;font-family:var(--font-serif);">კულინარიული მომენტი (როგორ მზადდება გემო)</h4>
-    <p style="color:var(--text-muted);margin:0;">
-      ეს სექცია (სათაური, ტექსტი და ვიდეო) იმართება ცალკე გვერდიდან:
-      <a href="{% url 'home_video_settings' %}" class="btn btn-ghost" style="margin-left:.5rem;">→ გახსენი „Home Video" გვერდი</a>
-    </p>
   </div>
 
   <!-- Visit Us Section -->
