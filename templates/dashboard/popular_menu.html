@@ -60,7 +60,10 @@
           <div style="font-weight:500;">{{ item.name_ka }}</div>
           <div style="font-size:.78rem;color:var(--text-muted);">{{ item.name_en }}</div>
         </td>
-        <td><span class="badge badge-ghost" style="font-size:.72rem;">{{ item.category.name_ka }}</span></td>
+        <td>
+          <span class="badge badge-ghost" style="font-size:.72rem;">{{ item.category.name_ka }}</span>
+          <span style="font-size:.68rem;color:var(--text-muted);">({{ item.category.get_page_display }})</span>
+        </td>
         <td style="font-weight:600;color:var(--accent);">{{ item.price }}₾</td>
         <td>
           <form method="post" action="{% url 'popular_menu_toggle' item.pk %}">

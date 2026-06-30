@@ -603,9 +603,9 @@ def _save_item(item, request):
 
 @login_required
 def popular_menu(request):
-    categories = MenuCategory.objects.filter(page='menu')
-    items = MenuItem.objects.filter(category__page='menu').select_related('category')
-    featured_items = items.filter(is_featured=True)
+    categories = MenuCategory.objects.all()
+    items = MenuItem.objects.select_related('category').all()
+    featured_items = MenuItem.objects.filter(is_featured=True).select_related('category')
     return render(request, 'dashboard/popular_menu.html', {
         'categories': categories,
         'items': items,
