@@ -1,219 +1,65 @@
 {% extends 'public/base.html' %}
 {% load static %}
 
-{% block title %}{% if lang == 'ka' %}მენიუ{% else %}The Menu{% endif %} · Focacceria{% endblock %}
+{% block title %}{% if current_lang == 'ka' %}მენიუ{% else %}Menu{% endif %} · Focacceria{% endblock %}
 
 {% block content %}
-{% if site.menu_iframe_url %}
-<section class="bg-paper py-4 md:py-6">
-  <div class="mx-auto max-w-7xl px-4 md:px-8">
-    <div class="iframe-shell">
-      {% if site.menu_loader_enabled %}
-      <div class="iframe-loader" data-iframe-loader>
-        <div class="text-center">
-          <div class="iframe-loader__ring mx-auto"></div>
-          <p class="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-foca-green-deep">
-            {% if lang == 'ka' %}იტვირთება მენიუ{% else %}Loading menu{% endif %}
-          </p>
-        </div>
+<!-- Page header -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <div class="kicker">{% if current_lang == 'ka' %}მენიუ{% else %}Menu{% endif %}</div>
+        <h1 class="h1" style="font-size:clamp(30px,3vw,48px);">{% if current_lang == 'ka' %}ჭამე, როგორც იტალიელი{% else %}Eat like an Italian{% endif %}</h1>
+        <p class="lead">{% if current_lang == 'ka' %}შეუკვეთე პირდაპირ ონლაინ.{% else %}Order online directly.{% endif %}</p>
       </div>
-      {% endif %}
-      <iframe
-        src="{{ site.menu_iframe_url }}"
-        title="{% if lang == 'ka' %}Focacceria მენიუ{% else %}Focacceria menu{% endif %}"
-        loading="eager"
-        allowfullscreen
-        referrerpolicy="strict-origin-when-cross-origin"
-        data-menu-iframe
-      ></iframe>
-    </div>
-  </div>
-</section>
-{% else %}
-
-{# ═══════════════════════════════════ HERO ══════════════ #}
-<section class="relative overflow-hidden border-b border-foca-ink/10 bg-foca-cream-deep/30 py-12 md:py-20">
-  <div class="mx-auto grid max-w-7xl gap-8 px-4 md:grid-cols-2 md:px-8">
-    <div>
-      <p class="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-foca-red">
-        <span class="h-px w-8 bg-foca-red"></span>
-        {% if lang == 'ka' %}ჩვენი მენიუ{% else %}Our Menu{% endif %}
-      </p>
-      <h1 class="font-display text-5xl text-foca-ink md:text-7xl">{% if lang == 'ka' %}მენიუ{% else %}The Menu{% endif %}</h1>
-      <p class="mt-4 max-w-md text-base text-foca-ink/70 md:text-lg">
-        {% if lang == 'ka' %}სქიაჩატას სენდვიჩები, სალათები, ტკბილი ფოკაჩა და დესერტები. ფასები ლარში.
-        {% else %}Schiacciata sandwiches, salads, sweet focaccia and desserts. Prices in GEL.{% endif %}
-      </p>
-    </div>
-    <div class="hidden md:block">
-      <div class="relative aspect-[4/3] overflow-hidden rounded-3xl border-4 border-foca-ink shadow-xl">
-        <div class="h-full w-full bg-foca-cream-deep/50 flex items-center justify-center">
-          <span class="font-display text-8xl text-foca-ink/10">MENU</span>
-        </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/salumeria/{% else %}/en/salumeria/{% endif %}">{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %}</a>
+        {% if site.whatsapp %}
+        <a class="btn btn-primary" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+          {% if current_lang == 'ka' %}WhatsApp შეკვეთა{% else %}WhatsApp Order{% endif %}
+        </a>
+        {% endif %}
       </div>
     </div>
   </div>
 </section>
 
-{# ═══════════════════════════════════ MENU ITEMS ════════ #}
-<section class="bg-paper py-12 md:py-20">
-  <div class="mx-auto max-w-7xl px-4 md:px-8">
-
-    {# Filter Tabs #}
-    {% if categories %}
-    <div class="mt-8">
-      <div class="flex flex-wrap gap-2" id="filter-tabs">
-        <button onclick="filterMenu('all')" data-filter="all"
-                class="filter-btn active rounded-full border-2 border-foca-red bg-foca-red px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-foca-cream transition">
-          {% if lang == 'ka' %}ყველა{% else %}All{% endif %}
-        </button>
-        <button onclick="filterMenu('sandwiches')" data-filter="sandwiches"
-                class="filter-btn rounded-full border-2 border-foca-ink/20 bg-transparent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-foca-ink/60 transition hover:border-foca-ink/40 hover:text-foca-ink">
-          {% if lang == 'ka' %}სენდვიჩები{% else %}Sandwiches{% endif %}
-        </button>
-        <button onclick="filterMenu('salads')" data-filter="salads"
-                class="filter-btn rounded-full border-2 border-foca-ink/20 bg-transparent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-foca-ink/60 transition hover:border-foca-ink/40 hover:text-foca-ink">
-          {% if lang == 'ka' %}სალათები{% else %}Salads{% endif %}
-        </button>
-        <button onclick="filterMenu('vegan')" data-filter="vegan"
-                class="filter-btn rounded-full border-2 border-foca-ink/20 bg-transparent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-foca-ink/60 transition hover:border-foca-ink/40 hover:text-foca-ink">
-          {% if lang == 'ka' %}ვეგანური{% else %}Vegan &amp; Veg{% endif %}
-        </button>
-        <button onclick="filterMenu('sweets')" data-filter="sweets"
-                class="filter-btn rounded-full border-2 border-foca-ink/20 bg-transparent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-foca-ink/60 transition hover:border-foca-ink/40 hover:text-foca-ink">
-          {% if lang == 'ka' %}ტკბილეული{% else %}Sweets{% endif %}
-        </button>
-      </div>
-
-      {# Category Sections #}
-      <div class="mt-10 space-y-14" id="menu-sections">
-        {% for cat in categories %}
-        <section class="menu-section" data-slug="{{ cat.slug }}">
-          <h3 class="font-display text-2xl text-foca-red md:text-3xl">
-            {% if lang == 'ka' %}{{ cat.name_ka }}{% else %}{{ cat.name_en }}{% endif %}
-          </h3>
-
-          {% if cat.description_ka or cat.description_en %}
-          <p class="mt-1 text-sm text-foca-ink/50">
-            {% if lang == 'ka' %}{{ cat.description_ka }}{% else %}{{ cat.description_en }}{% endif %}
-          </p>
+<!-- Online Order (iframe) -->
+<section class="section section--tight" style="padding-top: 0;">
+  <div class="container">
+    <div class="iframe-shell reveal">
+      <!-- Our branded top bar overlaid on the iframe -->
+      <div class="iframe-header">
+        {% if site.logo %}
+          {% if site.logo_dark %}
+            <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-light">
+            <img src="{{ site.logo_dark.url }}" alt="Focacceria" class="logo-dark">
+          {% else %}
+            <img src="{{ site.logo.url }}" alt="Focacceria" class="logo-default">
           {% endif %}
-
-          <ul class="mt-5 grid gap-x-10 gap-y-5 md:grid-cols-2">
-            {% for item in cat.items.all %}
-            {% if item.is_available %}
-            <li class="border-b border-dashed border-foca-ink/15 pb-4">
-              <div class="flex items-start gap-3">
-                {% if item.image %}
-                <img src="{{ item.image.url }}"
-                     alt="{% if lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}"
-                     class="h-14 w-14 shrink-0 rounded-xl object-cover border border-foca-ink/10">
-                {% endif %}
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-baseline justify-between gap-4">
-                    <h4 class="text-base font-bold uppercase tracking-wide text-foca-ink">
-                      {% if lang == 'ka' %}{{ item.name_ka }}{% else %}{{ item.name_en }}{% endif %}
-                    </h4>
-                    <span class="shrink-0 text-base font-bold tabular-nums text-foca-red">
-                      {{ item.price }}₾{% if item.price_unit %}<span class="text-xs font-normal text-foca-ink/40">/ {{ item.price_unit }}</span>{% endif %}
-                    </span>
-                  </div>
-                  {% if item.description_ka or item.description_en %}
-                  <p class="mt-1 text-sm text-foca-ink/60">
-                    {% if lang == 'ka' %}{{ item.description_ka }}{% else %}{{ item.description_en }}{% endif %}
-                  </p>
-                  {% endif %}
-                  {% if item.badge_ka or item.badge_en %}
-                  <span class="mt-1.5 inline-block rounded-full bg-foca-red px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-foca-cream">
-                    {% if lang == 'ka' %}{{ item.badge_ka }}{% else %}{{ item.badge_en }}{% endif %}
-                  </span>
-                  {% endif %}
-                </div>
-              </div>
-            </li>
-            {% endif %}
-            {% empty %}
-            <li class="text-sm text-foca-ink/40 py-4">{% if lang == 'ka' %}მალე დაემატება{% else %}Coming soon{% endif %}</li>
-            {% endfor %}
-          </ul>
-        </section>
-        {% endfor %}
+        {% else %}
+          <span style="font-size:18px;font-weight:900;letter-spacing:-0.02em;color:var(--c-red);">FOCACCERIA</span>
+        {% endif %}
+        <span>Focacceria · {% if current_lang == 'ka' %}ონლაინ შეკვეთა{% else %}Online Order{% endif %}</span>
+      </div>
+      <div class="iframe-body">
+        <iframe
+          src="{% if site.menu_iframe_url %}{{ site.menu_iframe_url }}{% else %}https://focacceria.eat-me.online/en/category/mortadella{% endif %}"
+          title="Foca — ონლაინ მენიუ"
+          loading="lazy"
+          allow="payment"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+        ></iframe>
       </div>
     </div>
-    {% else %}
-    <div class="py-20 text-center text-foca-ink/40">
-      <p class="font-display text-3xl">{% if lang == 'ka' %}მენიუ მალე გამოჩნდება{% else %}Menu coming soon{% endif %}</p>
-    </div>
-    {% endif %}
 
-    {# Order strip #}
-    <div class="mt-16 overflow-hidden rounded-3xl bg-foca-ink p-8 text-center text-foca-cream">
-      <h3 class="font-display text-3xl text-foca-cream md:text-4xl">{% if lang == 'ka' %}შეუკვეთეთ ახლავე{% else %}Order now{% endif %}</h3>
-      <p class="mt-2 text-foca-cream/60">{% if lang == 'ka' %}მიტანა Wolt ან Glovo-ს მეშვეობით{% else %}Delivery via Wolt or Glovo{% endif %}</p>
-      <div class="mt-6 flex flex-wrap justify-center gap-3">
-        {% if site.wolt_url %}
-        <a href="{{ site.wolt_url }}" target="_blank"
-           class="inline-flex items-center gap-2 rounded-full bg-foca-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-foca-cream transition hover:bg-foca-red-deep">
-          <span class="h-2 w-2 rounded-full bg-foca-blue"></span>Wolt
-        </a>
-        {% endif %}
-        {% if site.glovo_url %}
-        <a href="{{ site.glovo_url }}" target="_blank"
-           class="inline-flex items-center gap-2 rounded-full border-2 border-foca-cream/20 px-6 py-3 text-sm font-bold uppercase tracking-wide text-foca-cream transition hover:border-foca-cream/50">
-          <span class="h-2 w-2 rounded-full bg-foca-green"></span>Glovo
-        </a>
-        {% endif %}
-        {% if site.phone %}
-        <a href="tel:{{ site.phone }}"
-           class="inline-flex items-center gap-2 rounded-full border-2 border-foca-cream/20 px-6 py-3 text-sm font-bold uppercase tracking-wide text-foca-cream transition hover:border-foca-cream/50">
-          {% if lang == 'ka' %}📞 დარეკვა{% else %}📞 Call & Collect{% endif %}
-        </a>
-        {% endif %}
-      </div>
-    </div>
+    <p style="margin-top:14px;font-size:13px;color:var(--c-muted);text-align:center;">
+      {% if current_lang == 'ka' %}პრობლემის შემთხვევაში გვიწერე{% else %}Having trouble? Message us on{% endif %}
+      {% if site.whatsapp %}
+      <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" style="font-weight:800;color:var(--c-red);">WhatsApp-ზე</a>
+      {% endif %}
+    </p>
   </div>
 </section>
-
-{% endif %}
-{% endblock %}
-
-{% block extra_js %}
-<script>
-const menuIframe = document.querySelector('[data-menu-iframe]');
-const menuLoader = document.querySelector('[data-iframe-loader]');
-
-if (menuIframe && menuLoader) {
-  const hideLoader = () => menuLoader.classList.add('is-hidden');
-  menuIframe.addEventListener('load', hideLoader, { once: true });
-  window.setTimeout(hideLoader, 9000);
-}
-
-function filterMenu(filter) {
-  if (!document.querySelectorAll('.filter-btn').length) return;
-  // Update buttons
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    const isActive = btn.dataset.filter === filter;
-    btn.classList.toggle('bg-foca-red', isActive);
-    btn.classList.toggle('border-foca-red', isActive);
-    btn.classList.toggle('text-foca-cream', isActive);
-    btn.classList.toggle('border-foca-ink/20', !isActive);
-    btn.classList.toggle('text-foca-ink/60', !isActive);
-    btn.classList.toggle('bg-transparent', !isActive);
-  });
-  // Show/hide sections
-  document.querySelectorAll('.menu-section').forEach(sec => {
-    if (filter === 'all') {
-      sec.style.display = '';
-      return;
-    }
-    const slug = sec.dataset.slug || '';
-    const show = slug.includes(filter) ||
-      (filter === 'sandwiches' && (slug.includes('mortadell') || slug.includes('prosciutto') || slug.includes('milano') || slug.includes('salsiccia'))) ||
-      (filter === 'salads' && slug.includes('salad')) ||
-      (filter === 'vegan' && (slug.includes('vegan') || slug.includes('vegetarian'))) ||
-      (filter === 'sweets' && (slug.includes('sweet') || slug.includes('dessert') || slug.includes('gelato')));
-    sec.style.display = show ? '' : 'none';
-  });
-}
-</script>
 {% endblock %}

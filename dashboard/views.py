@@ -68,11 +68,17 @@ def site_settings(request):
             'delivery_wolt_icon', 'delivery_glovo_icon', 'delivery_call_icon',
             'delivery_maps_icon', 'delivery_whatsapp_icon', 'menu_iframe_url',
             'about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en',
+            'marquee_text_ka', 'marquee_text_en',
         ]
         for field in fields:
             setattr(settings, field, request.POST.get(field, ''))
 
         settings.menu_loader_enabled = request.POST.get('menu_loader_enabled') == 'on'
+        settings.show_about = request.POST.get('show_about') == 'on'
+        settings.show_visit = request.POST.get('show_visit') == 'on'
+        settings.show_menu = request.POST.get('show_menu') == 'on'
+        settings.show_marquee = request.POST.get('show_marquee') == 'on'
+        settings.show_menu_products = request.POST.get('show_menu_products') == 'on'
 
         if settings.menu_iframe_url and not settings.menu_iframe_url.startswith('https://'):
             messages.error(request, 'Iframe URL უნდა იწყებოდეს https://-ით.')
@@ -86,6 +92,96 @@ def site_settings(request):
         messages.success(request, 'პარამეტრები შენახულია.')
         return redirect('site_settings')
     return render(request, 'dashboard/site_settings.html', {'settings': settings})
+
+
+@login_required
+def homepage_settings(request):
+    settings = SiteSettings.get_settings()
+    video_section = HomeVideoSection.get_settings()
+    if request.method == 'POST':
+        fields = [
+            'tagline_ka', 'tagline_en',
+            'marquee_text_ka', 'marquee_text_en',
+            'about_title_ka', 'about_title_en', 'about_text_ka', 'about_text_en',
+            'address_ka', 'address_en', 'opening_hours_ka', 'opening_hours_en',
+            'phone', 'whatsapp', 'instagram', 'google_maps_url',
+            'wolt_url', 'glovo_url',
+            'story_kicker_ka', 'story_kicker_en', 'story_title_ka', 'story_title_en',
+            'story_subtitle_ka', 'story_subtitle_en',
+            'visit_kicker_ka', 'visit_kicker_en', 'visit_title_ka', 'visit_title_en',
+            'visit_subtitle_ka', 'visit_subtitle_en',
+        ]
+        for field in fields:
+            setattr(settings, field, request.POST.get(field, '').strip())
+
+        settings.show_about = request.POST.get('show_about') == 'on'
+        settings.show_visit = request.POST.get('show_visit') == 'on'
+        settings.show_menu = request.POST.get('show_menu') == 'on'
+        settings.show_marquee = request.POST.get('show_marquee') == 'on'
+
+        if 'about_image' in request.FILES:
+            settings.about_image = request.FILES['about_image']
+
+        settings.save()
+
+        # Save HomeVideoSection (Culinary Moment) fields
+        video_section.title_ka = request.POST.get('video_title_ka', '').strip()
+        video_section.title_en = request.POST.get('video_title_en', '').strip()
+        video_section.subtitle_ka = request.POST.get('video_subtitle_ka', '').strip()
+        video_section.subtitle_en = request.POST.get('video_subtitle_en', '').strip()
+        video_section.is_active = request.POST.get('video_is_active') == 'on'
+
+        if request.POST.get('video_file_clear') == 'on':
+            video_section.video_file = None
+        if 'video_file' in request.FILES:
+            video_section.video_file = request.FILES['video_file']
+
+        video_section.save()
+
+        messages.success(request, 'მთავარი გვერდის პარამეტრები შენახულია.')
+        return redirect('homepage_settings')
+    return render(request, 'dashboard/homepage_settings.html', {
+        'settings': settings,
+        'video_section': video_section,
+    })
+
+
+@login_required
+def salumeria_dashboard(request):
+    settings = SiteSettings.get_settings()
+    seo_obj, _ = SEOSettings.objects.get_or_create(page='salumeria')
+    categories = MenuCategory.objects.filter(page='salumeria')
+    items = MenuItem.objects.filter(category__page='salumeria').select_related('category')
+
+    if request.method == 'POST':
+        form_type = request.POST.get('form_type')
+        if form_type == 'settings':
+            settings.salumeria_kicker_ka = request.POST.get('salumeria_kicker_ka', '').strip()
+            settings.salumeria_kicker_en = request.POST.get('salumeria_kicker_en', '').strip()
+            settings.salumeria_title_ka = request.POST.get('salumeria_title_ka', '').strip()
+            settings.salumeria_title_en = request.POST.get('salumeria_title_en', '').strip()
+            settings.salumeria_lead_ka = request.POST.get('salumeria_lead_ka', '').strip()
+            settings.salumeria_lead_en = request.POST.get('salumeria_lead_en', '').strip()
+            settings.save()
+            messages.success(request, 'სალუმერიის გვერდის ტექსტები შენახულია.')
+        elif form_type == 'seo':
+            seo_obj.title_ka = request.POST.get('title_ka', '').strip()
+            seo_obj.title_en = request.POST.get('title_en', '').strip()
+            seo_obj.description_ka = request.POST.get('description_ka', '').strip()
+            seo_obj.description_en = request.POST.get('description_en', '').strip()
+            seo_obj.keywords = request.POST.get('keywords', '').strip()
+            if 'og_image' in request.FILES:
+                seo_obj.og_image = request.FILES['og_image']
+            seo_obj.save()
+            messages.success(request, 'სალუმერიის SEO პარამეტრები შენახულია.')
+        return redirect('salumeria_dashboard')
+
+    return render(request, 'dashboard/salumeria_dashboard.html', {
+        'settings': settings,
+        'seo': seo_obj,
+        'categories': categories,
+        'items': items,
+    })
 
 
 @login_required
@@ -359,6 +455,7 @@ def menu_categories(request):
 
 @login_required
 def category_add(request):
+    default_page = request.GET.get('page', 'menu')
     if request.method == 'POST':
         MenuCategory.objects.create(
             name_ka=request.POST.get('name_ka', ''),
@@ -366,12 +463,15 @@ def category_add(request):
             slug=request.POST.get('slug', ''),
             description_ka=request.POST.get('description_ka', ''),
             description_en=request.POST.get('description_en', ''),
-            page=request.POST.get('page', 'menu'),
+            page=request.POST.get('page', default_page),
             order=int(request.POST.get('order', 0)),
             is_active=request.POST.get('is_active') == 'on',
         )
         messages.success(request, 'კატეგორია დამატებულია.')
-    return redirect('menu_categories')
+        if default_page == 'salumeria':
+            return redirect('salumeria_dashboard')
+        return redirect('menu_categories')
+    return render(request, 'dashboard/category_form.html', {'cat': None, 'default_page': default_page})
 
 
 @login_required
@@ -388,14 +488,20 @@ def category_edit(request, pk):
         cat.is_active = request.POST.get('is_active') == 'on'
         cat.save()
         messages.success(request, 'კატეგორია განახლებულია.')
+        if cat.page == 'salumeria':
+            return redirect('salumeria_dashboard')
         return redirect('menu_categories')
     return render(request, 'dashboard/category_form.html', {'cat': cat})
 
 
 @login_required
 def category_delete(request, pk):
-    get_object_or_404(MenuCategory, pk=pk).delete()
+    cat = get_object_or_404(MenuCategory, pk=pk)
+    page_type = cat.page
+    cat.delete()
     messages.success(request, 'კატეგორია წაშლილია.')
+    if page_type == 'salumeria':
+        return redirect('salumeria_dashboard')
     return redirect('menu_categories')
 
 
@@ -428,30 +534,48 @@ def menu_items(request, category_pk=None):
 
 @login_required
 def item_add(request):
-    categories = MenuCategory.objects.all()
+    default_page = request.GET.get('page', 'menu')
+    categories = MenuCategory.objects.filter(page=default_page)
     if request.method == 'POST':
         item = MenuItem()
         _save_item(item, request)
         messages.success(request, 'პროდუქტი დამატებულია.')
+        if default_page == 'salumeria':
+            return redirect('salumeria_dashboard')
         return redirect('menu_items')
-    return render(request, 'dashboard/item_form.html', {'item': None, 'categories': categories})
+    return render(request, 'dashboard/item_form.html', {
+        'item': None,
+        'categories': categories,
+        'default_page': default_page
+    })
 
 
 @login_required
 def item_edit(request, pk):
     item = get_object_or_404(MenuItem, pk=pk)
-    categories = MenuCategory.objects.all()
+    default_page = item.category.page
+    categories = MenuCategory.objects.filter(page=default_page)
     if request.method == 'POST':
         _save_item(item, request)
         messages.success(request, 'პროდუქტი განახლებულია.')
+        if item.category.page == 'salumeria':
+            return redirect('salumeria_dashboard')
         return redirect('menu_items')
-    return render(request, 'dashboard/item_form.html', {'item': item, 'categories': categories})
+    return render(request, 'dashboard/item_form.html', {
+        'item': item,
+        'categories': categories,
+        'default_page': default_page
+    })
 
 
 @login_required
 def item_delete(request, pk):
-    get_object_or_404(MenuItem, pk=pk).delete()
+    item = get_object_or_404(MenuItem, pk=pk)
+    page_type = item.category.page
+    item.delete()
     messages.success(request, 'პროდუქტი წაშლილია.')
+    if page_type == 'salumeria':
+        return redirect('salumeria_dashboard')
     return redirect('menu_items')
 
 
@@ -488,7 +612,27 @@ def _save_item(item, request):
 @login_required
 def addons(request):
     addon_list = AddOn.objects.all()
-    return render(request, 'dashboard/addons.html', {'addons': addon_list})
+    settings = SiteSettings.get_settings()
+
+    if request.method == 'POST' and request.POST.get('form_type') == 'whatsapp_widget':
+        settings.whatsapp_widget_enabled = request.POST.get('whatsapp_widget_enabled') == 'on'
+        settings.whatsapp_widget_phone = request.POST.get('whatsapp_widget_phone', '').strip()
+        settings.whatsapp_widget_message_ka = request.POST.get('whatsapp_widget_message_ka', '').strip()
+        settings.whatsapp_widget_message_en = request.POST.get('whatsapp_widget_message_en', '').strip()
+        settings.whatsapp_widget_btn_ka = request.POST.get('whatsapp_widget_btn_ka', '').strip()
+        settings.whatsapp_widget_btn_en = request.POST.get('whatsapp_widget_btn_en', '').strip()
+        settings.whatsapp_widget_name_ka = request.POST.get('whatsapp_widget_name_ka', '').strip()
+        settings.whatsapp_widget_name_en = request.POST.get('whatsapp_widget_name_en', '').strip()
+        if 'whatsapp_widget_avatar' in request.FILES:
+            settings.whatsapp_widget_avatar = request.FILES['whatsapp_widget_avatar']
+        settings.save()
+        messages.success(request, 'WhatsApp ჩატის პარამეტრები შენახულია.')
+        return redirect('addons')
+
+    return render(request, 'dashboard/addons.html', {
+        'addons': addon_list,
+        'settings': settings,
+    })
 
 
 @login_required

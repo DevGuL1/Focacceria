@@ -190,6 +190,60 @@
     </div>
   </div>
 
+  <!-- Section Visibility & Marquee -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">სექციების გამოჩენა & მორბენალი სტრიქონი</h4>
+    <div class="form-row" style="margin-bottom: 1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_about" {% if settings.show_about %}checked{% endif %}>
+          <span>ჩვენი ისტორია (About) სექციის გამოჩენა</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_visit" {% if settings.show_visit %}checked{% endif %}>
+          <span>ვიზიტის (Visit) სექციის გამოჩენა</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom: 1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_menu" {% if settings.show_menu %}checked{% endif %}>
+          <span>ბესტსელერების (Featured Menu) სექციის გამოჩენა</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_marquee" {% if settings.show_marquee %}checked{% endif %}>
+          <span>მორბენალი სტრიქონის (Marquee) გამოჩენა</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom: 1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_menu_products" {% if settings.show_menu_products %}checked{% endif %}>
+          <span style="font-weight:600;color:var(--accent);">მენიუს პროდუქტების და კატეგორიების მართვა დეშბორდში (Local Menu)</span>
+        </label>
+        <small style="display:block;margin-top:.2rem;color:var(--text-muted);margin-left:1.55rem;">
+          გათიშვის შემთხვევაში, დეშბორდის მენიუდან (Sidebar) დაიმალება კატეგორიები, პროდუქტები და დამატებები.
+        </small>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 მორბენალი სტრიქონის ტექსტი (ქართული)</label>
+        <input type="text" name="marquee_text_ka" value="{{ settings.marquee_text_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Marquee Text (English)</label>
+        <input type="text" name="marquee_text_en" value="{{ settings.marquee_text_en }}" class="form-control">
+      </div>
+    </div>
+  </div>
+
   <div style="display:flex;gap:1rem;">
     <button type="submit" class="btn btn-primary">✓ შენახვა</button>
     <a href="{% url 'dashboard_home' %}" class="btn btn-ghost">გაუქმება</a>

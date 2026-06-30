@@ -72,6 +72,52 @@ class SiteSettings(models.Model):
         help_text='Custom JavaScript injected before </body> on every page. No <script> tags needed.'
     )
 
+    show_about = models.BooleanField(default=True)
+    show_visit = models.BooleanField(default=True)
+    show_menu = models.BooleanField(default=True)
+    show_marquee = models.BooleanField(default=True)
+    marquee_text_ka = models.CharField(
+        max_length=500,
+        default='SCHIACCIATA SANDWICHES · SALUMERIA CORNER · BORN IN ITALY · BAKED IN TBILISI'
+    )
+    marquee_text_en = models.CharField(
+        max_length=500,
+        default='SCHIACCIATA SANDWICHES · SALUMERIA CORNER · BORN IN ITALY · BAKED IN TBILISI'
+    )
+
+    story_kicker_ka = models.CharField(max_length=200, default='ჩვენი ისტორია', blank=True)
+    story_kicker_en = models.CharField(max_length=200, default='Our Story', blank=True)
+    story_title_ka = models.CharField(max_length=200, default='იტალია + თბილისი', blank=True)
+    story_title_en = models.CharField(max_length=200, default='Italy + Tbilisi', blank=True)
+    story_subtitle_ka = models.TextField(default='იტალიური ტექნიკა და ინგრედიენტები — თბილისის რიტმით.', blank=True)
+    story_subtitle_en = models.TextField(default='Italian technique and ingredients — with Tbilisi rhythm.', blank=True)
+
+    visit_kicker_ka = models.CharField(max_length=200, default='ვიზიტი', blank=True)
+    visit_kicker_en = models.CharField(max_length=200, default='Visit', blank=True)
+    visit_title_ka = models.CharField(max_length=200, default='მოდი, კარგად ჭამეთ', blank=True)
+    visit_title_en = models.CharField(max_length=200, default='Come, eat well', blank=True)
+    visit_subtitle_ka = models.TextField(default='დღეს ღიაა · ძველი ქალაქი, თბილისი', blank=True)
+    visit_subtitle_en = models.TextField(default='Open today · Old Town, Tbilisi', blank=True)
+
+    salumeria_kicker_ka = models.CharField(max_length=200, default='სალუმერია', blank=True)
+    salumeria_kicker_en = models.CharField(max_length=200, default='Salumeria', blank=True)
+    salumeria_title_ka = models.CharField(max_length=200, default='იტალიური დელიკატესები სახლში წასაღებად', blank=True)
+    salumeria_title_en = models.CharField(max_length=200, default='Italian delicacies to take home', blank=True)
+    salumeria_lead_ka = models.TextField(default='ხორცეული, ყველი, ზეთები და ნაკრები — შეკვეთა WhatsApp-ით.', blank=True)
+    salumeria_lead_en = models.TextField(default='Cold cuts, cheese, oils and packages — order with WhatsApp.', blank=True)
+
+    show_menu_products = models.BooleanField(default=True)
+
+    whatsapp_widget_enabled = models.BooleanField(default=True)
+    whatsapp_widget_phone = models.CharField(max_length=50, blank=True, default='')
+    whatsapp_widget_message_ka = models.CharField(max_length=300, default='რითი დაგეხმაროთ?', blank=True)
+    whatsapp_widget_message_en = models.CharField(max_length=300, default='How can we help you?', blank=True)
+    whatsapp_widget_btn_ka = models.CharField(max_length=100, default='მიწერა', blank=True)
+    whatsapp_widget_btn_en = models.CharField(max_length=100, default='Message Us', blank=True)
+    whatsapp_widget_name_ka = models.CharField(max_length=100, default='Focacceria Support', blank=True)
+    whatsapp_widget_name_en = models.CharField(max_length=100, default='Focacceria Support', blank=True)
+    whatsapp_widget_avatar = models.ImageField(upload_to='site/', blank=True, null=True)
+
     class Meta:
         verbose_name = 'Site Settings'
 

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ka" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Foca — მენიუ</title>
+    <meta name="description" content="Foca მენიუ — სქიაჩატა, ფოკაჩა და იტალიური ბურგერები." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Noto+Sans+Georgian:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+
+    <div class="topbar">
+      <div class="container topbar__inner">
+        <div class="topbar__links">
+          <a class="pill" href="https://wolt.com/en/geo/tbilisi/restaurant/focacceria" target="_blank" rel="noopener">🛵 Wolt</a>
+          <a class="pill" href="https://glovoapp.com/ge/en/tbilisi/focacceria" target="_blank" rel="noopener">🟡 Glovo</a>
+          <a class="pill" href="https://wa.me/995598800045" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="pill" href="tel:+995598800045">📞 დარეკვა</a>
+          <a class="pill" href="https://maps.google.com/?q=Focacceria+Tbilisi" target="_blank" rel="noopener">📍 რუკა</a>
+        </div>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="container header__inner">
+        <a class="brand" href="./index.html">
+          <img src="https://foca.astronaut.ge/media/site/logo-red.webp" alt="Foca" />
+        </a>
+        <nav class="nav" aria-label="ნავიგაცია">
+          <a href="./index.html">მთავარი</a>
+          <a href="./menu.html" class="is-active">მენიუ</a>
+          <a href="./salumeria.html">სალუმერია</a>
+          <a href="./contact.html">კონტაქტი</a>
+        </nav>
+        <div class="header__actions">
+          <button class="theme-toggle" id="themeToggle" aria-label="დღე/ღამის რეჟიმი">🌙</button>
+          <button class="btn btn-primary" data-open-order>შეკვეთა</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Page header -->
+      <section class="section section--tight">
+        <div class="container">
+          <div class="section__head reveal">
+            <div>
+              <div class="kicker">მენიუ</div>
+              <h1 class="h1" style="font-size:clamp(30px,3vw,48px);">ჭამე, როგორც იტალიელი</h1>
+              <p class="lead">შეუკვეთე პირდაპირ ონლაინ, ან გაეცანი ჩვენს კარტ-მენიუს.</p>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a class="btn btn-ghost" href="./salumeria.html">სალუმერია</a>
+              <a class="btn btn-primary" href="https://wa.me/995598800045" target="_blank" rel="noopener">WhatsApp შეკვეთა</a>
+            </div>
+          </div>
+
+          <!-- Tab switcher — ონლაინ შეკვეთა is DEFAULT -->
+          <div class="menu-tabs reveal" role="tablist">
+            <button class="tab-btn is-active" data-tab="online"  role="tab" aria-selected="true">🛒 ონლაინ შეკვეთა</button>
+            <button class="tab-btn"            data-tab="cards"  role="tab" aria-selected="false">🍕 კარტ-მენიუ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════ TAB: ONLINE ORDER (iframe) — DEFAULT ══════ -->
+      <div class="tab-panel is-active" data-panel="online">
+        <section class="section section--tight">
+          <div class="container">
+
+            <div class="iframe-shell reveal">
+              <!-- Our branded top bar overlaid on the iframe -->
+              <div class="iframe-header">
+                <img src="https://foca.astronaut.ge/media/site/logo-red.webp" alt="Foca">
+                <span>Focacceria · ონლაინ შეკვეთა</span>
+              </div>
+              <div class="iframe-body">
+                <iframe
+                  src="https://focacceria.eat-me.online/en/category/mortadella"
+                  title="Foca — ონლაინ მენიუ"
+                  loading="lazy"
+                  allow="payment"
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+                ></iframe>
+              </div>
+            </div>
+
+            <p style="margin-top:14px;font-size:13px;color:var(--c-muted);text-align:center;">
+              პრობლემის შემთხვევაში გვიწერე
+              <a href="https://wa.me/995598800045" target="_blank" rel="noopener"
+                 style="font-weight:800;color:var(--c-red);">WhatsApp-ზე</a>
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══════ TAB: CARD MENU ══════ -->
+      <div class="tab-panel" data-panel="cards">
+
+        <div class="tools">
+          <div class="container">
+            <input class="search" type="search"
+              placeholder="მოძებნე: მორტადელა, ბურგერი, პესტო…"
+              data-menu-search aria-label="მენიუში ძიება" />
+            <div class="filters" role="tablist" aria-label="ფილტრები">
+              <button class="fbtn is-active" data-menu-filter="ყველა">ყველა</button>
+              <button class="fbtn" data-menu-filter="სენდვიჩები">სენდვიჩები</button>
+              <button class="fbtn" data-menu-filter="იტალიური ბურგერები">ბურგერები</button>
+              <button class="fbtn" data-menu-filter="სეზონური">სეზონური</button>
+              <button class="fbtn" data-menu-filter="ტკბილი">ტკბილი</button>
+            </div>
+            <p class="muted-note">მორგება: შეკვეთაში დაამატე შენიშვნა ("უმარილო", "დამატებით ბაზილიკი" და ა.შ.).</p>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="container">
+            <div class="grid">
+
+              <article class="card reveal" data-menu-item data-name="მორტაცა როსა" data-tags="სენდვიჩები, მარილიანი, მორტადელა, პესტო">
+                <div class="card__media"><img alt="მორტაცა როსა" src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=900&q=80"></div>
+                <div class="card__body">
+                  <h3 class="card__title">მორტაცა როსა</h3>
+                  <div class="card__desc">მორტადელა, სტრაჩიატელა, პომიდორი, მზეში გამხმარი პომიდორი, წითელი პესტო</div>
+                  <div class="card__row">
+                    <span class="price">28 ₾</span>
+                    <a class="mini" href="https://wa.me/995598800045?text=მენიუ%20საიტიდან%3A%20მორტაცა%20როსა" target="_blank" rel="noopener">WhatsApp</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card reveal" data-menu-item data-name="პროშუტო როიალე" data-tags="სენდვიჩები, მარილიანი, პროშუტო, ბაზილიკი">
+                <div class="card__media"><img alt="პროშუტო" src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80"></div>
+                <div class="card__body">
+                  <h3 class="card__title">პროშუტო როიალე</h3>
+                  <div class="card__desc">პროშუტო დი პარმა, სტრაჩიატელა, ბაზილიკო</div>
+                  <div class="card__row">
+                    <span class="price">33 ₾</span>
+                    <a class="mini" href="https://wa.me/995598800045?text=მენიუ%20საიტიდან%3A%20პროშუტო%20როიალე" target="_blank" rel="noopener">WhatsApp</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card reveal" data-menu-item data-name="კაპრეზე ვერდე" data-tags="სენდვიჩები, მარილიანი, პესტო, ვეგეტარიანული">
+                <div class="card__media"><img alt="კაპრეზე" src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=80"></div>
+                <div class="card__body">
+                  <h3 class="card__title">კაპრეზე ვერდე</h3>
+                  <div class="card__desc">სტრაჩიატელა, პესტო, არუგულა, კედრის კაკალი</div>
+                  <div class="card__row">
+                    <span class="price">27 ₾</span>
+                    <a class="mini" href="https://wa.me/995598800045?text=მენიუ%20საიტიდან%3A%20კაპრეზე%20ვერდე" target="_blank" rel="noopener">WhatsApp</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card reveal" data-menu-item data-name="იტალიური ბურგერი — კლასიკო" data-tags="იტალიური ბურგერები, მარილიანი, ბურგერი">
+                <div class="card__media"><img alt="ბურგერი" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80"></div>
+                <div class="card__body">
+                  <h3 class="card__title">ბურგერი — კლასიკო</h3>
+                  <div class="card__desc">ნაზი ხორცი, იტალიური ყველი, სოუსი და ახალი მწვანილი</div>
+                  <div class="card__row">
+                    <span class="price">29 ₾</span>
+                    <a class="mini" href="https://wa.me/995598800045?text=მენიუ%20საიტიდან%3A%20ბურგერი%20კლასიკო" target="_blank" rel="noopener">WhatsApp</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card reveal" data-menu-item data-name="იტალიური ბურგერი — პესტო" data-tags="იტალიური ბურგერები, მარილიანი, ბურგერი, პესტო">
+                <div class="card__media"><img alt="ბურგერი პესტო" src="https://images.unsplash.com/photo-1550317138-10000687a72b?auto=format&fit=crop&w=900&q=80"></div>
+                <div class="card__body">
+                  <h3 class="card__title">ბურგერი — პესტო</h3>
+                  <div class="card__desc">პესტო, იტალიური ყველი, რუკოლა და სოუსი</div>
+                  <div class="card__row">
+                    <span class="price">31 ₾</span>
+                    <a class="mini" href="https://wa.me/995598800045?text=მენიუ%20საიტიდან%3A%20ბურგერი%20პესტო" target="_blank" rel="noopener">WhatsApp</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card reveal" data-menu-item data-name="დღის Special" data-tags="სეზონური, მარილიანი">
+                <div class="card__media"><img alt="special" src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=900&q=80"></div>
+                <div class="card__body">
+                  <h3 class="card__title">დღის Special</h3>
+                  <div class="card__desc">სეზონური კომბინაცია — დღეს რა გამოვაცხვეთ, იმაზეა დამოკიდებული</div>
+                  <div class="card__row">
+                    <span class="price">— ₾</span>
+                    <a class="mini" href="https://wa.me/995598800045?text=მენიუ%20საიტიდან%3A%20დღის%20Special" target="_blank" rel="noopener">WhatsApp</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card reveal" data-menu-item data-name="ტკბილი ფოკაჩა — თაფლი" data-tags="ტკბილი, სეზონური">
+                <div class="card__media"><img alt="sweet" src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=900&q=80"></div>
+                <div class="card__body">
+                  <h3 class="card__title">ტკბილი ფოკაჩა — თაფლი</h3>
+                  <div class="card__desc">მსუბუქი, თბილი და არომატული — იდეალურია ყავასთან</div>
+                  <div class="card__row">
+                    <span class="price">— ₾</span>
+                    <a class="mini" href="https://wa.me/995598800045?text=მენიუ%20საიტიდან%3A%20ტკბილი%20ფოკაჩა" target="_blank" rel="noopener">WhatsApp</a>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+        </section>
+      </div><!-- /cards panel -->
+
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div>
+          <a class="brand" href="./index.html">
+            <img src="https://foca.astronaut.ge/media/site/logo-red.webp" alt="Foca">
+          </a>
+          <small>დაბადებული იტალიაში, გამომცხვარი თბილისში</small>
+        </div>
+        <div>
+          <div class="kicker">ნავიგაცია</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px;">
+            <a href="./index.html">მთავარი</a>
+            <a href="./menu.html">მენიუ</a>
+            <a href="./salumeria.html">სალუმერია</a>
+            <a href="./contact.html">კონტაქტი</a>
+          </div>
+        </div>
+        <div>
+          <div class="kicker">კონტაქტი</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px;">
+            <a href="tel:+995598800045">+995 598 80 00 45</a>
+            <a href="https://wa.me/995598800045" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://instagram.com/focacceria.ge" target="_blank" rel="noopener">Instagram @focacceria.tbilisi</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="modal" id="orderModal">
+      <div class="modal__backdrop" data-close-order></div>
+      <div class="modal__panel" role="dialog" aria-label="შეკვეთა">
+        <button class="modal__close" data-close-order aria-label="დახურვა">✕</button>
+        <h3>შეკვეთა</h3>
+        <div class="modal__grid">
+          <a href="https://wolt.com/en/geo/tbilisi/restaurant/focacceria" target="_blank" rel="noopener">🛵 Wolt <span>→</span></a>
+          <a href="https://glovoapp.com/ge/en/tbilisi/focacceria" target="_blank" rel="noopener">🟡 Glovo <span>→</span></a>
+          <a href="https://wa.me/995598800045" target="_blank" rel="noopener">💬 WhatsApp <span>→</span></a>
+          <a href="tel:+995598800045">📞 დარეკვა <span>→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,285 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}მთავარი გვერდის რედაქტირება{% endblock %}
+{% block nav_homepage %}active{% endblock %}
+{% block breadcrumb %}საიტი / მთავარი / <strong>რედაქტირება</strong>{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">მთავარი გვერდის რედაქტირება</h1>
+    <p class="page-subtitle">სექციების გამოჩენა, ტექსტები, საათები და ბმულები</p>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- Section Toggles -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">სექციების გამოჩენა (visibility)</h4>
+    <div class="form-row" style="margin-bottom: 1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_about" {% if settings.show_about %}checked{% endif %}>
+          <span>ჩვენი ისტორია (About) სექციის გამოჩენა</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_visit" {% if settings.show_visit %}checked{% endif %}>
+          <span>ვიზიტის (Visit) სექციის გამოჩენა</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_menu" {% if settings.show_menu %}checked{% endif %}>
+          <span>ბესტსელერების (Featured Menu) სექციის გამოჩენა</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="show_marquee" {% if settings.show_marquee %}checked{% endif %}>
+          <span>მორბენალი სტრიქონის (Marquee) გამოჩენა</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero & Marquee Texts -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ჰერო სექცია & მორბენალი სტრიქონი</h4>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 მთავარი H1 სათაური (ქართული)</label>
+        <input type="text" name="tagline_ka" value="{{ settings.tagline_ka }}" class="form-control" placeholder="დაბადებული იტალიაში...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Hero H1 Title (English)</label>
+        <input type="text" name="tagline_en" value="{{ settings.tagline_en }}" class="form-control" placeholder="Born in Italy...">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 მორბენალი სტრიქონის ტექსტი (ქართული)</label>
+        <input type="text" name="marquee_text_ka" value="{{ settings.marquee_text_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Marquee Text (English)</label>
+        <input type="text" name="marquee_text_en" value="{{ settings.marquee_text_en }}" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <!-- About Us Section -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ჩვენი ისტორია (Story) სექცია</h4>
+    <div style="background:rgba(201,164,128,0.06);padding:1rem;border-radius:var(--radius-md);margin-bottom:1rem;border:1px solid var(--border);">
+      <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-olive);">სექციის ზედა სათაურები (Header)</h5>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 მცირე სათაური (Kicker)</label>
+          <input type="text" name="story_kicker_ka" value="{{ settings.story_kicker_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Small Title (Kicker)</label>
+          <input type="text" name="story_kicker_en" value="{{ settings.story_kicker_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 სათაური (Title)</label>
+          <input type="text" name="story_title_ka" value="{{ settings.story_title_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Title</label>
+          <input type="text" name="story_title_en" value="{{ settings.story_title_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 ქვესათაური (Subtitle)</label>
+          <textarea name="story_subtitle_ka" class="form-control" rows="2">{{ settings.story_subtitle_ka }}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Subtitle</label>
+          <textarea name="story_subtitle_en" class="form-control" rows="2">{{ settings.story_subtitle_en }}</textarea>
+        </div>
+      </div>
+    </div>
+    <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-red);">სექციის შიდა ბარათის შემცველობა (Card Body)</h5>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+        <input type="text" name="about_title_ka" value="{{ settings.about_title_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="about_title_en" value="{{ settings.about_title_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ტექსტი (ქართული)</label>
+        <textarea name="about_text_ka" class="form-control" rows="4">{{ settings.about_text_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Text (English)</label>
+        <textarea name="about_text_en" class="form-control" rows="4">{{ settings.about_text_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">სექციის სურათი</label>
+      {% if settings.about_image %}
+      <img src="{{ settings.about_image.url }}" style="height:120px;border-radius:var(--radius-sm);display:block;margin-bottom:.5rem;object-fit:cover;">
+      {% endif %}
+      <input type="file" name="about_image" class="form-control" accept="image/*">
+    </div>
+  </div>
+
+  <!-- Culinary Moment (Craft) Section -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">კულინარიული მომენტი (როგორ მზადდება გემო)</h4>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:.65rem;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" name="video_is_active" {% if video_section.is_active %}checked{% endif %}>
+          <span>სექციის გამოჩენა</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სათაური (ქართული)</label>
+        <input type="text" name="video_title_ka" value="{{ video_section.title_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Title (English)</label>
+        <input type="text" name="video_title_en" value="{{ video_section.title_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 ქვესათაური (ქართული)</label>
+        <textarea name="video_subtitle_ka" class="form-control" rows="3">{{ video_section.subtitle_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Subtitle (English)</label>
+        <textarea name="video_subtitle_en" class="form-control" rows="3">{{ video_section.subtitle_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ვიდეო ფაილი (MP4/MOV)</label>
+      {% if video_section.video_file %}
+      <div style="margin-bottom:.5rem;">
+        <span style="font-size:14px;color:var(--text-muted);">ატვირთულია: <a href="{{ video_section.video_file.url }}" target="_blank">{{ video_section.video_file.name }}</a></span>
+        <label style="display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;cursor:pointer;font-weight:normal;">
+          <input type="checkbox" name="video_file_clear" value="on"> წაშლა
+        </label>
+      </div>
+      {% endif %}
+      <input type="file" name="video_file" class="form-control" accept="video/*">
+    </div>
+  </div>
+
+  <!-- Visit Us Section -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">ვიზიტი & სამუშაო საათები</h4>
+    <div style="background:rgba(201,164,128,0.06);padding:1rem;border-radius:var(--radius-md);margin-bottom:1rem;border:1px solid var(--border);">
+      <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-olive);">სექციის ზედა სათაურები (Header)</h5>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 მცირე სათაური (Kicker)</label>
+          <input type="text" name="visit_kicker_ka" value="{{ settings.visit_kicker_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Small Title (Kicker)</label>
+          <input type="text" name="visit_kicker_en" value="{{ settings.visit_kicker_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row" style="margin-bottom:1rem;">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 სათაური (Title)</label>
+          <input type="text" name="visit_title_ka" value="{{ settings.visit_title_ka }}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Title</label>
+          <input type="text" name="visit_title_en" value="{{ settings.visit_title_en }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">🇬🇪 ქვესათაური (Subtitle)</label>
+          <textarea name="visit_subtitle_ka" class="form-control" rows="2">{{ settings.visit_subtitle_ka }}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🇬🇧 Subtitle</label>
+          <textarea name="visit_subtitle_en" class="form-control" rows="2">{{ settings.visit_subtitle_en }}</textarea>
+        </div>
+      </div>
+    </div>
+    <h5 style="margin-bottom:.8rem;font-weight:900;color:var(--c-red);">საკონტაქტო ინფორმაცია (Details)</h5>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 მისამართი (ქართული)</label>
+        <input type="text" name="address_ka" value="{{ settings.address_ka }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Address (English)</label>
+        <input type="text" name="address_en" value="{{ settings.address_en }}" class="form-control">
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">🇬🇪 სამუშაო საათები (ქართული) <small style="color:var(--text-muted);font-weight:normal;">(თითო ხაზი: დღე: საათი)</small></label>
+        <textarea name="opening_hours_ka" class="form-control" rows="4">{{ settings.opening_hours_ka }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🇬🇧 Opening Hours (English) <small style="color:var(--text-muted);font-weight:normal;">(one per line: Day: Time)</small></label>
+        <textarea name="opening_hours_en" class="form-control" rows="4">{{ settings.opening_hours_en }}</textarea>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">📞 ტელეფონი</label>
+        <input type="text" name="phone" value="{{ settings.phone }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">💬 WhatsApp (ნომერი)</label>
+        <input type="text" name="whatsapp" value="{{ settings.whatsapp }}" class="form-control" placeholder="+995598800045">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">📸 Instagram ბმული</label>
+        <input type="url" name="instagram" value="{{ settings.instagram }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">📍 Google Maps ბმული</label>
+        <input type="url" name="google_maps_url" value="{{ settings.google_maps_url }}" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <!-- Delivery Links -->
+  <div class="form-card" style="margin-bottom:1.5rem;">
+    <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);">მიწოდების ბმულები</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🛵 Wolt URL</label>
+        <input type="url" name="wolt_url" value="{{ settings.wolt_url }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🟡 Glovo URL</label>
+        <input type="url" name="glovo_url" value="{{ settings.glovo_url }}" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:1rem;">
+    <button type="submit" class="btn btn-primary">✓ შენახვა</button>
+    <a href="{% url 'dashboard_home' %}" class="btn btn-ghost">გაუქმება</a>
+  </div>
+</form>
+{% endblock %}

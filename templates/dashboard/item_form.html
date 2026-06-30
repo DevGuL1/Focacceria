@@ -8,7 +8,7 @@
   <div>
     <h1 class="page-title">{% if item %}{{ item.name_ka }}{% else %}ახალი პროდუქტი{% endif %}</h1>
   </div>
-  <a href="{% url 'menu_items' %}" class="btn btn-ghost">← უკან</a>
+  <a href="{% if default_page == 'salumeria' or item.category.page == 'salumeria' %}{% url 'salumeria_dashboard' %}{% else %}{% url 'menu_items' %}{% endif %}" class="btn btn-ghost">← უკან</a>
 </div>
 
 <form method="post" enctype="multipart/form-data">

@@ -1,0 +1,77 @@
+{% extends 'public/base.html' %}
+{% load static %}
+
+{% block title %}{% if current_lang == 'ka' %}Focacceria · კონტაქტი{% else %}Focacceria · Contact Us{% endif %}{% endblock %}
+
+{% block content %}
+<section class="section section--tight">
+  <div class="container">
+    <div class="section__head reveal">
+      <div>
+        <div class="kicker">{% if current_lang == 'ka' %}კონტაქტი{% else %}Contact{% endif %}</div>
+        <h1 class="h1" style="font-size:clamp(30px, 3vw, 46px);">{% if current_lang == 'ka' %}გამარჯობა · შეუკვეთე{% else %}Hello · Order Now{% endif %}</h1>
+        <p class="lead">{% if current_lang == 'ka' %}3 სწრაფი მოქმედება პირველივე ეკრანზე — WhatsApp, დარეკვა, მიმართულება.{% else %}3 quick actions on the first screen — WhatsApp, Call, Directions.{% endif %}</p>
+        <div class="cta3">
+          {% if site.whatsapp %}
+          <a class="reveal" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">💬 WhatsApp</a>
+          {% endif %}
+          {% if site.phone %}
+          <a class="reveal" href="tel:{{ site.phone }}">📞 {% if current_lang == 'ka' %}დარეკვა{% else %}Call{% endif %}</a>
+          {% endif %}
+          {% if site.google_maps_url %}
+          <a class="reveal" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">📍 {% if current_lang == 'ka' %}რუკა / მიმართულება{% else %}Map / Directions{% endif %}</a>
+          {% endif %}
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-self:flex-start;">
+        <a class="btn btn-ghost" href="{% if current_lang == 'ka' %}/menu/{% else %}/en/menu/{% endif %}">{% if current_lang == 'ka' %}მენიუ{% else %}Menu{% endif %}</a>
+        <a class="btn btn-primary" href="{% if current_lang == 'ka' %}/salumeria/{% else %}/en/salumeria/{% endif %}">{% if current_lang == 'ka' %}სალუმერია{% else %}Salumeria{% endif %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns: 0.9fr 1.1fr;">
+      <div class="card reveal">
+        <div class="card__body">
+          <h3 class="card__title">{% if current_lang == 'ka' %}სამუშაო საათები{% else %}Opening Hours{% endif %}</h3>
+          <div class="card__desc" style="min-height:auto;">
+            {% for h in site_hours %}
+            {{ h.day }}: {{ h.time }}<br/>
+            {% endfor %}
+            <br/>
+            <strong>{% if current_lang == 'ka' %}მისამართი:{% else %}Address:{% endif %}</strong> {% if current_lang == 'ka' %}{{ site.address_ka }}{% else %}{{ site.address_en }}{% endif %}
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+            {% if site.instagram %}
+            <a class="btn btn-ghost" href="{{ site.instagram }}" target="_blank" rel="noopener">Instagram</a>
+            {% endif %}
+            {% if site.whatsapp %}
+            <a class="btn btn-primary" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="card reveal" style="min-height: 360px;">
+        <div class="card__media" style="height: 360px;">
+          {% if site.about_image %}
+          <img src="{{ site.about_image.url }}" alt="Focacceria Map">
+          {% else %}
+          <img alt="Map placeholder" src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1400&q=80">
+          {% endif %}
+        </div>
+        <div class="card__body">
+          <div class="card__row">
+            <span class="price">{% if current_lang == 'ka' %}ძველი თბილისი{% else %}Old Town, Tbilisi{% endif %}</span>
+            {% if site.google_maps_url %}
+            <a class="mini" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{% if current_lang == 'ka' %}რუკაზე ნახვა{% else %}Open Maps{% endif %}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

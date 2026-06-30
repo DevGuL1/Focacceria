@@ -6,7 +6,7 @@
 {% block content %}
 <div class="page-header">
   <h1 class="page-title">კატეგორიის რედაქტირება</h1>
-  <a href="{% url 'menu_categories' %}" class="btn btn-ghost">← უკან</a>
+  <a href="{% if default_page == 'salumeria' or cat.page == 'salumeria' %}{% url 'salumeria_dashboard' %}{% else %}{% url 'menu_categories' %}{% endif %}" class="btn btn-ghost">← უკან</a>
 </div>
 
 <form method="post">
@@ -30,8 +30,8 @@
       <div class="form-group">
         <label class="form-label">გვერდი</label>
         <select name="page" class="form-control">
-          <option value="menu" {% if cat.page == 'menu' %}selected{% endif %}>Menu</option>
-          <option value="salumeria" {% if cat.page == 'salumeria' %}selected{% endif %}>Salumeria</option>
+          <option value="menu" {% if cat.page == 'menu' or not cat and default_page == 'menu' %}selected{% endif %}>Menu</option>
+          <option value="salumeria" {% if cat.page == 'salumeria' or not cat and default_page == 'salumeria' %}selected{% endif %}>Salumeria</option>
         </select>
       </div>
     </div>
@@ -59,7 +59,7 @@
     </div>
     <div style="display:flex;gap:1rem;">
       <button type="submit" class="btn btn-primary">✓ შენახვა</button>
-      <a href="{% url 'menu_categories' %}" class="btn btn-ghost">გაუქმება</a>
+      <a href="{% if default_page == 'salumeria' or cat.page == 'salumeria' %}{% url 'salumeria_dashboard' %}{% else %}{% url 'menu_categories' %}{% endif %}" class="btn btn-ghost">გაუქმება</a>
     </div>
   </div>
 </form>

@@ -6,50 +6,134 @@
 {% block content %}
 <div class="page-header">
   <div>
-    <h1 class="page-title">დამატებები (Add-ons)</h1>
-    <p class="page-subtitle">დამატებითი ინგრედიენტები / სერვისები</p>
+    <h1 class="page-title">დამატებები & პლაგინები</h1>
+    <p class="page-subtitle">დამატებითი ინგრედიენტები და WhatsApp ჩატის პლაგინის კონფიგურაცია</p>
   </div>
   <button class="btn btn-primary" data-modal-open="#modal-add-addon">+ Add-on დამატება</button>
 </div>
 
-{% if addons %}
-<div class="table-card">
-  <table class="data-table">
-    <thead>
-      <tr>
-        <th>სახელი (KA)</th>
-        <th>Name (EN)</th>
-        <th>ფასი</th>
-        <th>სტატუსი</th>
-        <th>მოქმედება</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for addon in addons %}
-      <tr>
-        <td style="font-weight:500;">{{ addon.name_ka }}</td>
-        <td style="color:var(--text-muted);">{{ addon.name_en }}</td>
-        <td style="font-weight:600;color:var(--accent);">{{ addon.price }}₾</td>
-        <td>
-          {% if addon.is_available %}<span class="status-pill status-active">ხელმისაწვდ.</span>
-          {% else %}<span class="status-pill status-inactive">მიუწვდ.</span>{% endif %}
-        </td>
-        <td>
-          <a href="{% url 'addon_delete' addon.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
-             data-confirm="Add-on-ის წაშლა?">✕ წაშლა</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div style="display:grid;grid-template-columns: 1.2fr 1fr;gap:2rem;align-items:start;">
+  
+  <!-- Left column: Standard addons table -->
+  <div>
+    {% if addons %}
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>სახელი (KA)</th>
+            <th>Name (EN)</th>
+            <th>ფასი</th>
+            <th>სტატუსი</th>
+            <th>მოქმედება</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for addon in addons %}
+          <tr>
+            <td style="font-weight:500;">{{ addon.name_ka }}</td>
+            <td style="color:var(--text-muted);">{{ addon.name_en }}</td>
+            <td style="font-weight:600;color:var(--accent);">{{ addon.price }}₾</td>
+            <td>
+              {% if addon.is_available %}<span class="status-pill status-active">ხელმისაწვდ.</span>
+              {% else %}<span class="status-pill status-inactive">მიუწვდ.</span>{% endif %}
+            </td>
+            <td>
+              <a href="{% url 'addon_delete' addon.pk %}" class="btn btn-ghost btn-sm" style="color:var(--accent);"
+                 data-confirm="Add-on-ის წაშლა?">✕ წაშლა</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-state-icon">➕</div>
+      <h3>Add-ons არ არის</h3>
+      <p>დაამატეთ დამატებითი ინგრედიენტები ან სერვისები</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Right column: WhatsApp Chat Add-on Settings -->
+  <div>
+    <div class="form-card">
+      <h4 style="margin-bottom:1.25rem;font-family:var(--font-serif);display:flex;align-items:center;gap:.5rem;">
+        💬 WhatsApp ჩატის პლაგინი
+      </h4>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="whatsapp_widget">
+
+        <div class="form-group" style="margin-bottom:1.25rem;">
+          <label class="toggle-wrap">
+            <span class="toggle">
+              <input type="checkbox" name="whatsapp_widget_enabled" {% if settings.whatsapp_widget_enabled %}checked{% endif %}>
+              <span class="toggle-slider"></span>
+            </span>
+            <span style="font-size:.9rem;font-weight:600;">ჩატის პლაგინის ჩართვა</span>
+          </label>
+          <small style="display:block;margin-top:.25rem;color:var(--text-muted);margin-left:2.8rem;">
+            ჩართავს მცურავ WhatsApp ჩატის ვიჯეტს საიტის ყველა საჯარო გვერდზე (ქვემოთ მარჯვენა კუთხეში).
+          </small>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.25rem;">
+          <label class="form-label">WhatsApp ტელეფონი</label>
+          <input type="text" name="whatsapp_widget_phone" value="{{ settings.whatsapp_widget_phone }}" class="form-control" placeholder="+995598800045">
+          <small style="display:block;margin-top:.25rem;color:var(--text-muted);">
+            მიუთითეთ ტელეფონის ნომერი (მაგ: +995598800045). თუ ცარიელია, გამოიყენებს საიტის ძირითად WhatsApp ნომერს.
+          </small>
+        </div>
+
+        <div class="form-row" style="margin-bottom:1.25rem;">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 საფორთის სახელი (ქართული)</label>
+            <input type="text" name="whatsapp_widget_name_ka" value="{{ settings.whatsapp_widget_name_ka }}" class="form-control" placeholder="Focacceria Support">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Support Name (English)</label>
+            <input type="text" name="whatsapp_widget_name_en" value="{{ settings.whatsapp_widget_name_en }}" class="form-control" placeholder="Focacceria Support">
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-bottom:1.25rem;">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 ჩატის ტექსტი (ქართული)</label>
+            <input type="text" name="whatsapp_widget_message_ka" value="{{ settings.whatsapp_widget_message_ka }}" class="form-control" placeholder="რითი დაგეხმაროთ?">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Chat Message (English)</label>
+            <input type="text" name="whatsapp_widget_message_en" value="{{ settings.whatsapp_widget_message_en }}" class="form-control" placeholder="How can we help you?">
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-bottom:1.25rem;">
+          <div class="form-group">
+            <label class="form-label">🇬🇪 ღილაკის ტექსტი (ქართული)</label>
+            <input type="text" name="whatsapp_widget_btn_ka" value="{{ settings.whatsapp_widget_btn_ka }}" class="form-control" placeholder="მიწერა">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🇬🇧 Button Text (English)</label>
+            <input type="text" name="whatsapp_widget_btn_en" value="{{ settings.whatsapp_widget_btn_en }}" class="form-control" placeholder="Message Us">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.25rem;">
+          <label class="form-label">საფორთის სურათი (Avatar)</label>
+          {% if settings.whatsapp_widget_avatar %}
+          <img src="{{ settings.whatsapp_widget_avatar.url }}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;display:block;margin-bottom:.5rem;">
+          {% endif %}
+          <input type="file" name="whatsapp_widget_avatar" class="form-control" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">✓ პარამეტრების შენახვა</button>
+      </form>
+    </div>
+  </div>
+
 </div>
-{% else %}
-<div class="empty-state">
-  <div class="empty-state-icon">➕</div>
-  <h3>Add-ons არ არის</h3>
-  <p>დაამატეთ დამატებითი ინგრედიენტები ან სერვისები</p>
-</div>
-{% endif %}
 
 <!-- Add Modal -->
 <div class="modal-backdrop" id="modal-add-addon">

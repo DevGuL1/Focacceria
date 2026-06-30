@@ -23,6 +23,25 @@ def site_context(request):
         active_heading_family = font_settings.heading_font_en_name or 'Anton'
         active_body_family = font_settings.body_font_en_name or 'Inter'
 
+    opening_hours_text = settings.opening_hours_ka if lang == 'ka' else settings.opening_hours_en
+    site_hours = []
+    if opening_hours_text:
+        for line in opening_hours_text.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            if ':' in line:
+                parts = line.split(':', 1)
+                site_hours.append({
+                    'day': parts[0].strip(),
+                    'time': parts[1].strip()
+                })
+            else:
+                site_hours.append({
+                    'day': line,
+                    'time': ''
+                })
+
     return {
         'site': settings,
         'font_settings': font_settings,
@@ -32,4 +51,5 @@ def site_context(request):
         'nav_items': nav_items,
         'footer_columns': footer_columns,
         'current_lang': lang,
+        'site_hours': site_hours,
     }
